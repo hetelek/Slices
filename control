@@ -1,0 +1,9 @@
+Package: com.expetelek.slices
+Name: Slices
+Depends: mobilesubstrate, applist (>= 1.5.0)
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Allows you to have multiple instances of a single app.
+Maintainer: Stevie Hetelekides
+Author: Stevie Hetelekides
+Section: Tweaks

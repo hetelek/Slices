@@ -1,0 +1,10 @@
+{
+    entry = {
+	bundle = SlicesPreferences;
+	cell = PSLinkCell;
+	detail = SlicesPreferencesListController;
+	icon = SlicesPreferences.png;
+	isController = 1;
+	label = Slices;
+    };
+}
