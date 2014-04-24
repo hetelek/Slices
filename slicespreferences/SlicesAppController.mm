@@ -1,8 +1,5 @@
-#import <UIKit/UIKit.h>
-#import <Preferences/PSListController.h>
-#import <Preferences/PSSpecifier.h>
-
 #import <AppList/AppList.h>
+#import "SlicesAppDetailController.h"
 
 // from rpertich
 static NSInteger DictionaryTextComparator(id a, id b, void *context)
@@ -33,7 +30,9 @@ static NSInteger DictionaryTextComparator(id a, id b, void *context)
 			if (![applicationPath hasPrefix:@"/private/var/mobile/Applications/"])
 				continue;
 
-			PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:applications[displayIdentifier] target:nil set:nil get:nil detail:nil cell:PSLinkListCell edit:nil];
+			PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:applications[displayIdentifier] target:nil set:nil get:nil detail:[SlicesAppDetailController class] cell:PSLinkListCell edit:nil];
+			[specifier.properties setValue:displayIdentifier forKey:@"displayIdentifier"];
+
 			UIImage *icon = [applicationList iconOfSize:ALApplicationIconSizeSmall forDisplayIdentifier:displayIdentifier];
 			if (icon)
 				[specifier setProperty:icon forKey:@"iconImage"];

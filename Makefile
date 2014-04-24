@@ -6,9 +6,10 @@ ADDITIONAL_OBJCFLAGS = -fobjc-arc
 include theos/makefiles/common.mk
 
 TWEAK_NAME = Slices
-Slices_FILES = Tweak.xm
+Slices_FILES = Tweak.xm Slicer.mm
 Slices_FRAMEWORKS = UIKit
 Slices_PRIVATE_FRAMEWORKS = BackBoardServices
+Slices_LIBRARIES = applist
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 

@@ -5,10 +5,10 @@ ADDITIONAL_OBJCFLAGS = -fobjc-arc
 include theos/makefiles/common.mk
 
 BUNDLE_NAME = SlicesPreferences
-SlicesPreferences_FILES = SlicesPreferences.mm SlicesAppController.mm
+SlicesPreferences_FILES = ../Slicer.mm SlicesPreferences.mm SlicesAppController.mm SlicesAppDetailController.mm
 SlicesPreferences_INSTALL_PATH = /Library/PreferenceBundles
 SlicesPreferences_FRAMEWORKS = UIKit
-SlicesPreferences_PRIVATE_FRAMEWORKS = Preferences
+SlicesPreferences_PRIVATE_FRAMEWORKS = Preferences BackBoardServices
 SlicesPreferences_LIBRARIES = applist
 
 include $(THEOS_MAKE_PATH)/bundle.mk

@@ -10,7 +10,7 @@
 			<key>label</key>
 			<string>General</string>
 			<key>footerText</key>
-			<string></string>
+			<string>Disabling will leave all applications set to the last slice they were on.</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -52,6 +52,6 @@
 		</dict>
 	</array>
 	<key>title</key>
-	<string>SlicesPreferences</string>
+	<string>Slices</string>
 </dict>
 </plist>
