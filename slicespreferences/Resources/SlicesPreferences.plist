@@ -24,7 +24,7 @@
 			<key>label</key>
 			<string>Enabled</string>
 			<key>PostNotification</key>
-			<string>com.expetelek.slices/settingsChanged</string>
+			<string>com.expetelek.slicespreferences/settingsChanged</string>
 		</dict>
 		<dict>
 			<key>cell</key>

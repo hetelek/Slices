@@ -1,6 +1,8 @@
 #import <substrate.h>
 #import "Slicer.h"
 
+static BOOL isEnabled;
+
 @interface SBIconView (New)
 @property (readonly) SBApplication *application;
 
@@ -31,7 +33,7 @@
 			{
 				// get the applicaiton, check if it's a user application
 				SBApplication *application = [self application];
-				if (![self allowsTapWhileEditing] && [[application containerPath] hasPrefix:@"/private/var/mobile/Applications/"])
+				if (isEnabled && ![self allowsTapWhileEditing] && [[application containerPath] hasPrefix:@"/private/var/mobile/Applications/"])
 				{
 					Slicer *slicer = [[Slicer alloc] initWithDisplayIdentifier:application.displayIdentifier];
 
@@ -131,3 +133,18 @@
 	}
 }
 %end
+
+static void loadSettings(){
+	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist"];
+    isEnabled = ![[prefs allKeys] containsObject:@"isEnabled"] || [prefs[@"isEnabled"] boolValue];
+}
+
+static void settingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo){
+    loadSettings();
+}
+
+%ctor{
+    //listen for changes in settings
+    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, settingsChanged, CFSTR("com.expetelek.slicespreferences/settingsChanged"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+    loadSettings();
+}
