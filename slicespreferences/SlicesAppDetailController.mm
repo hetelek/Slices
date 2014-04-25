@@ -103,7 +103,9 @@ extern NSString* PSDeletionActionKey;
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)canEditRowAtIndexPath
 {
-	return canEditRowAtIndexPath.section == 1;
+	int index = [self indexForIndexPath:canEditRowAtIndexPath];
+	PSSpecifier *specifier = _specifiers[index];
+	return specifier->cellType == PSListItemCell;
 }
 
 - (void)removedSpecifier:(PSSpecifier *)specifier
