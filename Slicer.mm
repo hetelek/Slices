@@ -76,6 +76,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	if (![manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(_askOnTouch ? @"e1" : @"e0")] error:NULL])
 		[manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(!_askOnTouch ? @"e1" : @"e0")] error:NULL];
 
+	[manager createDirectoryAtPath:_applicationSlicesPath withIntermediateDirectories:YES attributes:nil error:NULL];
 	if ([manager createFileAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(askOnTouch ? @"e1" : @"e0")] contents:nil attributes:nil])
 		_askOnTouch = askOnTouch;
 }
@@ -141,7 +142,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	}
 
 	if (!foundAskOnTouch)
-		_askOnTouch = YES;
+		_askOnTouch = NO;
 
 	_slices = [slices copy];
 }
