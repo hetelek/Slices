@@ -5,6 +5,9 @@
 	NSString *_applicationPath;
 	NSString *_applicationSlicesPath;
 	NSString *_displayIdentifier;
+	NSString *_defaultSlice;
+	NSArray *_slices;
+	BOOL _askOnTouch;
 }
 @end
 
@@ -29,7 +32,118 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (NSArray *)slices
 {
-	return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_applicationSlicesPath error:NULL];
+	[self reloadData];
+	return _slices;
+}
+
+- (NSString *)defaultSlice
+{
+	[self reloadData];
+
+	if (_defaultSlice == nil && _slices.count > 0)
+		return _slices[0];
+
+	return _defaultSlice;
+}
+
+- (void)setDefaultSlice:(NSString *)defaultSlice
+{
+	[self reloadData];
+
+	NSFileManager *manager = [NSFileManager defaultManager];
+	BOOL continueSettingSlice = YES;
+	if (_defaultSlice)
+	{
+		NSString *defaultSliceFileName = [@"def_" stringByAppendingString:_defaultSlice];
+		continueSettingSlice = [manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] error:NULL];
+	}
+
+	if (continueSettingSlice)
+	{
+		NSString *defaultSliceFileName = [@"def_" stringByAppendingString:defaultSlice];
+		if ([manager createFileAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] contents:nil attributes:nil])
+			_defaultSlice = defaultSlice;
+		else
+			_defaultSlice = nil;
+	}
+}
+
+- (void)setAskOnTouch:(BOOL)askOnTouch
+{
+	[self reloadData];
+
+	NSFileManager *manager = [NSFileManager defaultManager];
+	if (![manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(_askOnTouch ? @"e1" : @"e0")] error:NULL])
+		[manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(!_askOnTouch ? @"e1" : @"e0")] error:NULL];
+
+	if ([manager createFileAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(askOnTouch ? @"e1" : @"e0")] contents:nil attributes:nil])
+		_askOnTouch = askOnTouch;
+}
+
+- (BOOL)askOnTouch
+{
+	[self reloadData];
+
+	return _askOnTouch;
+}
+
+- (void)reloadData
+{
+	BOOL foundDefault = NO;
+	BOOL foundAskOnTouch = NO;
+
+	NSFileManager *manager = [NSFileManager defaultManager];
+
+	NSArray *files = [manager contentsOfDirectoryAtPath:_applicationSlicesPath error:NULL];
+	NSMutableArray *slices = [[NSMutableArray alloc] init];
+	for (NSString *file in files)
+	{
+		if (!foundDefault || !foundAskOnTouch)
+		{
+			NSString *fullPath = [_applicationSlicesPath stringByAppendingPathComponent:file];
+			NSDictionary *attributes = [manager attributesOfItemAtPath:fullPath error:NULL];
+			
+			BOOL isRegularFile = [attributes[NSFileType] isEqualToString:NSFileTypeRegular];
+			if (isRegularFile)
+			{
+				if ([file hasPrefix:@"def_"])
+				{
+					_defaultSlice = [file substringFromIndex:4];
+					if (_defaultSlice.length > 0)
+					{
+						NSString *defaultSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:_defaultSlice];
+						if (![manager fileExistsAtPath:defaultSlicePath])
+						{
+							_defaultSlice = nil;
+							[manager removeItemAtPath:fullPath error:NULL];
+						}
+						else
+							foundDefault = YES;
+					}
+
+					continue;
+				}
+				else if ([file hasPrefix:@"e"] && file.length == 2)
+				{
+					foundAskOnTouch = YES;
+
+					if ([file isEqualToString:@"e0"])
+						_askOnTouch = NO;
+					else if ([file isEqualToString:@"e1"])
+						_askOnTouch = YES;
+					else
+						foundAskOnTouch = NO;
+				}
+			}
+		}
+
+		[slices addObject:file];
+	}
+
+	if (!foundAskOnTouch)
+		_askOnTouch = YES;
+
+	_slices = [slices copy];
 }
 
 - (void)killApplication
@@ -107,6 +221,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (BOOL)switchToSlice:(NSString *)sliceName
 {
+	if (!sliceName)
+		return NO;
+
 	[self killApplication];
 
 	BOOL errorOccured = NO;
@@ -254,6 +371,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		return NO;
 	}
 
+	[self reloadData];
 	return YES;
 }
 @end

@@ -4,6 +4,8 @@
 
 @interface Slicer : NSObject
 @property (readonly) NSArray *slices;
+@property (nonatomic) NSString *defaultSlice;
+@property (nonatomic) BOOL askOnTouch;
 
 - (instancetype)initWithDisplayIdentifier:(NSString *)displayIdentifier;
 - (BOOL)switchToSlice:(NSString *)sliceName;

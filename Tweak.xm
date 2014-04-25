@@ -31,31 +31,50 @@ static BOOL isEnabled;
 			id<SBIconViewDelegate> delegate = MSHookIvar< id<SBIconViewDelegate> >(self, "_delegate");
 			if ([delegate respondsToSelector:@selector(iconTapped:)])
 			{
-				// get the applicaiton, check if it's a user application
-				SBApplication *application = [self application];
-				if (isEnabled && ![self allowsTapWhileEditing] && [[application containerPath] hasPrefix:@"/private/var/mobile/Applications/"])
+				if (isEnabled && ![self allowsTapWhileEditing])
 				{
+					// get the applicaiton, get some variables
+					SBApplication *application = [self application];
 					Slicer *slicer = [[Slicer alloc] initWithDisplayIdentifier:application.displayIdentifier];
+					BOOL askOnTouch = slicer.askOnTouch;
+					BOOL isUserApplication = [[application containerPath] hasPrefix:@"/private/var/mobile/Applications/"];
 
-					// create action sheet
-					UIActionSheet *actionSheet = [[UIActionSheet alloc] init];
-					actionSheet.delegate = self;
+					if (isUserApplication)
+					{
+						if (askOnTouch)
+						{
+							// create action sheet
+							UIActionSheet *actionSheet = [[UIActionSheet alloc] init];
+							actionSheet.delegate = self;
 
-					// add button foreach slice
-					NSArray *slices = slicer.slices;
-					for (NSString *slice in slices)
-						[actionSheet addButtonWithTitle:slice];
+							// add button foreach slice
+							NSArray *slices = slicer.slices;
+							for (NSString *slice in slices)
+								[actionSheet addButtonWithTitle:slice];
 
-					// new slice button (red)
-					[actionSheet addButtonWithTitle:@"New Slice"];
-					actionSheet.destructiveButtonIndex = actionSheet.numberOfButtons - 1;
+							// new slice button (red)
+							[actionSheet addButtonWithTitle:@"New Slice"];
+							actionSheet.destructiveButtonIndex = actionSheet.numberOfButtons - 1;
 
-					// cancel button
-					[actionSheet addButtonWithTitle:@"Cancel"];
-					actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
+							// cancel button
+							[actionSheet addButtonWithTitle:@"Cancel"];
+							actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
 
-					// display the sheet
-					[actionSheet showInView:[%c(SBUIController) sharedInstance].window];
+							// display the sheet
+							[actionSheet showInView:[%c(SBUIController) sharedInstance].window];
+						}
+						else
+						{
+							[slicer switchToSlice:slicer.defaultSlice];
+							[delegate iconTapped:self];
+							return;
+						}
+					}
+					else
+					{
+						[delegate iconTapped:self];
+						return;
+					}
 				}
 				else
 				{
