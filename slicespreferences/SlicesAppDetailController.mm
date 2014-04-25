@@ -98,7 +98,12 @@ extern NSString* PSDeletionActionKey;
 
 - (NSNumber *)getAppSpecificAsk:(PSSpecifier *)specifier
 {
-	return [NSNumber numberWithBool:YES];
+	return [NSNumber numberWithBool:_slicer.askOnTouch];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)canEditRowAtIndexPath
+{
+	return canEditRowAtIndexPath.section == 1;
 }
 
 - (void)removedSpecifier:(PSSpecifier *)specifier
