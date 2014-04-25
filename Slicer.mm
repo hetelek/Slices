@@ -120,8 +120,6 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 						else
 							foundDefault = YES;
 					}
-
-					continue;
 				}
 				else if ([file hasPrefix:@"e"] && file.length == 2)
 				{
@@ -134,6 +132,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 					else
 						foundAskOnTouch = NO;
 				}
+
+				continue;
 			}
 		}
 
