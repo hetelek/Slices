@@ -153,16 +153,19 @@ static BOOL isEnabled;
 }
 %end
 
-static void loadSettings(){
+static void loadSettings()
+{
 	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist"];
     isEnabled = ![[prefs allKeys] containsObject:@"isEnabled"] || [prefs[@"isEnabled"] boolValue];
 }
 
-static void settingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo){
+static void settingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)
+{
     loadSettings();
 }
 
-%ctor{
+%ctor
+{
     //listen for changes in settings
     CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, settingsChanged, CFSTR("com.expetelek.slicespreferences/settingsChanged"), NULL, CFNotificationSuspensionBehaviorCoalesce);
     loadSettings();

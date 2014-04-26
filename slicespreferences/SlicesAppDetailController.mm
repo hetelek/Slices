@@ -49,7 +49,6 @@ extern NSString* PSDeletionActionKey;
 	_defaultSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Default Slice" target:self set:@selector(setDefaultSlice:forSpecifier:) get:@selector(getDefaultSlice:) detail:[PSListItemsController class] cell:PSLinkListCell edit:nil];
 	[_defaultSpecifier.properties setValue:@"valuesSource:" forKey:@"valuesDataSource"];
 	[_defaultSpecifier.properties setValue:@"titlesSource:" forKey:@"titlesDataSource"];
-	[_defaultSpecifier.properties setValue:@"default" forKey:@"Default"]; //forKey:@"The selected slice will be the slice that is launched if the always ask option is disabled."];
 	[specifiers addObject:_defaultSpecifier];
 
 	// slices group specifier
@@ -62,6 +61,7 @@ extern NSString* PSDeletionActionKey;
 	for (NSString *slice in slices)
 	{
 		PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:slice target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];
+		specifier->action = @selector(renameSlice:);
 		[specifier setProperty:NSStringFromSelector(@selector(removedSpecifier:)) forKey:PSDeletionActionKey];
 		[specifiers addObject:specifier];
 	}
@@ -73,8 +73,81 @@ extern NSString* PSDeletionActionKey;
 		[self setEditingButtonHidden:YES animated:NO];
 	}
 
+	// create slice button specifier
+	PSSpecifier *createSliceSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Create Slice" target:self set:nil get:nil detail:nil cell:PSButtonCell edit:nil];
+	createSliceSpecifier->action = @selector(createSlice:);
+	[specifiers addObject:createSliceSpecifier];
+
 	// update the specifier ivar (immutable)
 	_specifiers = [specifiers copy];
+}
+
+- (void)createSlice:(PSSpecifier *)specifier
+{
+	UIAlertView *alert = [[UIAlertView alloc]
+			initWithTitle:@"New Slice"
+			message:@"Enter the slice name"
+			delegate:self
+			cancelButtonTitle:@"Cancel"
+			otherButtonTitles:@"Create Slice", nil];
+	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	[alert show];
+}
+
+- (void)renameSlice:(PSSpecifier *)specifier
+{
+	_specifierToRename = specifier;
+
+	UIAlertView *alert = [[UIAlertView alloc]
+			initWithTitle:@"Rename Slice"
+			message:@"Enter the new slice name"
+			delegate:self
+			cancelButtonTitle:@"Cancel"
+			otherButtonTitles:@"Rename Slice", nil];
+	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	
+	UITextField *textField = [alert textFieldAtIndex:0]; 
+	textField.text = specifier.name;
+
+	[alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Create Slice"])
+	{
+		// they want to create a slice
+
+		// get the entered slice name
+		UITextField *textField = [alertView textFieldAtIndex:0];
+		NSString *sliceName = textField.text;
+
+		// create the slice
+		BOOL created = [_slicer createSlice:sliceName];
+
+		// if no errors occurred, emulate the tap
+		if (created)
+		{
+			// successfully created
+			// maybe do stuff in the future here
+		}
+		
+		[self refreshView];
+	}
+	else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Rename Slice"])
+	{
+		// they want to rename a slice
+
+		NSString *originalSliceName = _specifierToRename.name;
+
+		UITextField *textField = [alertView textFieldAtIndex:0];
+		NSString *targetSliceName = textField.text;
+
+		[_slicer renameSlice:originalSliceName toName:targetSliceName];
+		[self refreshView];
+	}
+
+	_specifierToRename = nil;
 }
 
 - (void)setDefaultSlice:(NSString *)sliceName forSpecifier:(PSSpecifier*)specifier
@@ -111,9 +184,7 @@ extern NSString* PSDeletionActionKey;
 - (void)removedSpecifier:(PSSpecifier *)specifier
 {
 	[_slicer deleteSlice:specifier.name];
-	[_defaultSpecifier loadValuesAndTitlesFromDataSource];
-	[self reloadSpecifiers];
-	[[self table] reloadData];
+	[self refreshView];
 }
 
 - (NSArray *)titlesSource:(id)target
@@ -130,5 +201,12 @@ extern NSString* PSDeletionActionKey;
 	if (slices.count < 1)
 		return @[ @"Default" ];
 	return slices;
+}
+
+- (void)refreshView
+{
+	[_defaultSpecifier loadValuesAndTitlesFromDataSource];
+	[self reloadSpecifiers];
+	[[self table] reloadData];
 }
 @end

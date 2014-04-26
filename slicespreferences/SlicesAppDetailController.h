@@ -8,4 +8,8 @@
 #import "../Slicer.h"
 
 @interface SlicesAppDetailController : PSEditableListController
+{
+	PSSpecifier *_specifierToRename;
+}
+
 @end
