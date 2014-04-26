@@ -208,5 +208,11 @@ extern NSString* PSDeletionActionKey;
 	[_defaultSpecifier loadValuesAndTitlesFromDataSource];
 	[self reloadSpecifiers];
 	[[self table] reloadData];
+	[self reload];
+}
+
+- (BOOL)canBeShownFromSuspendedState
+{
+	return NO;
 }
 @end
