@@ -153,6 +153,35 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	[NSThread sleepForTimeInterval:0.1];
 }
 
+- (NSString *)attemptToGetCurrentSlice
+{
+	NSString *currentSlice = nil;
+	NSError *error;
+	NSFileManager *manager = [NSFileManager defaultManager];
+
+	NSArray *files = [manager contentsOfDirectoryAtPath:_applicationPath error:&error];
+	for (NSString *file in files)
+	{
+		// get the file and its attributes
+		NSString *directoryToDelete = [_applicationPath stringByAppendingPathComponent:file];
+		NSDictionary *attributes = [manager attributesOfItemAtPath:directoryToDelete error:NULL];
+		
+		// if it's not a symbolic link, copy it (if they specified a path)
+		BOOL isSymbolicLink = [attributes[NSFileType] isEqualToString:NSFileTypeSymbolicLink];
+		if (isSymbolicLink)
+		{
+			NSString *resolvedPath = [manager destinationOfSymbolicLinkAtPath:[_applicationPath stringByAppendingPathComponent:file] error:&error];
+			NSString *sliceName = [[resolvedPath stringByDeletingLastPathComponent] lastPathComponent];
+			if (currentSlice && ![currentSlice isEqualToString:sliceName])
+				return nil;
+			else
+				currentSlice = sliceName;
+		}
+	}
+
+	return currentSlice;
+}
+
 - (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)targetSlicePath
 {
 	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices" ];
@@ -220,12 +249,37 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return !errorOccurred;
 }
 
+- (BOOL)checkIfOnlyOneComponent:(NSString *)fileName
+{
+	NSArray *pathComponents = [fileName pathComponents];
+	if ([pathComponents count] != 1)
+	{
+		UIAlertView *alert = [[UIAlertView alloc]
+			initWithTitle:@"Invalid Name"
+			message:[NSString stringWithFormat:@"The name '%@' is invalid. Make sure it contains no slashes.", fileName]
+			delegate:nil
+			cancelButtonTitle:@"OK"
+			otherButtonTitles:nil];
+		[alert show];
+
+		return NO;
+	}
+
+	return YES;
+}
+
 - (BOOL)switchToSlice:(NSString *)sliceName
 {
 	if (!sliceName)
 		return NO;
 
+	NSString *currentSliceAttempt = [self attemptToGetCurrentSlice];
+	NSLog(@"hetelek: current slice attempt=%@, slice=%@", currentSliceAttempt, sliceName);
+	if ([currentSliceAttempt isEqualToString:sliceName])
+		return YES;
+
 	[self killApplication];
+	[self cleanupMainDirectoryWithTargetSlicePath:nil];
 
 	BOOL errorOccured = NO;
 	NSFileManager *manager = [NSFileManager defaultManager];
@@ -239,17 +293,12 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	{
 		// if that directory already exists, delete it
 		NSString *linkDestination = [_applicationPath stringByAppendingPathComponent:directory];
-		if ([manager fileExistsAtPath:linkDestination])
-		{
-			NSError *error;
-			if (![manager removeItemAtPath:linkDestination error:&error])
-				NSLog(@"remove link error: %@", error);
-		}
+		NSError *error;
+		if (![manager removeItemAtPath:linkDestination error:&error])
+			NSLog(@"remove link error: %@", error);
 
 		// symbolically link the directory
 		NSString *destinationPath = [targetSlicePath stringByAppendingPathComponent:directory];
-
-		NSError *error;
 		if (![manager createSymbolicLinkAtPath:linkDestination withDestinationPath:destinationPath error:&error])
 		{
 			errorOccured = YES;
@@ -270,6 +319,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (BOOL)createSlice:(NSString *)sliceName
 {
+	if (![self checkIfOnlyOneComponent:sliceName])
+		return NO;
+
 	[self killApplication];
 
 	BOOL errorOccurred = NO;
@@ -350,6 +402,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (BOOL)deleteSlice:(NSString *)sliceName
 {
+	if (![self checkIfOnlyOneComponent:sliceName])
+		return NO;
+
 	[self killApplication];
 
 	// cleanup
@@ -373,6 +428,46 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	}
 
 	[self reloadData];
+	return YES;
+}
+
+- (BOOL)renameSlice:(NSString *)originaSliceName toName:(NSString *)targetSliceName
+{
+	if (![self checkIfOnlyOneComponent:originaSliceName] || ![self checkIfOnlyOneComponent:targetSliceName])
+		return NO;
+
+	NSFileManager *manager = [NSFileManager defaultManager];
+
+	NSString *originalSliceDirectoryFullPath = [_applicationSlicesPath stringByAppendingPathComponent:originaSliceName];
+	NSString *targetSliceDirectoryFullPath = [_applicationSlicesPath stringByAppendingPathComponent:targetSliceName];
+
+	NSError *error;
+	if (![manager moveItemAtPath:originalSliceDirectoryFullPath toPath:targetSliceDirectoryFullPath error:&error])
+	{
+		if (error.code == NSFileWriteFileExistsError)
+		{
+			UIAlertView *alert = [[UIAlertView alloc]
+				initWithTitle:@"Already Exists"
+				message:[NSString stringWithFormat:@"There is already a slice named '%@'.", targetSliceName]
+				delegate:nil
+				cancelButtonTitle:@"OK"
+				otherButtonTitles:nil];
+			[alert show];
+		}
+		else
+		{
+			UIAlertView *alert = [[UIAlertView alloc]
+				initWithTitle:@"Renaming Error"
+				message:[NSString stringWithFormat:@"An error occurred when renaming '%@'.\n\n%@", originaSliceName, error]
+				delegate:nil
+				cancelButtonTitle:@"OK"
+				otherButtonTitles:nil];
+			[alert show];
+		}
+
+		return NO;
+	}
+	
 	return YES;
 }
 @end

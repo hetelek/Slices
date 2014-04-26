@@ -11,4 +11,5 @@
 - (BOOL)switchToSlice:(NSString *)sliceName;
 - (BOOL)createSlice:(NSString *)sliceName;
 - (BOOL)deleteSlice:(NSString *)sliceName;
+- (BOOL)renameSlice:(NSString *)originaSliceName toName:(NSString *)targetSliceName;
 @end
