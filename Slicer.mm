@@ -274,7 +274,6 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		return NO;
 
 	NSString *currentSliceAttempt = [self attemptToGetCurrentSlice];
-	NSLog(@"hetelek: current slice attempt=%@, slice=%@", currentSliceAttempt, sliceName);
 	if ([currentSliceAttempt isEqualToString:sliceName])
 		return YES;
 
