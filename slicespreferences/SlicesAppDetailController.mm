@@ -72,6 +72,8 @@ extern NSString* PSDeletionActionKey;
 		[specifiers addObject:[PSSpecifier preferenceSpecifierNamed:@"No Slices" target:self set:nil get:nil detail:nil cell:PSStaticTextCell edit:nil]];
 		[self setEditingButtonHidden:YES animated:NO];
 	}
+	else
+		[self setEditingButtonHidden:NO animated:YES];
 
 	// create slice button specifier
 	PSSpecifier *createSliceSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Create Slice" target:self set:nil get:nil detail:nil cell:PSButtonCell edit:nil];
