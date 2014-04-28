@@ -58,7 +58,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		continueSettingSlice = [manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] error:NULL];
 	}
 
-	if (defaultSlice && ![defaultSlice isEqualToString:@""] && continueSettingSlice)
+	if (defaultSlice.length > 0 && continueSettingSlice)
 	{
 		NSString *defaultSliceFileName = [@"def_" stringByAppendingString:defaultSlice];
 		if ([manager createFileAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] contents:nil attributes:nil])
@@ -105,7 +105,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 			return;
 	}
 
-	if (newSliceName && ![newSliceName isEqualToString:@""])
+	if (newSliceName.length > 0)
 	{
 		NSString *newSliceFileName = [@"cur_" stringByAppendingString:newSliceName];
 		NSString *newSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:newSliceFileName];
@@ -200,6 +200,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath
 {
+	if (cleanupSlicePath.length < 1)
+		return NO;
+
 	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices" ];
 
 	BOOL errorOccurred = NO;
@@ -225,22 +228,20 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 		// get the directory
 		NSString *directoryToMove = [_applicationPath stringByAppendingPathComponent:directory];
-		if (cleanupSlicePath)
+		
+		// try and move it, tell them if it fails
+		if (![manager moveItemAtPath:directoryToMove toPath:[cleanupSlicePath stringByAppendingPathComponent:directory] error:&error])
 		{
-			// try and move it, tell them if it fails
-			if (![manager moveItemAtPath:directoryToMove toPath:[cleanupSlicePath stringByAppendingPathComponent:directory] error:&error])
-			{
-				errorOccurred = YES;
-				NSLog(@"move item error: %@", error);
+			errorOccurred = YES;
+			NSLog(@"move item error: %@", error);
 
-				UIAlertView *alert = [[UIAlertView alloc]
-					initWithTitle:@"Error Preserving"
-					message:[NSString stringWithFormat:@"Sorry, but I had trouble preserving '%@'.", directory]
-					delegate:nil
-					cancelButtonTitle:@"OK"
-					otherButtonTitles:nil];
-				[alert show];
-			}
+			UIAlertView *alert = [[UIAlertView alloc]
+				initWithTitle:@"Error Preserving"
+				message:[NSString stringWithFormat:@"Sorry, but I had trouble preserving '%@'.", directory]
+				delegate:nil
+				cancelButtonTitle:@"OK"
+				otherButtonTitles:nil];
+			[alert show];
 		}
 	}
 
@@ -283,10 +284,12 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 	// get slice paths
 	NSString *targetSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:sliceName];
-	NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt];
-
-	if (currentSlicePath)
+	if (currentSliceAttempt.length > 0)
+	{
+		// cleanup the directory
+		NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt];
 		[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
+	}
 	
 	// get all the directories in the slice
 	NSArray *directoriesToLink = [manager contentsOfDirectoryAtPath:targetSlicePath error:NULL];
@@ -348,14 +351,17 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 		// cleanup
 		NSString *currentSliceAttempt = self.currentSlice;
-		if (!currentSliceAttempt)
+		if (currentSliceAttempt.length < 1)
 		{
 			self.currentSlice = sliceName;
 			return YES;
 		}
 
 		[self killApplication];
-		[self cleanupMainDirectoryWithTargetSlicePath:[_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt]];
+
+		// cleanup the directory
+		NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt];
+		[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
 		
 		// create a directory for everything reasonable, and link it
 		for (NSString *directory in CREATE_AND_LINK_DIRECTORIES)
@@ -459,9 +465,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		return NO;
 	}
 	
-	if ([self.currentSlice isEqualToString:originaSliceName])
+	NSString *currentSlice = self.currentSlice;
+	if ([currentSlice isEqualToString:originaSliceName])
 		self.currentSlice = targetSliceName;
-	if ([self.defaultSlice isEqualToString:originaSliceName])
+	if ([currentSlice isEqualToString:originaSliceName])
 		self.defaultSlice = targetSliceName;
 	
 	return YES;
