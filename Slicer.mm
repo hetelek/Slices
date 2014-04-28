@@ -58,13 +58,58 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		continueSettingSlice = [manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] error:NULL];
 	}
 
-	if (continueSettingSlice)
+	if (defaultSlice && ![defaultSlice isEqualToString:@""] && continueSettingSlice)
 	{
 		NSString *defaultSliceFileName = [@"def_" stringByAppendingString:defaultSlice];
 		if ([manager createFileAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] contents:nil attributes:nil])
 			_defaultSlice = defaultSlice;
 		else
 			_defaultSlice = nil;
+	}
+}
+
+- (NSString *)currentSlice
+{
+	NSString *currentSlice = nil;
+	NSFileManager *manager = [NSFileManager defaultManager];
+	NSArray *files = [manager contentsOfDirectoryAtPath:_applicationSlicesPath error:NULL];
+
+	for (NSString *file in files)
+	{
+		NSString *fullPath = [_applicationSlicesPath stringByAppendingPathComponent:file];
+		NSDictionary *attributes = [manager attributesOfItemAtPath:fullPath error:NULL];
+		
+		BOOL isRegularFile = [attributes[NSFileType] isEqualToString:NSFileTypeRegular];
+		if (isRegularFile && [file hasPrefix:@"cur_"])
+		{
+			currentSlice = [file substringFromIndex:4];
+			if (currentSlice.length < 1)
+				currentSlice = nil;
+			break;
+		}
+	}
+
+	return currentSlice;
+}
+
+- (void)setCurrentSlice:(NSString *)newSliceName
+{
+	NSFileManager *manager = [NSFileManager defaultManager];
+	NSString *currentSlice = self.currentSlice;
+	if (currentSlice)
+	{
+		NSString *currentSliceFileName = [@"cur_" stringByAppendingString:currentSlice];
+		NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceFileName];
+
+		if (![manager removeItemAtPath:currentSlicePath error:NULL])
+			return;
+	}
+
+	if (newSliceName && ![newSliceName isEqualToString:@""])
+	{
+		NSString *newSliceFileName = [@"cur_" stringByAppendingString:newSliceName];
+		NSString *newSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:newSliceFileName];
+		[manager createFileAtPath:newSlicePath contents:nil attributes:nil];
 	}
 }
 
@@ -153,36 +198,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	[NSThread sleepForTimeInterval:0.1];
 }
 
-- (NSString *)attemptToGetCurrentSlice
-{
-	NSString *currentSlice = nil;
-	NSError *error;
-	NSFileManager *manager = [NSFileManager defaultManager];
-
-	NSArray *files = [manager contentsOfDirectoryAtPath:_applicationPath error:&error];
-	for (NSString *file in files)
-	{
-		// get the file and its attributes
-		NSString *directoryToDelete = [_applicationPath stringByAppendingPathComponent:file];
-		NSDictionary *attributes = [manager attributesOfItemAtPath:directoryToDelete error:NULL];
-		
-		// if it's not a symbolic link, copy it (if they specified a path)
-		BOOL isSymbolicLink = [attributes[NSFileType] isEqualToString:NSFileTypeSymbolicLink];
-		if (isSymbolicLink)
-		{
-			NSString *resolvedPath = [manager destinationOfSymbolicLinkAtPath:[_applicationPath stringByAppendingPathComponent:file] error:&error];
-			NSString *sliceName = [[resolvedPath stringByDeletingLastPathComponent] lastPathComponent];
-			if (currentSlice && ![currentSlice isEqualToString:sliceName])
-				return nil;
-			else
-				currentSlice = sliceName;
-		}
-	}
-
-	return currentSlice;
-}
-
-- (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)targetSlicePath
+- (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath
 {
 	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices" ];
 
@@ -207,16 +223,12 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		if (!removeDirectory)
 			continue;
 
-		// get the directory and its attributes
-		NSString *directoryToDelete = [_applicationPath stringByAppendingPathComponent:directory];
-		NSDictionary *attributes = [manager attributesOfItemAtPath:directoryToDelete error:NULL];
-		
-		// if it's not a symbolic link, copy it (if they specified a path)
-		BOOL isSymbolicLink = [attributes[NSFileType] isEqualToString:NSFileTypeSymbolicLink];
-		if (targetSlicePath && !isSymbolicLink)
+		// get the directory
+		NSString *directoryToMove = [_applicationPath stringByAppendingPathComponent:directory];
+		if (cleanupSlicePath)
 		{
 			// try and move it, tell them if it fails
-			if (![manager moveItemAtPath:directoryToDelete toPath:[targetSlicePath stringByAppendingPathComponent:directory] error:&error])
+			if (![manager moveItemAtPath:directoryToMove toPath:[cleanupSlicePath stringByAppendingPathComponent:directory] error:&error])
 			{
 				errorOccurred = YES;
 				NSLog(@"move item error: %@", error);
@@ -229,20 +241,6 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 					otherButtonTitles:nil];
 				[alert show];
 			}
-		}
-		else if (isSymbolicLink && ![manager removeItemAtPath:directoryToDelete error:&error])
-		{
-			// failed to delete the directory
-			errorOccurred = YES;
-			NSLog(@"remove directory error: %@", error);
-
-			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:@"Cleaning Error"
-				message:[NSString stringWithFormat:@"Failed to delete '%@' link.", directory]
-				delegate:nil
-				cancelButtonTitle:@"OK"
-				otherButtonTitles:nil];
-			[alert show];
 		}
 	}
 
@@ -273,34 +271,32 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	if (!sliceName)
 		return NO;
 
-	NSString *currentSliceAttempt = [self attemptToGetCurrentSlice];
+	NSString *currentSliceAttempt = self.currentSlice;
 	if ([currentSliceAttempt isEqualToString:sliceName])
 		return YES;
 
 	[self killApplication];
-	[self cleanupMainDirectoryWithTargetSlicePath:nil];
 
-	BOOL errorOccured = NO;
+	BOOL errorOccurred = NO;
+	NSError *error;
 	NSFileManager *manager = [NSFileManager defaultManager];
 
-	// get target slice path
+	// get slice paths
 	NSString *targetSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:sliceName];
+	NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt];
 
+	if (currentSlicePath)
+		[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
+	
 	// get all the directories in the slice
 	NSArray *directoriesToLink = [manager contentsOfDirectoryAtPath:targetSlicePath error:NULL];
 	for (NSString *directory in directoriesToLink)
 	{
-		// if that directory already exists, delete it
-		NSString *linkDestination = [_applicationPath stringByAppendingPathComponent:directory];
-		NSError *error;
-		if (![manager removeItemAtPath:linkDestination error:&error])
-			NSLog(@"remove link error: %@", error);
-
-		// symbolically link the directory
-		NSString *destinationPath = [targetSlicePath stringByAppendingPathComponent:directory];
-		if (![manager createSymbolicLinkAtPath:linkDestination withDestinationPath:destinationPath error:&error])
+		// move the directory to the application directory
+		NSString *currentPath = [targetSlicePath stringByAppendingPathComponent:directory];
+		if (![manager moveItemAtPath:currentPath toPath:[_applicationPath stringByAppendingPathComponent:directory] error:&error])
 		{
-			errorOccured = YES;
+			errorOccurred = YES;
 			NSLog(@"link path error: %@", error);
 
 			UIAlertView *alert = [[UIAlertView alloc]
@@ -313,7 +309,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		}
 	}
 
-	return !errorOccured;
+	if (!errorOccurred)
+		self.currentSlice = sliceName;
+
+	return !errorOccurred;
 }
 
 - (BOOL)createSlice:(NSString *)sliceName
@@ -321,14 +320,11 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	if (![self checkIfOnlyOneComponent:sliceName])
 		return NO;
 
-	[self killApplication];
-
 	BOOL errorOccurred = NO;
 	NSError *error;
+	NSFileManager *manager = [NSFileManager defaultManager];
 
 	NSString *targetSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:sliceName];
-
-	NSFileManager *manager = [NSFileManager defaultManager];
 	if ([manager fileExistsAtPath:targetSlicePath])
 	{
 		// already exists, tell them
@@ -351,13 +347,21 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		NSArray *CREATE_AND_LINK_DIRECTORIES = @[ @"tmp", @"Documents", @"StoreKit", @"Library" ];
 
 		// cleanup
-		[self cleanupMainDirectoryWithTargetSlicePath:targetSlicePath];
+		NSString *currentSliceAttempt = self.currentSlice;
+		if (!currentSliceAttempt)
+		{
+			self.currentSlice = sliceName;
+			return YES;
+		}
+
+		[self killApplication];
+		[self cleanupMainDirectoryWithTargetSlicePath:[_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt]];
 		
 		// create a directory for everything reasonable, and link it
 		for (NSString *directory in CREATE_AND_LINK_DIRECTORIES)
 		{
 			// get the directory path to create
-			NSString *currentDirectoryFullPath = [targetSlicePath stringByAppendingPathComponent:directory];
+			NSString *currentDirectoryFullPath = [_applicationPath stringByAppendingPathComponent:directory];
 
 			// attempt to create the directory
 			if (![manager createDirectoryAtPath:currentDirectoryFullPath withIntermediateDirectories:YES attributes:nil error:&error])
@@ -374,26 +378,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 					otherButtonTitles:nil];
 				[alert show];
 			}
-			else
-			{
-				// create the symbolic link
-				NSString *linkPath = [_applicationPath stringByAppendingPathComponent:directory];
-				if (![manager createSymbolicLinkAtPath:linkPath withDestinationPath:currentDirectoryFullPath error:&error])
-				{
-					// failed to symbilically link paths, tell them
-					NSLog(@"symbolically linking error: %@", error);
-
-					errorOccurred = YES;
-					UIAlertView *alert = [[UIAlertView alloc]
-						initWithTitle:@"Linking Error"
-						message:[NSString stringWithFormat:@"Failed to link '%@' directory.", directory]
-						delegate:nil
-						cancelButtonTitle:@"OK"
-						otherButtonTitles:nil];
-					[alert show];
-				}
-			}
 		}
+
+		self.currentSlice = sliceName;
 	}
 
 	return !errorOccurred;
@@ -425,6 +412,11 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 		return NO;
 	}
+	
+	if ([self.currentSlice isEqualToString:sliceName])
+		self.currentSlice = nil;
+	if ([self.defaultSlice isEqualToString:sliceName])
+		self.defaultSlice = nil;
 
 	[self reloadData];
 	return YES;
@@ -466,6 +458,11 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 		return NO;
 	}
+	
+	if ([self.currentSlice isEqualToString:originaSliceName])
+		self.currentSlice = targetSliceName;
+	if ([self.defaultSlice isEqualToString:originaSliceName])
+		self.defaultSlice = targetSliceName;
 	
 	return YES;
 }
