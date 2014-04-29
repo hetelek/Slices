@@ -200,9 +200,6 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath
 {
-	if (cleanupSlicePath.length < 1)
-		return NO;
-
 	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices" ];
 
 	BOOL errorOccurred = NO;
@@ -214,30 +211,46 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	for (NSString *directory in directoriesToDelete)
 	{
 		// check if we should delete the directory
-		BOOL removeDirectory = YES;
+		BOOL modifyDirectory = YES;
 		for (NSString *suffix in IGNORE_SUFFIXES)
 			if ([directory hasSuffix:suffix])
 			{
-				removeDirectory = NO;
+				modifyDirectory = NO;
 				break;
 			}
 
 		// if not, continue
-		if (!removeDirectory)
+		if (!modifyDirectory)
 			continue;
 
 		// get the directory
-		NSString *directoryToMove = [_applicationPath stringByAppendingPathComponent:directory];
+		NSString *directoryToModify = [_applicationPath stringByAppendingPathComponent:directory];
 		
-		// try and move it, tell them if it fails
-		if (![manager moveItemAtPath:directoryToMove toPath:[cleanupSlicePath stringByAppendingPathComponent:directory] error:&error])
+		// move/delete it
+		if (cleanupSlicePath.length > 0)
+		{
+			if (![manager moveItemAtPath:directoryToModify toPath:[cleanupSlicePath stringByAppendingPathComponent:directory] error:&error])
+			{
+				errorOccurred = YES;
+				NSLog(@"move item error: %@", error);
+
+				UIAlertView *alert = [[UIAlertView alloc]
+					initWithTitle:@"Error Preserving"
+					message:[NSString stringWithFormat:@"Sorry, but I had trouble preserving '%@'.", directory]
+					delegate:nil
+					cancelButtonTitle:@"OK"
+					otherButtonTitles:nil];
+				[alert show];
+			}
+		}
+		else if (![manager removeItemAtPath:directoryToModify error:&error])
 		{
 			errorOccurred = YES;
-			NSLog(@"move item error: %@", error);
+			NSLog(@"remove item error: %@", error);
 
 			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:@"Error Preserving"
-				message:[NSString stringWithFormat:@"Sorry, but I had trouble preserving '%@'.", directory]
+				initWithTitle:@"Error Removing"
+				message:[NSString stringWithFormat:@"Sorry, but I had trouble removing '%@'.", directory]
 				delegate:nil
 				cancelButtonTitle:@"OK"
 				otherButtonTitles:nil];
@@ -304,7 +317,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 			UIAlertView *alert = [[UIAlertView alloc]
 				initWithTitle:@"Linking Error"
-				message:[NSString stringWithFormat:@"Failed to link '%@' directory.", directory]
+				message:[NSString stringWithFormat:@"Failed to move '%@' directory.", directory]
 				delegate:nil
 				cancelButtonTitle:@"OK"
 				otherButtonTitles:nil];
@@ -400,7 +413,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	[self killApplication];
 
 	// cleanup
-	[self cleanupMainDirectoryWithTargetSlicePath:nil];
+	NSString *currentSlice = self.currentSlice;
+	if ([sliceName isEqualToString:currentSlice])
+		[self cleanupMainDirectoryWithTargetSlicePath:nil];
 
 	// try and remove the direcotry
 	NSError *error;
@@ -419,7 +434,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		return NO;
 	}
 	
-	if ([self.currentSlice isEqualToString:sliceName])
+	if ([currentSlice isEqualToString:sliceName])
 		self.currentSlice = nil;
 	if ([self.defaultSlice isEqualToString:sliceName])
 		self.defaultSlice = nil;
