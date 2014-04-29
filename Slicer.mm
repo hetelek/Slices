@@ -434,10 +434,26 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		return NO;
 	}
 	
+	NSArray *slices = self.slices;
+	NSString *defaultSlice = self.defaultSlice;
+	
+	if ([defaultSlice isEqualToString:sliceName])
+	{
+		if (slices.count < 1)
+			self.defaultSlice = nil;
+		else
+			self.defaultSlice = slices[0];
+	}
+
 	if ([currentSlice isEqualToString:sliceName])
-		self.currentSlice = nil;
-	if ([self.defaultSlice isEqualToString:sliceName])
-		self.defaultSlice = nil;
+	{
+		if (slices.count < 1)
+			self.currentSlice = nil;
+		else if (defaultSlice.length > 0)
+			self.currentSlice = self.defaultSlice;
+		else
+			self.currentSlice = slices[0];
+	}
 
 	[self reloadData];
 	return YES;
