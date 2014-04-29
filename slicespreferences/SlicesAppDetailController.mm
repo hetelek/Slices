@@ -134,7 +134,7 @@ extern NSString* PSDeletionActionKey;
 			// maybe do stuff in the future here
 		}
 		
-		[self refreshView];
+		[self refreshView:YES];
 	}
 	else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Rename Slice"])
 	{
@@ -146,7 +146,7 @@ extern NSString* PSDeletionActionKey;
 		NSString *targetSliceName = textField.text;
 
 		[_slicer renameSlice:originalSliceName toName:targetSliceName];
-		[self refreshView];
+		[self refreshView:YES];
 	}
 
 	_specifierToRename = nil;
@@ -186,7 +186,7 @@ extern NSString* PSDeletionActionKey;
 - (void)removedSpecifier:(PSSpecifier *)specifier
 {
 	[_slicer deleteSlice:specifier.name];
-	[self refreshView];
+	[self refreshView:NO];
 }
 
 - (NSArray *)titlesSource:(id)target
@@ -205,10 +205,13 @@ extern NSString* PSDeletionActionKey;
 	return slices;
 }
 
-- (void)refreshView
+- (void)refreshView:(BOOL)forceHardReload
 {
 	[_defaultSpecifier loadValuesAndTitlesFromDataSource];
-	[self reloadSpecifiers];
+
+	if (forceHardReload || _slicer.slices.count < 1)
+		[self reloadSpecifiers];
+
 	[[self table] reloadData];
 	[self reload];
 }
