@@ -52,7 +52,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 	NSFileManager *manager = [NSFileManager defaultManager];
 	BOOL continueSettingSlice = YES;
-	if (_defaultSlice)
+	if (_defaultSlice.length > 0)
 	{
 		NSString *defaultSliceFileName = [@"def_" stringByAppendingString:_defaultSlice];
 		continueSettingSlice = [manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] error:NULL];
@@ -135,6 +135,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (void)reloadData
 {
+	_defaultSlice = nil;
+
 	BOOL foundDefault = NO;
 	BOOL foundAskOnTouch = NO;
 
@@ -367,6 +369,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		if (currentSliceAttempt.length < 1)
 		{
 			self.currentSlice = sliceName;
+			if (_defaultSlice.length < 1)
+				self.defaultSlice = sliceName;
+
 			return YES;
 		}
 
@@ -400,6 +405,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		}
 
 		self.currentSlice = sliceName;
+		if (_defaultSlice.length < 1)
+			self.defaultSlice = sliceName;
 	}
 
 	return !errorOccurred;
