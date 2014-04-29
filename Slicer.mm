@@ -368,6 +368,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		NSString *currentSliceAttempt = self.currentSlice;
 		if (currentSliceAttempt.length < 1)
 		{
+			for (NSString *directory in CREATE_AND_LINK_DIRECTORIES)
+				[manager createDirectoryAtPath:[_applicationPath stringByAppendingPathComponent:directory] withIntermediateDirectories:YES attributes:nil error:&error];
+
 			self.currentSlice = sliceName;
 			if (_defaultSlice.length < 1)
 				self.defaultSlice = sliceName;
