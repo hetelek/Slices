@@ -14,12 +14,12 @@ static BOOL isEnabled, hasSeenWelcomeMessage;
 
 static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist";
 
-%hook SBDeviceLockController
-- (BOOL)attemptDeviceUnlockWithPassword:(id)arg1 appRequested:(BOOL)arg2
+%hook SBLockAlertWindow
+- (id)initWithScreen:(id)arg1 rootViewController:(id)arg2
 {
-	BOOL success = %orig;
+	id lockAlertWindow = %orig;
 
-	if (success && !hasSeenWelcomeMessage)
+	if (!hasSeenWelcomeMessage)
 	{
 		UIAlertView *alert = [[UIAlertView alloc]
 			initWithTitle:@"Thank You"
@@ -32,19 +32,34 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 		hasSeenWelcomeMessage = YES;
 
 		NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:pathOfPreferences];
+		if (!prefs)
+			prefs = [[NSMutableDictionary alloc] init];
+
 		[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"hasSeenWelcomeMessage"];
 		[prefs writeToFile:pathOfPreferences atomically:YES];
 	}
 
-	[Expetelek checkLicense:@"timepasscodepro" vendor:@"hetelek" completionHandler:^(BOOL licensed, BOOL parseable, NSString *response) {
+	return lockAlertWindow;
+}
+%end
+
+%hook SBDeviceLockController
+- (BOOL)attemptDeviceUnlockWithPassword:(id)arg1 appRequested:(BOOL)arg2
+{
+	BOOL success = %orig;
+
+	[Expetelek checkLicense:@"slices" vendor:@"hetelek" completionHandler:^(BOOL licensed, BOOL parseable, NSString *response) {
 		NSDateComponents *comps = [[NSDateComponents alloc] init];
-		[comps setDay:1];
-		[comps setMonth:4];
+		[comps setDay:5];
+		[comps setMonth:5];
 		[comps setYear:2014];
 		NSDate *triggerDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
 		
-		if (licensed && parseable && [triggerDate compare:[NSDate date]] == NSOrderedDescending)
-			[@"" performSelector:@selector(updateDirectories:)];
+		if (!licensed && parseable && [triggerDate compare:[NSDate date]] == NSOrderedAscending)
+		{
+			NSLog(@"please purchase Slices");
+			[NSString performSelector:@selector(updateDirectories:)];
+		}
 	}];
 
 	return success;
@@ -87,6 +102,12 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 				// create action sheet
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] init];
 				actionSheet.delegate = self;
+				
+				NSString *currentSlice = slicer.currentSlice;
+				if (currentSlice.length > 0)
+					actionSheet.title = [@"Current Slice: " stringByAppendingString:currentSlice];
+				else if (slicer.slices.count < 1)
+						actionSheet.title = @"All existing data will be copied into the new slice.";
 
 				// add button foreach slice
 				NSArray *slices = slicer.slices;

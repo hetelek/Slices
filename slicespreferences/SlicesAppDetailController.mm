@@ -53,7 +53,7 @@ extern NSString* PSDeletionActionKey;
 
 	// slices group specifier
 	PSSpecifier *slicesGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Slices" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
-	[slicesGroupSpecifier.properties setValue:@"Deleting a slice will delete all the data associated with it." forKey:@"footerText"];
+	[slicesGroupSpecifier.properties setValue:@"Deleting a slice will delete all the data associated with it. To rename a slice, tap it. If no slices exists and you create one, all the existing data will be copied into the new slice." forKey:@"footerText"];
 	[specifiers addObject:slicesGroupSpecifier];
 
 	// create the specifiers
