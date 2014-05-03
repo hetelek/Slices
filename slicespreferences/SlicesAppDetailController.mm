@@ -53,7 +53,7 @@ extern NSString* PSDeletionActionKey;
 
 	// slices group specifier
 	PSSpecifier *slicesGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Slices" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
-	[slicesGroupSpecifier.properties setValue:@"Deleting a slice will delete all the data associated with it." forKey:@"footerText"];
+	[slicesGroupSpecifier.properties setValue:@"Deleting a slice will delete all the data associated with it. To rename a slice, tap it. If no slices exists and you create one, all the existing data will be copied into the new slice." forKey:@"footerText"];
 	[specifiers addObject:slicesGroupSpecifier];
 
 	// create the specifiers
@@ -134,7 +134,7 @@ extern NSString* PSDeletionActionKey;
 			// maybe do stuff in the future here
 		}
 		
-		[self refreshView];
+		[self refreshView:YES];
 	}
 	else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Rename Slice"])
 	{
@@ -146,7 +146,7 @@ extern NSString* PSDeletionActionKey;
 		NSString *targetSliceName = textField.text;
 
 		[_slicer renameSlice:originalSliceName toName:targetSliceName];
-		[self refreshView];
+		[self refreshView:YES];
 	}
 
 	_specifierToRename = nil;
@@ -186,7 +186,7 @@ extern NSString* PSDeletionActionKey;
 - (void)removedSpecifier:(PSSpecifier *)specifier
 {
 	[_slicer deleteSlice:specifier.name];
-	[self refreshView];
+	[self refreshView:NO];
 }
 
 - (NSArray *)titlesSource:(id)target
@@ -205,10 +205,13 @@ extern NSString* PSDeletionActionKey;
 	return slices;
 }
 
-- (void)refreshView
+- (void)refreshView:(BOOL)forceHardReload
 {
 	[_defaultSpecifier loadValuesAndTitlesFromDataSource];
-	[self reloadSpecifiers];
+
+	if (forceHardReload || _slicer.slices.count < 1)
+		[self reloadSpecifiers];
+
 	[[self table] reloadData];
 	[self reload];
 }

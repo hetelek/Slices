@@ -39,6 +39,8 @@
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Links</string>
+			<key>footerText</key>
+			<string>If you have any questions or experience any problems, contact hetelek using Twitter or email (through Cydia).</string>
 		</dict>
 		<dict>
 			<key>icon</key>

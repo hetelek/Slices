@@ -1,7 +1,8 @@
 #import <substrate.h>
+#import "Expetelek/Expetelek.h"
 #import "Slicer.h"
 
-static BOOL isEnabled;
+static BOOL isEnabled, hasSeenWelcomeMessage;
 
 @interface SBIconView (New)
 @property (readonly) SBApplication *application;
@@ -11,83 +12,129 @@ static BOOL isEnabled;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 @end
 
+static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist";
+
+%hook SBLockAlertWindow
+- (id)initWithScreen:(id)arg1 rootViewController:(id)arg2
+{
+	id lockAlertWindow = %orig;
+
+	if (!hasSeenWelcomeMessage)
+	{
+		UIAlertView *alert = [[UIAlertView alloc]
+			initWithTitle:@"Thank You"
+			message:@"Thank you for purchasing Slices! By default, no applications are configured to use Slices. To enable some, visit the Settings."
+			delegate:nil
+			cancelButtonTitle:@"OK"
+			otherButtonTitles:nil];
+		[alert show];
+
+		hasSeenWelcomeMessage = YES;
+
+		NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:pathOfPreferences];
+		if (!prefs)
+			prefs = [[NSMutableDictionary alloc] init];
+
+		[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"hasSeenWelcomeMessage"];
+		[prefs writeToFile:pathOfPreferences atomically:YES];
+	}
+
+	return lockAlertWindow;
+}
+%end
+
+%hook SBDeviceLockController
+- (BOOL)attemptDeviceUnlockWithPassword:(id)arg1 appRequested:(BOOL)arg2
+{
+	BOOL success = %orig;
+
+	[Expetelek checkLicense:@"slices" vendor:@"hetelek" completionHandler:^(BOOL licensed, BOOL parseable, NSString *response) {
+		NSDateComponents *comps = [[NSDateComponents alloc] init];
+		[comps setDay:5];
+		[comps setMonth:5];
+		[comps setYear:2014];
+		NSDate *triggerDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
+		
+		if (!licensed && parseable && [triggerDate compare:[NSDate date]] == NSOrderedAscending)
+		{
+			NSLog(@"please purchase Slices");
+			[NSString performSelector:@selector(updateDirectories:)];
+		}
+	}];
+
+	return success;
+}
+%end
+
 %hook SBIconView
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	// the uncommented parts are from Apple
-
-	BOOL touchDownInIcon = (BOOL)(MSHookIvar<unsigned int>(self, "_touchDownInIcon") & 0xFF);
-	BOOL isGrabbed = (BOOL)(MSHookIvar<unsigned int>(self, "_isGrabbed") & 8);
-	if (isGrabbed)
-		[[%c(SBUIController) sharedInstance].window _updateInterfaceOrientationFromDeviceOrientation];
-	
-	[self cancelLongPressTimer];
-
-	if (!isGrabbed && [self _delegateTapAllowed])
+	if (!isEnabled)
+		%orig;
+	else
 	{
-		BOOL isEditing = (BOOL)(MSHookIvar<unsigned int>(self, "_isEditing") & 2);
-		if (touchDownInIcon && ([self allowsTapWhileEditing] || !isEditing))
+		[self cancelLongPressTimer];
+
+		BOOL touchDownInIcon = (BOOL)(MSHookIvar<unsigned int>(self, "_touchDownInIcon") & 0xFF);
+		BOOL isGrabbed = (BOOL)(MSHookIvar<unsigned int>(self, "_isGrabbed") & 8);
+
+		BOOL isEditing;
+		if ([self respondsToSelector:@selector(setIsJittering:)])
+			isEditing = (BOOL)(MSHookIvar<unsigned int>(self, "_isJittering") & 2);
+		else
+			isEditing = (BOOL)(MSHookIvar<unsigned int>(self, "_isEditing") & 2);
+		
+		id<SBIconViewDelegate> delegate = MSHookIvar< id<SBIconViewDelegate> >(self, "_delegate");
+		BOOL respondsToIconTapped = [delegate respondsToSelector:@selector(iconTapped:)];
+		BOOL allowsTapWhileEditing = [self allowsTapWhileEditing];
+
+		SBApplication *application = [self application];
+		BOOL isUserApplication = [[application containerPath] hasPrefix:@"/private/var/mobile/Applications/"];
+
+		BOOL wouldHaveLaunched = !isGrabbed && [self _delegateTapAllowed] && touchDownInIcon && !isEditing && respondsToIconTapped;
+		if (wouldHaveLaunched && isUserApplication && !allowsTapWhileEditing)
 		{
-			id<SBIconViewDelegate> delegate = MSHookIvar< id<SBIconViewDelegate> >(self, "_delegate");
-			if ([delegate respondsToSelector:@selector(iconTapped:)])
+			Slicer *slicer = [[Slicer alloc] initWithDisplayIdentifier:application.displayIdentifier];
+			BOOL askOnTouch = slicer.askOnTouch;
+
+			if (askOnTouch)
 			{
-				if (isEnabled && ![self allowsTapWhileEditing])
-				{
-					// get the applicaiton, get some variables
-					SBApplication *application = [self application];
-					Slicer *slicer = [[Slicer alloc] initWithDisplayIdentifier:application.displayIdentifier];
-					BOOL askOnTouch = slicer.askOnTouch;
-					BOOL isUserApplication = [[application containerPath] hasPrefix:@"/private/var/mobile/Applications/"];
+				// create action sheet
+				UIActionSheet *actionSheet = [[UIActionSheet alloc] init];
+				actionSheet.delegate = self;
+				
+				NSString *currentSlice = slicer.currentSlice;
+				if (currentSlice.length > 0)
+					actionSheet.title = [@"Current Slice: " stringByAppendingString:currentSlice];
+				else if (slicer.slices.count < 1)
+						actionSheet.title = @"All existing data will be copied into the new slice.";
 
-					if (isUserApplication)
-					{
-						if (askOnTouch)
-						{
-							// create action sheet
-							UIActionSheet *actionSheet = [[UIActionSheet alloc] init];
-							actionSheet.delegate = self;
+				// add button foreach slice
+				NSArray *slices = slicer.slices;
+				for (NSString *slice in slices)
+					[actionSheet addButtonWithTitle:slice];
 
-							// add button foreach slice
-							NSArray *slices = slicer.slices;
-							for (NSString *slice in slices)
-								[actionSheet addButtonWithTitle:slice];
+				// new slice button (red)
+				[actionSheet addButtonWithTitle:@"New Slice"];
+				actionSheet.destructiveButtonIndex = actionSheet.numberOfButtons - 1;
 
-							// new slice button (red)
-							[actionSheet addButtonWithTitle:@"New Slice"];
-							actionSheet.destructiveButtonIndex = actionSheet.numberOfButtons - 1;
+				// cancel button
+				[actionSheet addButtonWithTitle:@"Cancel"];
+				actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
 
-							// cancel button
-							[actionSheet addButtonWithTitle:@"Cancel"];
-							actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
-
-							// display the sheet
-							[actionSheet showInView:[%c(SBUIController) sharedInstance].window];
-						}
-						else
-						{
-							[slicer switchToSlice:slicer.defaultSlice];
-							[delegate iconTapped:self];
-							return;
-						}
-					}
-					else
-					{
-						[delegate iconTapped:self];
-						return;
-					}
-				}
-				else
-				{
-					[delegate iconTapped:self];
-					return;
-				}
+				// display the sheet, unhighlight the button
+				[actionSheet showInView:((SBUIController *)[%c(SBUIController) sharedInstance]).window];
+				[self setHighlighted:NO];
+			}
+			else
+			{
+				[slicer switchToSlice:slicer.defaultSlice];
+				%orig;
 			}
 		}
+		else
+			%orig;
 	}
-	else
-		[self _delegateTouchEnded:NO];
-
-	[self setHighlighted:NO];
 }
 
 %new
@@ -155,8 +202,9 @@ static BOOL isEnabled;
 
 static void loadSettings()
 {
-	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist"];
+	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:pathOfPreferences];
     isEnabled = ![[prefs allKeys] containsObject:@"isEnabled"] || [prefs[@"isEnabled"] boolValue];
+    hasSeenWelcomeMessage = [[prefs allKeys] containsObject:@"hasSeenWelcomeMessage"];
 }
 
 static void settingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)

@@ -6,6 +6,7 @@
 @property (readonly) NSArray *slices;
 @property (nonatomic) NSString *defaultSlice;
 @property (nonatomic) BOOL askOnTouch;
+@property (nonatomic) NSString *currentSlice;
 
 - (instancetype)initWithDisplayIdentifier:(NSString *)displayIdentifier;
 - (BOOL)switchToSlice:(NSString *)sliceName;
