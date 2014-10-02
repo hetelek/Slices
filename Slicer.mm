@@ -196,7 +196,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (void)killApplication
 {
-	BKSTerminateApplicationForReasonAndReportWithDescription(_displayIdentifier, 5, 1, @"Killed from Slices");
+	BKSTerminateApplicationForReasonAndReportWithDescription(_displayIdentifier, 5, NO, @"Killed from Slices");
 	[NSThread sleepForTimeInterval:0.1];
 }
 
