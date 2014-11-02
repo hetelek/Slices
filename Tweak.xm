@@ -4,14 +4,6 @@
 
 static BOOL isEnabled, hasSeenWelcomeMessage;
 
-@interface SBIconView (New)
-@property (readonly) SBApplication *application;
-
-- (void)killApplication;
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-@end
-
 static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist";
 
 %hook SBLockAlertWindow
@@ -89,12 +81,17 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 		BOOL allowsTapWhileEditing = [self allowsTapWhileEditing];
 
 		SBApplication *application = [self application];
-		BOOL isUserApplication = [[application containerPath] hasPrefix:@"/private/var/mobile/Applications/"];
+		BOOL isUserApplication;
+
+		if ([application respondsToSelector:@selector(dataContainerPath)])
+			isUserApplication = [application.dataContainerPath hasPrefix:@"/private/var/mobile/Containers/Data/Application/"];
+		else
+			isUserApplication = [application.containerPath hasPrefix:@"/private/var/mobile/Applications/"];
 
 		BOOL wouldHaveLaunched = !isGrabbed && [self _delegateTapAllowed] && touchDownInIcon && !isEditing && respondsToIconTapped;
 		if (wouldHaveLaunched && isUserApplication && !allowsTapWhileEditing)
 		{
-			Slicer *slicer = [[Slicer alloc] initWithDisplayIdentifier:application.displayIdentifier];
+			Slicer *slicer = [[Slicer alloc] initWithApplication:[self application]];
 			BOOL askOnTouch = slicer.askOnTouch;
 
 			if (askOnTouch)
@@ -166,13 +163,19 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 	else
 	{
 		// switch slice
-	    Slicer *slicer = [[Slicer alloc] initWithDisplayIdentifier:[self application].displayIdentifier];
+	    Slicer *slicer = [[Slicer alloc] initWithApplication:[self application]];
 	    [slicer switchToSlice:[actionSheet buttonTitleAtIndex:buttonIndex]];
 
 		// emulate the tap (launch the app)
 		id<SBIconViewDelegate> delegate = MSHookIvar< id<SBIconViewDelegate> >(self, "_delegate");
 		[delegate iconTapped:self];
 	}
+}
+
+-(void)prepareForUninstallation
+{
+	%log;
+	%orig;
 }
 
 %new
@@ -187,7 +190,7 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 		NSString *sliceName = textField.text;
 
 		// create the slice
-		Slicer *slicer = [[Slicer alloc] initWithDisplayIdentifier:[self application].displayIdentifier];
+		Slicer *slicer = [[Slicer alloc] initWithApplication:[self application]];
 		BOOL created = [slicer createSlice:sliceName];
 
 		// if no errors occured, emulate the tap
@@ -202,9 +205,13 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 
 static void loadSettings()
 {
-	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:pathOfPreferences];
-    isEnabled = ![[prefs allKeys] containsObject:@"isEnabled"] || [prefs[@"isEnabled"] boolValue];
-    hasSeenWelcomeMessage = [[prefs allKeys] containsObject:@"hasSeenWelcomeMessage"];
+	CFPreferencesAppSynchronize(CFSTR("com.expetelek.slicespreferences"));
+	
+	CFPropertyListRef isEnabledRef = CFPreferencesCopyAppValue(CFSTR("isEnabled"), CFSTR("com.expetelek.slicespreferences"));
+	isEnabled = (isEnabledRef) ? ((__bridge NSNumber *)isEnabledRef).boolValue : YES;
+
+	CFPropertyListRef hasSeenWelcomeMessageRef = CFPreferencesCopyAppValue(CFSTR("hasSeenWelcomeMessage"), CFSTR("com.expetelek.slicespreferences"));
+	hasSeenWelcomeMessage = (hasSeenWelcomeMessageRef != NULL);
 }
 
 static void settingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)

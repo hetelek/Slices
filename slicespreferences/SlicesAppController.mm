@@ -27,7 +27,7 @@ static NSInteger DictionaryTextComparator(id a, id b, void *context)
 		for (NSString *displayIdentifier in displayIdentifiers)
 		{
 			NSString *applicationPath = [applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier];
-			if (![applicationPath hasPrefix:@"/private/var/mobile/Applications/"])
+			if (![applicationPath hasPrefix:@"/private/var/mobile/Applications/"] && ![applicationPath hasPrefix:@"/private/var/mobile/Containers/Bundle/Application/"])
 				continue;
 
 			PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:applications[displayIdentifier] target:nil set:nil get:nil detail:[SlicesAppDetailController class] cell:PSLinkListCell edit:nil];

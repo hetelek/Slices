@@ -5,12 +5,20 @@
 - (void)iconTapped:(id)arg1;
 @end
 
+@interface FBApplicationProcess : NSObject
+- (void)stop;
+@end
+
 @interface SBApplication : NSObject
+{
+	FBApplicationProcess* _process;
+}
+
 @property (readonly) int pid;
 @property NSString *displayIdentifier; 
 
-- (NSString *)containerPath;
-- (void)resumeToQuit;
+@property NSString *containerPath;
+@property NSString *dataContainerPath;
 @end
 
 @interface SBIcon : NSObject

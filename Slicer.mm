@@ -8,19 +8,51 @@
 	NSString *_defaultSlice;
 	NSArray *_slices;
 	BOOL _askOnTouch;
+	SBApplication *_application;
 }
 @end
 
 extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSString *app, int a, int b, NSString *description);
 
 @implementation Slicer : NSObject
+- (instancetype)initWithApplication:(SBApplication *)application
+{
+	self = [super init];
+
+	_application = application;
+	_displayIdentifier = application.displayIdentifier;
+
+	if ([application respondsToSelector:@selector(dataContainerPath)])
+	{
+		_applicationPath = [_application dataContainerPath];
+	}
+	else
+	{
+		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
+		_applicationPath = [[applicationList valueForKey:@"path" forDisplayIdentifier:_displayIdentifier] stringByDeletingLastPathComponent];
+	}
+
+	if (_applicationPath == nil)
+		return nil;
+
+	_applicationSlicesPath = [_applicationPath stringByAppendingPathComponent:@"Slices"];
+
+	return self;
+}
+
 - (instancetype)initWithDisplayIdentifier:(NSString *)displayIdentifier
 {
 	self = [super init];
+
+	_application = nil;
 	_displayIdentifier = displayIdentifier;
 
 	ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
-	_applicationPath = [[applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier] stringByDeletingLastPathComponent];
+	_applicationPath = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
+	if (!_applicationPath)
+	{
+		_applicationPath = [[applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier] stringByDeletingLastPathComponent];
+	}
 
 	if (_applicationPath == nil)
 		return nil;
@@ -196,7 +228,20 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (void)killApplication
 {
-	BKSTerminateApplicationForReasonAndReportWithDescription(_displayIdentifier, 5, NO, @"Killed from Slices");
+	NSLog(@"attempting to kill application...");
+	if ([%c(FBApplicationProcess) instancesRespondToSelector:@selector(stop)])
+	{
+		NSLog(@"killing through FBApplicationProcess");
+		if (_application)
+		{
+			NSLog("application exists, killing...");
+			FBApplicationProcess *process = MSHookIvar<FBApplicationProcess *>(_application, "_process");
+			[process stop];
+		}
+	}
+	else
+		BKSTerminateApplicationForReasonAndReportWithDescription(_displayIdentifier, 5, NO, @"Killed from Slices");
+
 	[NSThread sleepForTimeInterval:0.1];
 }
 

@@ -1,5 +1,5 @@
-TARGET := iphone:7.1:2.0
-ARCHS := armv6 arm64
+TARGET := iphone:8.0:2.0
+ARCHS := armv7 arm64
 ADDITIONAL_OBJCFLAGS = -fobjc-arc
 
 include theos/makefiles/common.mk
