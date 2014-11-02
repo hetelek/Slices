@@ -234,7 +234,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		NSLog(@"killing through FBApplicationProcess");
 		if (_application)
 		{
-			NSLog("application exists, killing...");
+			NSLog(@"application exists, killing...");
 			FBApplicationProcess *process = MSHookIvar<FBApplicationProcess *>(_application, "_process");
 			[process stop];
 		}
