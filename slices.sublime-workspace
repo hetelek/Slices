@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"_appl",
+				"_application"
+			],
+			[
+				"_applicatio",
+				"_applicationPath"
+			],
+			[
+				"applica",
+				"applicationList"
+			],
+			[
+				"appl",
+				"_application"
+			],
+			[
 				"AVPla",
 				"AVPlayerItem"
 			],
@@ -82,10 +98,6 @@
 			[
 				"stribg",
 				"stringByAppendingPathComponent"
-			],
-			[
-				"_appl",
-				"_applicationSlicesPath"
 			],
 			[
 				"curren",
@@ -204,10 +216,6 @@
 				"applicationPath"
 			],
 			[
-				"appl",
-				"applicationPath"
-			],
-			[
 				"app",
 				"applicationNames"
 			],
@@ -275,30 +283,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "Tweak.xm",
-			"settings":
-			{
-				"buffer_size": 7298,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Slicer.h",
-			"settings":
-			{
-				"buffer_size": 576,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Makefile",
-			"settings":
-			{
-				"buffer_size": 587,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Packages/User/Theos Make.sublime-build",
 	"command_palette":
@@ -327,8 +311,24 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/Users/hetelek/Developer/Tweaks/slices",
+		"/Users/hetelek/Developer/Tweaks/slices/Expetelek",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences"
+	],
 	"file_history":
 	[
+		"/Users/hetelek/Developer/Tweaks/simplerespring/Tweak.xm",
+		"/Users/hetelek/Developer/Tweaks/slices/Slicer.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppController.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
+		"/Users/hetelek/Developer/Tweaks/slices/SpringBoardHeaders.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Slicer.xm",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/33F1C193-B25F-4C5D-A170-C5A71FB31F8F/com.reddit.alienblue.plist.orQBbDv",
+		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Makefile",
 		"/Users/hetelek/.ssh/known_hosts",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/5603CDB2-AA30-4AA9-944E-FF614DF5428B/884836383450837500r.jpg",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1F401D43-A35A-48AB-BD8C-1C2BAF81D22C/error_log",
@@ -372,32 +372,25 @@
 		"/Users/hetelek/Developer/Tweaks/powerfoolinpowerschool/Makefile",
 		"/Users/hetelek/Developer/Tweaks/powerfoolinpowerschool/control",
 		"/Users/hetelek/Downloads/N1DkQLAJlk7k81XRSihxy-rgFIEADj5gAJu-oi343RY/113471/readme.txt",
-		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
 		"/Users/hetelek/Developer/Tweaks/slices/SlicesApplicationSettings.h",
 		"/Users/hetelek/Developer/Tweaks/slices/SlicesApplicationSettings.mm",
 		"/Users/hetelek/Developer/Tweaks/simplerespring/Makefile",
 		"/Users/hetelek/Desktop/com.andywiik.scrubradio_6.0_iphoneos-arm/Library/MobileSubstrate/DynamicLibraries/spotifyscrub.plist",
 		"/Users/hetelek/Desktop/asdf.txt",
-		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
-		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
 		"/Users/hetelek/Developer/Tweaks/blocks/Tweak.xm",
 		"/Users/hetelek/Developer/Tweaks/slices/control",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.h",
 		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
 		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/MobileSubstrate/DynamicLibraries/smarttap.plist",
 		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/PreferenceLoader/Preferences/SmartTapSettings.plist",
 		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/PreferenceBundles/SmartTapSettings.bundle/Info.plist",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/F9E7F40C-220F-4DC1-8D12-7C95D69B7C3E/check.php",
-		"/Users/hetelek/Developer/Tweaks/slices/SpringBoardHeaders.h",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.mm",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources/SlicesPreferences.plist",
 		"/opt/theos/include/Preferences/PSSpecifier.h",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.h",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppController.mm",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferences.mm",
 		"/Users/hetelek/Developer/Tweaks/controlunlocker/controlunlockerprefs/NESControlSequenceController.mm",
 		"/Users/hetelek/Developer/Tweaks/controlunlocker/controlunlockerprefs/Resources/ControlUnlockerPrefs.plist",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Makefile",
 		"/Users/hetelek/Desktop/bak.xm",
 		"/Users/hetelek/Desktop/fake.txt",
 		"/Users/hetelek/Developer/Tweaks/vinedownloader/Headers.h",
@@ -453,10 +446,7 @@
 		"/Users/hetelek/Documents/Personal/working.txt",
 		"/Users/hetelek/Desktop/tor-0.2.4.21/doc/HACKING",
 		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/User/Theos Make.sublime-build",
-		"/Users/hetelek/Desktop/ios-kexec-utils-master/kloader.tproj/kloader.c",
-		"/Users/hetelek/Desktop/cpuminer/cpu-miner.c",
-		"/Users/hetelek/Desktop/cpuminer/Makefile.am",
-		"/Users/hetelek/Desktop/cpuminer/cpuminer-config.h"
+		"/Users/hetelek/Desktop/ios-kexec-utils-master/kloader.tproj/kloader.c"
 	],
 	"find":
 	{
@@ -475,6 +465,48 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"kill",
+			"killApplication",
+			"killAppl",
+			"Library",
+			"killApplication",
+			"ignore",
+			"clean",
+			"defaultSlice",
+			"create",
+			"reload",
+			"_defaultSlice",
+			"create",
+			"_defaultSlice",
+			"default",
+			"preser",
+			"default",
+			"ask",
+			"setAsk",
+			"askOnTouch",
+			"NSLog",
+			"_applicationPath",
+			"killAp",
+			"Slicer *",
+			"Slicer",
+			"Slices *",
+			"Slicer *",
+			"Slicer",
+			"killApplication",
+			"switch",
+			"dyl",
+			"dyls",
+			"_displayIdentifier",
+			"killApplication",
+			"switch",
+			"switcgh",
+			"kill",
+			"killApplication",
+			"switchToSlice",
+			"killApplication",
+			"killApplication\nkillApplication",
+			"killApplication",
+			"yo:",
 			"containerPath",
 			"1.6",
 			".6",
@@ -560,42 +592,12 @@
 			"slices",
 			"name",
 			"valuesDataSource",
-			"kill",
-			"there is already",
-			"\\n		                            ",
-			"\\n                                    ",
-			"\\n									",
-			"									",
-			"NULL",
-			"self.icon",
-			"identifier",
-			"[self.icon application];",
-			"kill",
-			"link",
-			"allowsTapWhileEditing",
-			"sectionId",
-			"- (id)sectionId;",
-			"sectionId",
-			"pullDownNotification",
-			"miner_thread",
-			"main",
-			"_presentViewControllerForDraggableView",
-			"viewControllerForDraggableView",
-			"viewControllerForDraggableView:",
-			"CHSnappingEdgeBoth",
-			"self.animator",
-			"Hello w",
-			"Hello ",
-			"Hello",
-			"ZenNotifications_FILES",
-			"THEOS_MAKE_PATH",
-			"ZenNotifications",
-			"TWEAK_NAME"
+			"kill"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
 			"",
@@ -614,94 +616,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "Tweak.xm",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7298,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								170,
-								183
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Objective-C/Objective-C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Slicer.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 576,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								375,
-								375
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Objective-C/Objective-C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Makefile",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 587,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								250,
-								250
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Makefile/Makefile.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -711,7 +627,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 31.0
 	},
 	"layout":
 	{
@@ -782,7 +698,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 178.0,
+	"side_bar_width": 245.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

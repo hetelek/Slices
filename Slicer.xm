@@ -9,6 +9,8 @@
 	NSArray *_slices;
 	BOOL _askOnTouch;
 	SBApplication *_application;
+	BOOL _ignoreNextKill;
+	BOOL _iOS8;
 }
 @end
 
@@ -19,13 +21,13 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 {
 	self = [super init];
 
+	_iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
+
 	_application = application;
 	_displayIdentifier = application.displayIdentifier;
 
 	if ([application respondsToSelector:@selector(dataContainerPath)])
-	{
 		_applicationPath = [_application dataContainerPath];
-	}
 	else
 	{
 		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
@@ -35,7 +37,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	if (_applicationPath == nil)
 		return nil;
 
-	_applicationSlicesPath = [_applicationPath stringByAppendingPathComponent:@"Slices"];
+	if (_iOS8)
+		_applicationSlicesPath = [SLICES_DIRECTORY stringByAppendingPathComponent:_displayIdentifier];
+	else
+		_applicationSlicesPath = [_applicationPath stringByAppendingPathComponent:@"Slices"];
 
 	return self;
 }
@@ -44,20 +49,25 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 {
 	self = [super init];
 
+	_iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
+
 	_application = nil;
 	_displayIdentifier = displayIdentifier;
 
 	ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
-	_applicationPath = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
-	if (!_applicationPath)
-	{
+
+	if (_iOS8)
+		_applicationPath = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
+	else
 		_applicationPath = [[applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier] stringByDeletingLastPathComponent];
-	}
 
 	if (_applicationPath == nil)
 		return nil;
 
-	_applicationSlicesPath = [_applicationPath stringByAppendingPathComponent:@"Slices"];
+	if (_iOS8)
+		_applicationSlicesPath = [SLICES_DIRECTORY stringByAppendingPathComponent:_displayIdentifier];
+	else
+		_applicationSlicesPath = [_applicationPath stringByAppendingPathComponent:@"Slices"];
 
 	return self;
 }
@@ -73,7 +83,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	[self reloadData];
 
 	if (_defaultSlice == nil && _slices.count > 0)
+	{
+		[self setDefaultSlice:_slices[0]];
 		return _slices[0];
+	}
 
 	return _defaultSlice;
 }
@@ -228,13 +241,16 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (void)killApplication
 {
-	NSLog(@"attempting to kill application...");
+	if (_ignoreNextKill)
+	{
+		_ignoreNextKill = NO;
+		return;
+	}
+
 	if ([%c(FBApplicationProcess) instancesRespondToSelector:@selector(stop)])
 	{
-		NSLog(@"killing through FBApplicationProcess");
 		if (_application)
 		{
-			NSLog(@"application exists, killing...");
 			FBApplicationProcess *process = MSHookIvar<FBApplicationProcess *>(_application, "_process");
 			[process stop];
 		}
@@ -242,12 +258,18 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	else
 		BKSTerminateApplicationForReasonAndReportWithDescription(_displayIdentifier, 5, NO, @"Killed from Slices");
 
+	if (_iOS8)
+	{
+		char * const argv[4] = {(char *const)"launchctl", (char *const)"stop", (char *const)"com.apple.cfprefsd.xpc.daemon", NULL};
+		NSLog(@"launchctl call: %i", posix_spawnp(NULL, (char *const)"launchctl", NULL, NULL, argv, NULL));
+	}
+
 	[NSThread sleepForTimeInterval:0.1];
 }
 
 - (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath
 {
-	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices" ];
+	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
 
 	BOOL errorOccurred = NO;
 	NSError *error;
@@ -357,7 +379,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	{
 		// move the directory to the application directory
 		NSString *currentPath = [targetSlicePath stringByAppendingPathComponent:directory];
-		if (![manager moveItemAtPath:currentPath toPath:[_applicationPath stringByAppendingPathComponent:directory] error:&error])
+		NSString *newPath = [_applicationPath stringByAppendingPathComponent:directory];
+
+		NSLog(@"moving %@ to %@", currentPath, newPath);
+		if (![manager moveItemAtPath:currentPath toPath:newPath error:&error])
 		{
 			errorOccurred = YES;
 			NSLog(@"link path error: %@", error);
@@ -403,6 +428,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	}
 	else
 	{
+		[self reloadData];
+		
 		// prematurely create the slice directory
 		[manager createDirectoryAtPath:targetSlicePath withIntermediateDirectories:YES attributes:nil error:NULL];
 
@@ -505,12 +532,21 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		if (slices.count < 1)
 			self.currentSlice = nil;
 		else if (defaultSlice.length > 0)
-			self.currentSlice = self.defaultSlice;
+		{
+			NSLog(@"switching current slice to default slice: %@", defaultSlice);
+			_ignoreNextKill = YES;
+			[self switchToSlice:defaultSlice];
+		}
 		else
-			self.currentSlice = slices[0];
+		{
+			NSLog(@"switching current slice to first slice: %@", slices[0]);
+			_ignoreNextKill = YES;
+			[self switchToSlice:slices[0]];
+		}
 	}
 
-	[self reloadData];
+	_ignoreNextKill = NO;
+
 	return YES;
 }
 

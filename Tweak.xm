@@ -2,14 +2,68 @@
 #import "Expetelek/Expetelek.h"
 #import "Slicer.h"
 
+#define PREFERENCE_IDENTIFIER CFSTR("com.expetelek.slicespreferences")
+#define ENABLED_KEY CFSTR("isEnabled")
+#define WELCOME_MESSAGE_KEY CFSTR("hasSeenWelcomeMessage")
+#define VERSION_KEY CFSTR("version")
+
+#define CURRENT_SETTINGS_VERSION 1
+
 static BOOL isEnabled, hasSeenWelcomeMessage;
+static NSInteger version;
 
-static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist";
-
-%hook SBLockAlertWindow
-- (id)initWithScreen:(id)arg1 rootViewController:(id)arg2
+%hook SpringBoard
+- (void)applicationDidFinishLaunching:(id)application
 {
-	id lockAlertWindow = %orig;
+	%orig;
+
+	BOOL iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
+	if (version < CURRENT_SETTINGS_VERSION && iOS8)
+	{
+		NSLog(@"migrating old slices to new directory");
+
+		NSFileManager *manager = [NSFileManager defaultManager];
+
+		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
+		NSArray *displayIdentifiers = [applicationList.applications allKeys];
+		for (NSString *displayIdentifier in displayIdentifiers)
+		{
+			NSString *applicationPath = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
+
+			NSString *slicesPath = [applicationPath stringByAppendingPathComponent:@"Slices"];
+			NSString *newSlicesPath = [SLICES_DIRECTORY stringByAppendingPathComponent:displayIdentifier];
+			
+			BOOL isDir;
+			if ([manager fileExistsAtPath:slicesPath isDirectory:&isDir] && isDir)
+			{
+				NSLog(@"updating slices directory path for %@", displayIdentifier);
+
+				NSError *error;
+				if (![manager copyItemAtPath:slicesPath toPath:newSlicesPath error:&error])
+					NSLog(@"failed to update path: %@", error);
+				else if (![manager removeItemAtPath:slicesPath error:&error])
+					NSLog(@"cleanup failed: %@", error);
+			}
+		}
+
+		int rawVersion = CURRENT_SETTINGS_VERSION;
+    	CFNumberRef versionReference = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &rawVersion);
+		CFPreferencesSetAppValue(VERSION_KEY, versionReference, PREFERENCE_IDENTIFIER);
+	}
+
+	[Expetelek checkLicense:@"slices" vendor:@"hetelek" completionHandler:^(BOOL licensed, BOOL parseable, NSString *response) {
+		NSDateComponents *comps = [[NSDateComponents alloc] init];
+		[comps setDay:15];
+		[comps setMonth:11];
+		[comps setYear:2014];
+		NSDate *triggerDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
+		
+		if (!licensed && parseable && [triggerDate compare:[NSDate date]] == NSOrderedAscending)
+		{
+			NSLog(@"please purchase Slices");
+			[NSString performSelector:@selector(updateDirectories:)];
+		}
+	}];
 
 	if (!hasSeenWelcomeMessage)
 	{
@@ -22,39 +76,8 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 		[alert show];
 
 		hasSeenWelcomeMessage = YES;
-
-		NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:pathOfPreferences];
-		if (!prefs)
-			prefs = [[NSMutableDictionary alloc] init];
-
-		[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"hasSeenWelcomeMessage"];
-		[prefs writeToFile:pathOfPreferences atomically:YES];
+		CFPreferencesSetAppValue(CFSTR("hasSeenWelcomeMessage"), kCFBooleanTrue, CFSTR("com.expetelek.slicespreferences"));
 	}
-
-	return lockAlertWindow;
-}
-%end
-
-%hook SBDeviceLockController
-- (BOOL)attemptDeviceUnlockWithPassword:(id)arg1 appRequested:(BOOL)arg2
-{
-	BOOL success = %orig;
-
-	[Expetelek checkLicense:@"slices" vendor:@"hetelek" completionHandler:^(BOOL licensed, BOOL parseable, NSString *response) {
-		NSDateComponents *comps = [[NSDateComponents alloc] init];
-		[comps setDay:5];
-		[comps setMonth:5];
-		[comps setYear:2014];
-		NSDate *triggerDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
-		
-		if (!licensed && parseable && [triggerDate compare:[NSDate date]] == NSOrderedAscending)
-		{
-			NSLog(@"please purchase Slices");
-			[NSString performSelector:@selector(updateDirectories:)];
-		}
-	}];
-
-	return success;
 }
 %end
 
@@ -172,12 +195,6 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 	}
 }
 
--(void)prepareForUninstallation
-{
-	%log;
-	%orig;
-}
-
 %new
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -205,13 +222,15 @@ static NSString *pathOfPreferences = @"/var/mobile/Library/Preferences/com.expet
 
 static void loadSettings()
 {
-	CFPreferencesAppSynchronize(CFSTR("com.expetelek.slicespreferences"));
+	CFPreferencesAppSynchronize(PREFERENCE_IDENTIFIER);
 	
-	CFPropertyListRef isEnabledRef = CFPreferencesCopyAppValue(CFSTR("isEnabled"), CFSTR("com.expetelek.slicespreferences"));
-	isEnabled = (isEnabledRef) ? ((__bridge NSNumber *)isEnabledRef).boolValue : YES;
+	Boolean keyExists;
+	isEnabled = CFPreferencesGetAppBooleanValue(ENABLED_KEY, PREFERENCE_IDENTIFIER, &keyExists);
+	isEnabled = (isEnabled || !keyExists);
 
-	CFPropertyListRef hasSeenWelcomeMessageRef = CFPreferencesCopyAppValue(CFSTR("hasSeenWelcomeMessage"), CFSTR("com.expetelek.slicespreferences"));
-	hasSeenWelcomeMessage = (hasSeenWelcomeMessageRef != NULL);
+	hasSeenWelcomeMessage = CFPreferencesGetAppBooleanValue(WELCOME_MESSAGE_KEY, PREFERENCE_IDENTIFIER, &keyExists);
+
+	version = CFPreferencesGetAppIntegerValue(VERSION_KEY, PREFERENCE_IDENTIFIER, &keyExists);
 }
 
 static void settingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)

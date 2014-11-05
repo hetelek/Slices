@@ -1,7 +1,13 @@
+#import <substrate.h>
 #import <UIKit/UIKit.h>
 #import <AppList/AppList.h>
-#import <substrate.h>
+#import <CoreFoundation/CoreFoundation.h>
+
+#import <spawn.h>
+
 #import "SpringBoardHeaders.h"
+
+#define SLICES_DIRECTORY @"/private/var/mobile/Library/Preferences/Slices/"
 
 @interface SBIconView (New)
 @property (readonly) SBApplication *application;
