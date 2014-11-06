@@ -18,7 +18,16 @@ static NSInteger version;
 	%orig;
 
 	BOOL iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
-	if (version < CURRENT_SETTINGS_VERSION && iOS8)
+	if (!iOS8)
+	{
+		NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist"];
+		if (!prefs)
+			prefs = [[NSMutableDictionary alloc] init];
+
+		[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"hasSeenWelcomeMessage"];
+		[prefs writeToFile:@"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist" atomically:YES];
+	}
+	else if (version < CURRENT_SETTINGS_VERSION)
 	{
 		NSLog(@"migrating old slices to new directory");
 
