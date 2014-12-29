@@ -15,9 +15,9 @@ PUBLIC "-//Apple//DTD PLIST 1.0//EN"
 <key>All existing data will be copied into the new slice.</key>
 <string>Alle existierenden Daten werden in einem neuen Slice gespeichert.</string>
 <key>Invalid Name</key>
-<string>Ungültiger Name</string>
+<string>Ung√ºltiger Name</string>
 <key>The name '%@' is invalid. Make sure it contains no slashes.</key>
-<string>Der Name '%@' ist ungültig. Stelle sicher, dass kein Slash-Zeichen enthalten ist.</string>
+<string>Der Name '%@' ist ung√ºltig. Stelle sicher, dass kein Slash-Zeichen enthalten ist.</string>
 <key>Cancel</key>
 <string>Abbrechen</string>
 <key>User Applications</key>
@@ -25,7 +25,7 @@ PUBLIC "-//Apple//DTD PLIST 1.0//EN"
 <key>Ask on Touch</key>
 <string>Nach dem Start fragen</string>
 <key>Deleting a slice will delete all the data associated with it. To rename a slice, tap it. If no slices exists and you create one, all the existing data will be copied into the new slice.</key>
-<string>Wenn du diesen Slice löschst, werden alle dazugehörigen Daten ebenfalls gelöscht. Berühre einen Slice, um dessen Namen zu ändern. Wenn keine Slices existieren und du einen neuen erstellst, werden alle existierenden Daten in diesen Slice kopiert.</string>
+<string>Wenn du diesen Slice l√∂schst, werden alle dazugeh√∂rigen Daten ebenfalls gel√∂scht. Ber√ºhre einen Slice, um dessen Namen zu √§ndern. Wenn keine Slices existieren und du einen neuen erstellst, werden alle existierenden Daten in diesen Slice kopiert.</string>
 <key>Default Slice</key>
 <string>Standard Slice</string>
 <key>No Slices</key>
@@ -43,24 +43,24 @@ PUBLIC "-//Apple//DTD PLIST 1.0//EN"
 <key>Default</key>
 <string>Standard</string>
 <key>Thank You</key>
-<string>Dankeschön / Danke</string>
+<string>Dankesch√∂n / Danke</string>
 <key>Thank you for purchasing Slices! By default, no applications are configured to use Slices. To enable some, visit the Settings.</key>
-<string>Danke, dass du Slices erworben hast! Als Standardeinstellung nutzt momentan keine Applikation Slices. Öffne die Einstellungen, um einzelne Apps zu aktivieren.</string>
+<string>Danke, dass du Slices erworben hast! Als Standardeinstellung nutzt momentan keine Applikation Slices. √ñffne die Einstellungen, um einzelne Apps zu aktivieren.</string>
 <key>Applications</key>
 <string>Applikationen / Apps</string>
 <key>Disabling will leave all applications set to the last slice they were on.</key>
-<string>Das Deaktivieren lässt alle Apps den zuletzt benutzen Slice verwenden.</string>
+<string>Das Deaktivieren l√§sst alle Apps den zuletzt benutzen Slice verwenden.</string>
 <key>Enabled</key>
 <string>Aktiviert</string>
 <key>General</key>
 <string>Allgemein</string>
 <key>If you have any questions or experience any problems, contact hetelek using Twitter or email (through Cydia).</key>
-<string>Wenn du Fragen, Anregungen oder Probleme hast, kontaktiere hetelek via Twitter oder eMail (über Cydia).</string>
+<string>Wenn du Fragen, Anregungen oder Probleme hast, kontaktiere hetelek via Twitter oder eMail (√ºber Cydia).</string>
 <key>Links</key>
 <string>Links</string>
 <key>If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.
 
 If it's disabled, the application will start with the specified Default Slice.</key>
-<string>Wenn &quot;Nach dem Starten fragen&quot; aktiviert ist, wird nach dem berühren eines App-Icons, gefragt, welcher Slice benutzt werden soll. Wenn die Funktion deaktiviert ist, wird der Standard-Slice automatisch ausgewählt.</string>
+<string>Wenn &quot;Nach dem Starten fragen&quot; aktiviert ist, wird nach dem ber√ºhren eines App-Icons, gefragt, welcher Slice benutzt werden soll. Wenn die Funktion deaktiviert ist, wird der Standard-Slice automatisch ausgew√§hlt.</string>
 </dict>
 </plist>

@@ -1,66 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist
-PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>Creation Error</key>
-<string>Creación de error</string>
-<key>Failed to create '%@' directory.</key>
-<string>No se pudo crear '%@' directorio</string>
-<key>Already Exists</key>
-<string>ya existe</string>
-<key>There is already a slice named '%@'.</key>
-<string>Ya existe una rebanada llamado '%@'</string>
-<key>All existing data will be copied into the new slice.</key>
-<string>Todos los datos existentes se copian en el nuevo segmento</string>
-<key>Invalid Name</key>
-<string>Nombre no válido</string>
-<key>The name '%@' is invalid. Make sure it contains no slashes.</key>
-<string>El nombre '%@' no es válido. Asegúrese de que no contiene barras</string>
-<key>Cancel</key>
-<string>cancelar</string>
-<key>User Applications</key>
-<string>Aplicaciones de usuario</string>
-<key>Ask on Touch</key>
-<string>Preguntar al tacto</string>
-<key>Deleting a slice will delete all the data associated with it. To rename a slice, tap it. If no slices exists and you create one, all the existing data will be copied into the new slice.</key>
-<string>Eliminación de una rebanada borrará todos los datos asociados con él. Para cambiar el nombre de una rebanada, tócalo. Si no hay rebanadas existe y se crea uno, todos los datos existentes se copian en el nuevo segmento</string>
-<key>Default Slice</key>
-<string>Por defecto rebanada</string>
-<key>No Slices</key>
-<string>No hay Rebanadas</string>
-<key>Create Slice</key>
-<string>crear rebanada</string>
-<key>New Slice</key>
-<string>nueva rebanada</string>
-<key>Enter the slice name</key>
-<string>Introduzca el rebanada nombre</string>
-<key>Enter the new slice name</key>
-<string>Introduzca el nuevo nombre rebanada</string>
-<key>Rename Slice</key>
-<string>Cambiar el nombre de la rebanada</string>
-<key>Default</key>
-<string>defecto</string>
-<key>Thank You</key>
-<string>Gracias</string>
-<key>Thank you for purchasing Slices! By default, no applications are configured to use Slices. To enable some, visit the Settings.</key>
-<string>Gracias por comprar Rebanadas usted! Por defecto, no hay aplicaciones están configuradas para utilizar rebanadas. Para habilitar algunos, visite la configuración</string>
-<key>Applications</key>
-<string>Aplicaciones</string>
-<key>Disabling will leave all applications set to the last slice they were on.</key>
-<string>Desactivación dejará todas las aplicaciones que figuran en el último corte que estaban en</string>
-<key>Enabled</key>
-<string>Activado</string>
-<key>General</key>
-<string>general</string>
-<key>If you have any questions or experience any problems, contact hetelek using Twitter or email (through Cydia).</key>
-<string>Si usted tiene alguna pregunta o experimenta alguno hetelek problemas, contacto usando Twitter o correo electrónico (a través de Cydia)</string>
-<key>Links</key>
-<string>enlaces</string>
-<key>If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.
+    <key>Creation Error</key>
+    <string>Creaci√≥n de error</string>
 
-If it's disabled, the application will start with the specified Default Slice.</key>
-<string>Si la Preguntar al interruptor táctil está habilitada, se le pedirá que rebanada de utilizar al tocar el icono de la aplicación en la pantalla de inicio. Si se trata de personas con discapacidad, la aplicación se iniciará con el defecto especificado rebanada</string>
+    <key>Failed to create '%@' directory.</key>
+    <string>No se pudo crear '%@' directorio.</string>
+
+    <key>Already Exists</key>
+    <string>ya existe</string>
+
+    <key>There is already a slice named '%@'.</key>
+    <string>Ya existe una rebanada llamado '%@'.</string>
+
+    <key>All existing data will be copied into the new slice.</key>
+    <string>Todos los datos existentes se copian en el nuevo segmento.</string>
+
+    <key>Invalid Name</key>
+    <string>Nombre no v√°lido</string>
+
+    <key>The name '%@' is invalid. Make sure it contains no slashes.</key>
+    <string>El nombre '%@' no es v√°lido. Aseg√∫rese de que no contiene barras.</string>
+
+    <key>Cancel</key>
+    <string>cancelar</string>
+
+    <key>User Applications</key>
+    <string>Aplicaciones de usuario</string>
+
+    <key>Ask on Touch</key>
+    <string>Preguntar al tacto</string>
+
+    <key>Deleting a slice will delete all the data associated with it. To rename a slice, tap it. If no slices exists and you create one, all the existing data will be copied into the new slice.</key>
+    <string>Eliminaci√≥n de una rebanada borrar√° todos los datos asociados con √©l. Para cambiar el nombre de una rebanada, t√≥calo. Si no hay rebanadas existe y se crea uno, todos los datos existentes se copian en el nuevo segmento.</string>
+
+    <key>Default Slice</key>
+    <string>Por defecto rebanada</string>
+
+    <key>No Slices</key>
+    <string>No hay Rebanadas</string>
+
+    <key>Create Slice</key>
+    <string>crear rebanada</string>
+
+    <key>New Slice</key>
+    <string>nueva rebanada</string>
+
+    <key>Enter the slice name</key>
+    <string>Introduzca el rebanada nombre</string>
+
+    <key>Enter the new slice name</key>
+    <string>Introduzca el nuevo nombre rebanada</string>
+
+    <key>Rename Slice</key>
+    <string>Cambiar el nombre de la rebanada</string>
+
+    <key>Default</key>
+    <string>defecto</string>
+
+    <key>Thank You</key>
+    <string>Gracias</string>
+
+    <key>Thank you for purchasing Slices! By default, no applications are configured to use Slices. To enable some, visit the Settings.</key>
+    <string>Gracias por comprar Rebanadas usted! Por defecto, no hay aplicaciones est√°n configuradas para utilizar rebanadas. Para habilitar algunos, visite la configuraci√≥n.</string>
+
+    <key>Applications</key>
+    <string>Aplicaciones</string>
+
+    <key>Disabling will leave all applications set to the last slice they were on.</key>
+    <string>Desactivaci√≥n dejar√° todas las aplicaciones que figuran en el √∫ltimo corte que estaban en.</string>
+
+    <key>Enabled</key>
+    <string>Activado</string>
+
+    <key>General</key>
+    <string>general</string>
+
+    <key>If you have any questions or experience any problems, contact hetelek using Twitter or email (through Cydia).</key>
+    <string>Si usted tiene alguna pregunta o experimenta alguno hetelek problemas, contacto usando Twitter o correo electr√≥nico (a trav√©s de Cydia).</string>
+
+    <key>Links</key>
+    <string>enlaces</string>
+
+    <key>If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.
+
+    If it's disabled, the application will start with the specified Default Slice.</key>
+    <string>Si la Preguntar al interruptor t√°ctil est√° habilitada, se le pedir√° que rebanada de utilizar al tocar el icono de la aplicaci√≥n en la pantalla de inicio.
+
+    Si se trata de personas con discapacidad, la aplicaci√≥n se iniciar√° con el defecto especificado rebanada.</string>
 </dict>
 </plist>
