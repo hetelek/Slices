@@ -144,8 +144,7 @@ static NSInteger version;
 					[actionSheet addButtonWithTitle:slice];
 
 				// new slice button (red)
-				NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
-				[actionSheet addButtonWithTitle:[bundle localizedStringForKey:@"New Slice" value:@"yolo" table:@"Slices"]];
+				[actionSheet addButtonWithTitle:Localize(@"New Slice")];
 				actionSheet.destructiveButtonIndex = actionSheet.numberOfButtons - 1;
 
 				// cancel button
