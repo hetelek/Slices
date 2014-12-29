@@ -3,17 +3,34 @@
 #import <Preferences/PSSpecifier.h>
 
 #import <AppList/AppList.h>
+#import "../LocalizationKeys.h"
+
+static NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
+#define Localize(key) LocalizeString(key, bundle)
 
 @interface SlicesPreferencesListController : PSListController
 @end
-
-static NSString *settingsPath = @"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist";
 
 @implementation SlicesPreferencesListController
 - (id)specifiers
 {
 	if(_specifiers == nil)
-		_specifiers = [self loadSpecifiersFromPlistName:@"SlicesPreferences" target:self];	
+	{
+		_specifiers = [self loadSpecifiersFromPlistName:@"SlicesPreferences" target:self];
+
+		// localize all the strings
+		NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
+		for (PSSpecifier *specifier in _specifiers)
+		{
+			NSString *footerTextValue = [specifier propertyForKey:@"footerText"];
+			if (footerTextValue)
+				[specifier setProperty:Localize(footerTextValue) forKey:@"footerText"];
+
+			NSString *name = specifier.name; // "label" key in plist
+			if (name)
+				specifier.name = Localize(name);
+		}
+	}
 
 	return _specifiers;
 }

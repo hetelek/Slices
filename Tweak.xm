@@ -77,8 +77,8 @@ static NSInteger version;
 	if (!hasSeenWelcomeMessage)
 	{
 		UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:@"Thank You"
-			message:@"Thank you for purchasing Slices! By default, no applications are configured to use Slices. To enable some, visit the Settings."
+			initWithTitle:Localize(@"Thank You")
+			message:Localize(@"Thank you for purchasing Slices! By default, no applications are configured to use Slices. To enable some, visit the Settings.")
 			delegate:nil
 			cancelButtonTitle:@"OK"
 			otherButtonTitles:nil];
@@ -134,9 +134,9 @@ static NSInteger version;
 				
 				NSString *currentSlice = slicer.currentSlice;
 				if (currentSlice.length > 0)
-					actionSheet.title = [@"Current Slice: " stringByAppendingString:currentSlice];
+					actionSheet.title = [NSString stringWithFormat:@"%@: %@", Localize(@"Current Slice"), currentSlice];
 				else if (slicer.slices.count < 1)
-						actionSheet.title = @"All existing data will be copied into the new slice.";
+						actionSheet.title = Localize(@"All existing data will be copied into the new slice.");
 
 				// add button foreach slice
 				NSArray *slices = slicer.slices;
@@ -144,11 +144,11 @@ static NSInteger version;
 					[actionSheet addButtonWithTitle:slice];
 
 				// new slice button (red)
-				[actionSheet addButtonWithTitle:@"New Slice"];
+				[actionSheet addButtonWithTitle:Localize(@"New Slice")];
 				actionSheet.destructiveButtonIndex = actionSheet.numberOfButtons - 1;
 
 				// cancel button
-				[actionSheet addButtonWithTitle:@"Cancel"];
+				[actionSheet addButtonWithTitle:Localize(@"Cancel")];
 				actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
 
 				// display the sheet, unhighlight the button
@@ -184,11 +184,11 @@ static NSInteger version;
 
 		// ask for the slice name
 		UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:@"New Slice"
-			message:@"Enter the slice name"
+			initWithTitle:Localize(@"New Slice")
+			message:Localize(@"Enter the slice name")
 			delegate:self
-			cancelButtonTitle:@"Cancel"
-			otherButtonTitles:@"Create Slice", nil];
+			cancelButtonTitle:Localize(@"Cancel")
+			otherButtonTitles:Localize(@"Create Slice"), nil];
 		alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 		[alert show];
 	}
@@ -207,7 +207,7 @@ static NSInteger version;
 %new
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Create Slice"])
+	if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:Localize(@"Create Slice")])
 	{
 		// they want to create a slice
 

@@ -304,10 +304,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 				NSLog(@"move item error: %@", error);
 
 				UIAlertView *alert = [[UIAlertView alloc]
-					initWithTitle:@"Error Preserving"
-					message:[NSString stringWithFormat:@"Sorry, but I had trouble preserving '%@'.", directory]
+					initWithTitle:Localize(@"Error Preserving")
+					message:[NSString stringWithFormat:Localize(@"Sorry, but I had trouble preserving '%@'."), directory]
 					delegate:nil
-					cancelButtonTitle:@"OK"
+					cancelButtonTitle:Localize(@"OK")
 					otherButtonTitles:nil];
 				[alert show];
 			}
@@ -318,10 +318,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 			NSLog(@"remove item error: %@", error);
 
 			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:@"Error Removing"
-				message:[NSString stringWithFormat:@"Sorry, but I had trouble removing '%@'.", directory]
+				initWithTitle:Localize(@"Error Removing")
+				message:[NSString stringWithFormat:Localize(@"Sorry, but I had trouble removing '%@'."), directory]
 				delegate:nil
-				cancelButtonTitle:@"OK"
+				cancelButtonTitle:Localize(@"OK")
 				otherButtonTitles:nil];
 			[alert show];
 		}
@@ -336,10 +336,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	if ([pathComponents count] != 1)
 	{
 		UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:@"Invalid Name"
-			message:[NSString stringWithFormat:@"The name '%@' is invalid. Make sure it contains no slashes.", fileName]
+			initWithTitle:Localize(@"Invalid Name")
+			message:[NSString stringWithFormat:Localize(@"The name '%@' is invalid. Make sure it contains no slashes."), fileName]
 			delegate:nil
-			cancelButtonTitle:@"OK"
+			cancelButtonTitle:Localize(@"OK")
 			otherButtonTitles:nil];
 		[alert show];
 
@@ -388,10 +388,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 			NSLog(@"link path error: %@", error);
 
 			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:@"Linking Error"
-				message:[NSString stringWithFormat:@"Failed to move '%@' directory.", directory]
+				initWithTitle:Localize(@"Linking Error")
+				message:[NSString stringWithFormat:Localize(@"Failed to move '%@' directory."), directory]
 				delegate:nil
-				cancelButtonTitle:@"OK"
+				cancelButtonTitle:Localize(@"OK")
 				otherButtonTitles:nil];
 			[alert show];
 		}
@@ -419,10 +419,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 		errorOccurred = YES;
 		UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:@"Already Exists"
-			message:[NSString stringWithFormat:@"There is already a slice named '%@'.", sliceName]
+			initWithTitle:Localize(@"Already Exists")
+			message:[NSString stringWithFormat:Localize(@"There is already a slice named '%@'."), sliceName]
 			delegate:nil
-			cancelButtonTitle:@"OK"
+			cancelButtonTitle:Localize(@"OK")
 			otherButtonTitles:nil];
 		[alert show];
 	}
@@ -470,10 +470,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 				errorOccurred = YES;
 				UIAlertView *alert = [[UIAlertView alloc]
-					initWithTitle:@"Creation Error"
-					message:[NSString stringWithFormat:@"Failed to create '%@' directory.", directory]
+					initWithTitle:Localize(@"Creation Error")
+					message:[NSString stringWithFormat:Localize(@"Failed to create '%@' directory."), directory]
 					delegate:nil
-					cancelButtonTitle:@"OK"
+					cancelButtonTitle:Localize(@"OK")
 					otherButtonTitles:nil];
 				[alert show];
 			}
@@ -506,10 +506,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		NSLog(@"delete slice error: %@", error);
 		
 		UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:@"Deletion Failed"
-			message:[NSString stringWithFormat:@"Failed to delete '%@' slice.\n\n%@", sliceName, error]
+			initWithTitle:Localize(@"Deletion Failed")
+			message:[NSString stringWithFormat:Localize(@"Failed to delete '%@' slice.\n\n%@"), sliceName, error]
 			delegate:nil
-			cancelButtonTitle:@"OK"
+			cancelButtonTitle:Localize(@"OK")
 			otherButtonTitles:nil];
 		[alert show];
 
@@ -566,20 +566,20 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		if (error.code == NSFileWriteFileExistsError)
 		{
 			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:@"Already Exists"
-				message:[NSString stringWithFormat:@"There is already a slice named '%@'.", targetSliceName]
+				initWithTitle:Localize(@"Already Exists")
+				message:[NSString stringWithFormat:Localize(@"There is already a slice named '%@'."), targetSliceName]
 				delegate:nil
-				cancelButtonTitle:@"OK"
+				cancelButtonTitle:Localize(@"OK")
 				otherButtonTitles:nil];
 			[alert show];
 		}
 		else
 		{
 			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:@"Renaming Error"
-				message:[NSString stringWithFormat:@"An error occurred when renaming '%@'.\n\n%@", originaSliceName, error]
+				initWithTitle:Localize(@"Renaming Error")
+				message:[NSString stringWithFormat:Localize(@"An error occurred when renaming '%@'.\n\n%@"), originaSliceName, error]
 				delegate:nil
-				cancelButtonTitle:@"OK"
+				cancelButtonTitle:Localize(@"OK")
 				otherButtonTitles:nil];
 			[alert show];
 		}

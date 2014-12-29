@@ -6,6 +6,7 @@
 #import <Preferences/PSListItemsController.h>
 
 #import "../Slicer.h"
+#import "../LocalizationKeys.h"
 
 @interface SlicesAppDetailController : PSEditableListController
 {

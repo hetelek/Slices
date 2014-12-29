@@ -5,6 +5,7 @@
 
 #import <spawn.h>
 
+#import "LocalizationKeys.h"
 #import "SpringBoardHeaders.h"
 
 #define SLICES_DIRECTORY @"/private/var/mobile/Library/Preferences/Slices/"

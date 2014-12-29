@@ -1,5 +1,8 @@
 #import "SlicesAppDetailController.h"
 
+static NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
+#define Localize(key) LocalizeString(key, bundle)
+
 extern NSString* PSDeletionActionKey;
 
 @interface UIPreferencesTable
@@ -80,6 +83,20 @@ extern NSString* PSDeletionActionKey;
 	createSliceSpecifier->action = @selector(createSlice:);
 	[specifiers addObject:createSliceSpecifier];
 
+
+	// localize all the strings
+	NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
+	for (PSSpecifier *specifier in specifiers)
+	{
+		NSString *footerTextValue = [specifier propertyForKey:@"footerText"];
+		if (footerTextValue)
+			[specifier setProperty:Localize(footerTextValue) forKey:@"footerText"];
+
+		NSString *name = specifier.name; // "label" key in plist
+		if (name)
+			specifier.name = Localize(name);
+	}
+
 	// update the specifier ivar (immutable)
 	_specifiers = [specifiers copy];
 }
@@ -87,11 +104,11 @@ extern NSString* PSDeletionActionKey;
 - (void)createSlice:(PSSpecifier *)specifier
 {
 	UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:@"New Slice"
-			message:@"Enter the slice name"
+			initWithTitle:Localize(@"New Slice")
+			message:Localize(@"Enter the slice name")
 			delegate:self
-			cancelButtonTitle:@"Cancel"
-			otherButtonTitles:@"Create Slice", nil];
+			cancelButtonTitle:Localize(@"Cancel")
+			otherButtonTitles:Localize(@"Create Slice"), nil];
 	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	[alert show];
 }
@@ -101,11 +118,11 @@ extern NSString* PSDeletionActionKey;
 	_specifierToRename = specifier;
 
 	UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:@"Rename Slice"
-			message:@"Enter the new slice name"
+			initWithTitle:Localize(@"Rename Slice")
+			message:Localize(@"Enter the new slice name")
 			delegate:self
-			cancelButtonTitle:@"Cancel"
-			otherButtonTitles:@"Rename Slice", nil];
+			cancelButtonTitle:Localize(@"Cancel")
+			otherButtonTitles:Localize(@"Rename Slice"), nil];
 	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	
 	UITextField *textField = [alert textFieldAtIndex:0]; 
@@ -116,7 +133,7 @@ extern NSString* PSDeletionActionKey;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Create Slice"])
+	if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:Localize(@"Create Slice")])
 	{
 		// they want to create a slice
 
@@ -136,7 +153,7 @@ extern NSString* PSDeletionActionKey;
 		
 		[self refreshView:YES];
 	}
-	else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Rename Slice"])
+	else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:Localize(@"Rename Slice")])
 	{
 		// they want to rename a slice
 
@@ -163,7 +180,7 @@ extern NSString* PSDeletionActionKey;
 	if (defaultSlice)
 		return defaultSlice;
 
-	return @"Default";
+	return Localize(@"Default");
 }
 
 - (void)setAppSpecificAsk:(NSNumber *)askNumber forSpecifier:(PSSpecifier*)specifier
@@ -193,7 +210,7 @@ extern NSString* PSDeletionActionKey;
 {
 	NSArray *slices = _slicer.slices;
 	if (slices.count < 1)
-		return @[ @"Default" ];
+		return @[ Localize(@"Default") ];
 	return slices;
 }
 
@@ -201,7 +218,7 @@ extern NSString* PSDeletionActionKey;
 {
 	NSArray *slices = _slicer.slices;
 	if (slices.count < 1)
-		return @[ @"Default" ];
+		return @[ Localize(@"Default") ];
 	return slices;
 }
 

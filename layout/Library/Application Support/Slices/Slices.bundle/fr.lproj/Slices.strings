@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist
+PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Creation Error</key>
+<string>Erreur de création</string>
+<key>Failed to create '%@' directory.</key>
+<string>Impossible de créer '%@' répertoire.</string>
+<key>Already Exists</key>
+<string>Existe déjà</string>
+<key>There is already a slice named '%@'.</key>
+<string>Il existe déjà une tranche nommé '%@'.</string>
+<key>All existing data will be copied into the new slice.</key>
+<string>Toutes les données existantes seront copiés dans la nouvelle tranche.</string>
+<key>Invalid Name</key>
+<string>Nom Invaild</string>
+<key>The name '%@' is invalid. Make sure it contains no slashes.</key>
+<string>Le nom '%@' est pas valide. Assurez-vous qu'il ne contient pas de barres obliques.</string>
+<key>Cancel</key>
+<string>annuler</string>
+<key>User Applications</key>
+<string>Applications de l'utilisateur.</string>
+<key>Ask on Touch</key>
+<string>Demandez le tactile</string>
+<key>Deleting a slice will delete all the data associated with it. To rename a slice, tap it. If no slices exists and you create one, all the existing data will be copied into the new slice.</key>
+<string>Suppression d' une tranche va supprimer toutes les données qui lui est associée. Pour renommer une tranche (Slice), appuyez dessus. Si aucune tranches existe et que vous créez une, toutes les données existantes seront copiés dans la nouvelle tranche (Slice).</string>
+<key>Default Slice</key>
+<string>defult tranche (Slice)</string>
+<key>No Slices</key>
+<string>aucune tranche (Slice)</string>
+<key>Create Slice</key>
+<string>créer tranche (Slice)</string>
+<key>New Slice</key>
+<string>nouvelle tranche (Slice)</string>
+<key>Enter the slice name</key>
+<string>Entrez le nom de la tranche (Slice)</string>
+<key>Enter the new slice name</key>
+<string>Entrez le nouveau nom de la tranche</string>
+<key>Rename Slice</key>
+<string>rebaptiser tranche (Slice)</string>
+<key>Default</key>
+<string>Par défaut</string>
+<key>Thank You</key>
+<string>Merci</string>
+<key>Thank you for purchasing Slices! By default, no applications are configured to use Slices. To enable some, visit the Settings.</key>
+<string>Merci d'avoir acheté tranches! Par défaut, aucune applications sont configurés pour utiliser tranches . Pour permettre à certains, visitez les Paramètres.</string>
+<key>Applications</key>
+<string>Applications</string>
+<key>Disabling will leave all applications set to the last slice they were on.</key>
+<string>Désactivation laissera toutes les applications prévues pour la dernière tranche ils étaient sur.</string>
+<key>Enabled</key>
+<string>Activé</string>
+<key>General</key>
+<string>général</string>
+<key>If you have any questions or experience any problems, contact hetelek using Twitter or email (through Cydia).</key>
+<string>Si vous avez des questions ou rencontrez des problèmes, contactez hetelek utilisant Twitter ou par courriel (via Cydia).</string>
+<key>Links</key>
+<string>Links</string>
+<key>If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.
+
+If it's disabled, the application will start with the specified Default Slice.</key>
+<string>Si le Demandez interrupteur tactile est activée, vous serez invité qui tranche à utiliser lorsque vous tapez sur l'icône de l'application sur l'écran d'accueil.
+
+Si elle est désactivée, l'application va commencer avec le défaut spécifiée tranche.</string>
+</dict>
+</plist>

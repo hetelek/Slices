@@ -4,8 +4,44 @@
 		"selected_items":
 		[
 			[
+				"stringB",
+				"stringByAppendingPathComponent"
+			],
+			[
 				"_appl",
-				"_application"
+				"_applicationPath"
+			],
+			[
+				"displa",
+				"displayIdentifier"
+			],
+			[
+				"displ",
+				"displayIdentifiers"
+			],
+			[
+				"slices",
+				"slicesPath"
+			],
+			[
+				"_Appl",
+				"_applicationPath"
+			],
+			[
+				"appli",
+				"applicationSlicesPath"
+			],
+			[
+				"applicati",
+				"applicationSlicesPath"
+			],
+			[
+				"default",
+				"defaultSlice"
+			],
+			[
+				"appl",
+				"_applicationPath"
 			],
 			[
 				"_applicatio",
@@ -14,10 +50,6 @@
 			[
 				"applica",
 				"applicationList"
-			],
-			[
-				"appl",
-				"_application"
 			],
 			[
 				"AVPla",
@@ -212,10 +244,6 @@
 				"displayIdentifier"
 			],
 			[
-				"appli",
-				"applicationPath"
-			],
-			[
 				"app",
 				"applicationNames"
 			],
@@ -314,18 +342,42 @@
 	"expanded_folders":
 	[
 		"/Users/hetelek/Developer/Tweaks/slices",
-		"/Users/hetelek/Developer/Tweaks/slices/Expetelek",
+		"/Users/hetelek/Developer/Tweaks/slices/layout",
+		"/Users/hetelek/Developer/Tweaks/slices/layout/Library",
+		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support",
+		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices",
+		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle",
+		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/de.lproj",
+		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/en.lproj",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences"
 	],
 	"file_history":
 	[
-		"/Users/hetelek/Developer/Tweaks/simplerespring/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
+		"/Users/hetelek/Developer/Tweaks/spotifyplus/Makefile",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/4DAE4C7C-45DA-4066-8E5C-40E0CA021A26/index.php",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1525A30B-AE62-44F0-99D1-665F8592F04E/error_log",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/B775ADF3-3889-499C-8D3B-EB0A8FC0CE73/Slices (10:31:19 pm).strings",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/997AE06E-F6E6-43D5-B955-3D15546BAE2E/Slices (10:30:30 pm).strings",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/7CECE4BD-0A12-4D72-BEDE-71E12D9B028D/Slices (10:27:39 pm).strings",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/98962FE5-6308-4864-A340-4F1EF3630B45/Slices (10:23:23 pm).strings",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/81B2F730-B5E8-492A-9809-927085A7DBA0/error_log",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/DF52A6F9-F8F3-49E2-8F28-F1160A65A0FB/error_log",
+		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/zh-Hant.lproj/Slices.strings",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1981DE1B-8B25-4B4B-A536-5BBED176D95A/test.xml",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/27B35DF2-6A91-4379-8747-66784569D29C/index.php",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppController.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/en.lproj/Slices.strings",
+		"/Users/hetelek/Desktop/a/index.php",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/016B716C-2EA5-4754-A909-4A751D355641/error_log",
+		"/Users/hetelek/Desktop/a/index.html",
+		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/LocalizationKeys.h",
 		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/slices/SpringBoardHeaders.h",
 		"/Users/hetelek/Developer/Tweaks/slices/Slicer.xm",
+		"/Users/hetelek/Developer/Tweaks/slices/Slicer.h",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/A5EEC9D2-E195-4CAE-B724-EB200EBF25E3/yolo",
+		"/Users/hetelek/Developer/Tweaks/simplerespring/Tweak.xm",
+		"/Users/hetelek/Developer/Tweaks/slices/SpringBoardHeaders.h",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/33F1C193-B25F-4C5D-A170-C5A71FB31F8F/com.reddit.alienblue.plist.orQBbDv",
 		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Makefile",
@@ -428,25 +480,7 @@
 		"/Users/hetelek/Developer/Tweaks/timepasscode/Tweak.xm",
 		"/Users/hetelek/Desktop/fstab",
 		"/Users/hetelek/Developer/Tweaks/stockextensions/Tweak.xm",
-		"/Users/hetelek/Desktop/brute",
-		"/Users/hetelek/Desktop/usbssh",
-		"/Users/hetelek/Desktop/wwjc_ip.txt",
-		"/Users/hetelek/Developer/Tweaks/nodouble/Tweak.xm",
-		"/usr/local/bin/vpn",
-		"/Users/hetelek/Desktop/spn",
-		"/Users/hetelek/Desktop/wwjc_ip",
-		"/opt/theos/include/Vine/VNVideoPlayer.h",
-		"/Users/hetelek/Desktop/objc-JSONRpc-master/jsonrpc/jsonrpc.h",
-		"/Users/hetelek/Desktop/upload.sh",
-		"/Users/hetelek/Desktop/sshpass-1.05/INSTALL",
-		"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/SDKSettings.plist",
-		"/Users/hetelek/Desktop/SDKSettings.plist",
-		"/Users/hetelek/Documents/Personal/b.txt",
-		"/Users/hetelek/Documents/Personal/passwords.txt",
-		"/Users/hetelek/Documents/Personal/working.txt",
-		"/Users/hetelek/Desktop/tor-0.2.4.21/doc/HACKING",
-		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/User/Theos Make.sublime-build",
-		"/Users/hetelek/Desktop/ios-kexec-utils-master/kloader.tproj/kloader.c"
+		"/Users/hetelek/Desktop/brute"
 	],
 	"find":
 	{
@@ -465,6 +499,30 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"defaultSlice",
+			"defaultSlice_",
+			"form",
+			"Ok",
+			"OK",
+			"Failed to create '%@' directory",
+			"incalid name",
+			"IGNORE",
+			"moveITem",
+			"pathOfPreferences",
+			"hasSeenWelcomeMessage",
+			"killApplication",
+			"kill",
+			"switchToSlice",
+			"_applicationPath",
+			"createSlice",
+			"defaultSlice = nil",
+			"defaultSlice",
+			"default",
+			"delete",
+			"defaultSlice = nil",
+			"defaultSlice",
+			"switchToSlice",
+			"switch",
 			"kill",
 			"killApplication",
 			"killAppl",
@@ -568,31 +626,7 @@
 			"nil",
 			"ActionSheet",
 			"actionSheet",
-			"alertView",
-			"createFileAtPath",
-			"sym",
-			"createFile",
-			"def",
-			"substringFrom",
-			"substring",
-			"_",
-			"sym",
-			"hetelek:",
-			"issym",
-			"issym\n",
-			"issym",
-			"symbolic",
-			"\\n\\n%@",
-			"UIAlertView *alert = [[UIAlertView alloc]\n				initWithTitle:@\"Already Exists\"\n				message:[NSString stringWithFormat:@\"There is already a slice named '%@'.\", targetSliceName]\n				delegate:nil\n				cancelButtonTitle:@\"OK\"\n				otherButtonTitles:nil];\n			[alert show];",
-			"\\n\\n%@",
-			"\\n\\n",
-			"occur",
-			"mshook",
-			"ivar",
-			"slices",
-			"name",
-			"valuesDataSource",
-			"kill"
+			"alertView"
 		],
 		"highlight": true,
 		"in_selection": false,

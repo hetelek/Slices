@@ -1,4 +1,4 @@
-TARGET := iphone:8.0:2.0
+TARGET := iphone:8.1:2.0
 ARCHS := armv7 arm64
 ADDITIONAL_OBJCFLAGS = -fobjc-arc
 

@@ -16,7 +16,7 @@ static NSInteger DictionaryTextComparator(id a, id b, void *context)
 	if(_specifiers == nil)
 	{
 		NSMutableArray *specifiers = [[NSMutableArray alloc] init];
-		[specifiers addObject:[PSSpecifier preferenceSpecifierNamed:@"User Applications" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil]];
+		[specifiers addObject:[PSSpecifier preferenceSpecifierNamed:Localize(@"User Applications") target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil]];
 
 		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
 		NSDictionary *applications = applicationList.applications;
