@@ -85,9 +85,9 @@
 
     <key>If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.
 
-    If it's disabled, the application will start with the specified Default Slice.</key>
+If it's disabled, the application will start with the specified Default Slice.</key>
     <string>Si la Preguntar al interruptor táctil está habilitada, se le pedirá que rebanada de utilizar al tocar el icono de la aplicación en la pantalla de inicio.
 
-    Si se trata de personas con discapacidad, la aplicación se iniciará con el defecto especificado rebanada.</string>
+Si se trata de personas con discapacidad, la aplicación se iniciará con el defecto especificado rebanada.</string>
 </dict>
 </plist>

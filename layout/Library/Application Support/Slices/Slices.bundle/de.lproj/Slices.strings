@@ -61,6 +61,8 @@ PUBLIC "-//Apple//DTD PLIST 1.0//EN"
 <key>If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.
 
 If it's disabled, the application will start with the specified Default Slice.</key>
-<string>Wenn &quot;Nach dem Starten fragen&quot; aktiviert ist, wird nach dem berühren eines App-Icons, gefragt, welcher Slice benutzt werden soll. Wenn die Funktion deaktiviert ist, wird der Standard-Slice automatisch ausgewählt.</string>
+<string>Wenn &quot;Nach dem Starten fragen&quot; aktiviert ist, wird nach dem berühren eines App-Icons, gefragt, welcher Slice benutzt werden soll.
+
+Wenn die Funktion deaktiviert ist, wird der Standard-Slice automatisch ausgewählt.</string>
 </dict>
 </plist>

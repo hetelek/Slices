@@ -19,7 +19,7 @@ PUBLIC "-//Apple//DTD PLIST 1.0//EN"
 <key>The name '%@' is invalid. Make sure it contains no slashes.</key>
 <string>O nome '%@' é inválido. Verifique se ele não contém nenhuma barra.</string>
 <key>Cancel</key>
-<string>Cancelar.</string>
+<string>Cancelar</string>
 <key>User Applications</key>
 <string>Aplicações de Usuário</string>
 <key>Ask on Touch</key>
@@ -61,6 +61,8 @@ PUBLIC "-//Apple//DTD PLIST 1.0//EN"
 <key>If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.
 
 If it's disabled, the application will start with the specified Default Slice.</key>
-<string>Se &quot;Perguntar ao toque&quot; estiver ativado, você será perguntado sobre qual slice de usar quando tocar em aplicativo na tela inicial. Se for desativado, o aplicativo irá começar com o Slice padrão especificado.</string>
+<string>Se &quot;Perguntar ao toque&quot; estiver ativado, você será perguntado sobre qual slice de usar quando tocar em aplicativo na tela inicial.
+
+Se for desativado, o aplicativo irá começar com o Slice padrão especificado.</string>
 </dict>
 </plist>
