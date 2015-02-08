@@ -9,6 +9,12 @@
 - (void)stop;
 @end
 
+@interface LSApplicationProxy
+@property (nonatomic, readonly) NSDictionary *groupContainers;
+
++ (LSApplicationProxy *)applicationProxyForIdentifier:(NSString *)identifier;
+@end
+
 @interface SBApplication : NSObject
 {
 	FBApplicationProcess* _process;
@@ -19,6 +25,11 @@
 
 @property NSString *containerPath;
 @property NSString *dataContainerPath;
+@end
+
+@interface SBApplicationController
+- (SBApplicationController *)sharedInstance;
+- (SBApplication *)applicationWithBundleIdentifier:(NSString *)bundleIdentifier;
 @end
 
 @interface SBIcon : NSObject

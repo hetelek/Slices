@@ -3,9 +3,6 @@
 @interface Slicer ()
 @property (readwrite) NSString *displayIdentifier;
 
-@property NSString *applicationDirectory;
-@property NSString *slicesDirectory;
-
 @property (assign) BOOL iOS8;
 @property (assign) BOOL ignoreNextKill;
 
@@ -14,7 +11,7 @@
 
 extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSString *app, int a, int b, NSString *description);
 
-@implementation Slicer : NSObject
+@implementation Slicer
 - (instancetype)initWithApplication:(SBApplication *)application
 {
 	self = [super init];
@@ -26,21 +23,21 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 	// get application directory
 	if ([application respondsToSelector:@selector(dataContainerPath)])
-		self.applicationDirectory = [application dataContainerPath];
+		self.workingDirectory = [application dataContainerPath];
 	else
 	{
 		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
-		self.applicationDirectory = [[applicationList valueForKey:@"path" forDisplayIdentifier:self.displayIdentifier] stringByDeletingLastPathComponent];
+		self.workingDirectory = [[applicationList valueForKey:@"path" forDisplayIdentifier:self.displayIdentifier] stringByDeletingLastPathComponent];
 	}
 
-	if (!self.applicationDirectory)
+	if (!self.workingDirectory)
 		return nil;
 
 	// get slices directory
 	if (self.iOS8)
-		self.slicesDirectory = [SLICES_DIRECTORY stringByAppendingPathComponent:_displayIdentifier];
+		self.slicesDirectory = [SLICES_DIRECTORY stringByAppendingPathComponent:self.displayIdentifier];
 	else
-		self.slicesDirectory = [self.applicationDirectory stringByAppendingPathComponent:@"Slices"];
+		self.slicesDirectory = [self.workingDirectory stringByAppendingPathComponent:@"Slices"];
 
 	return self;
 }
@@ -57,40 +54,30 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	// get application directory
 	ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
 	if (self.iOS8)
-		self.applicationDirectory = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
+		self.workingDirectory = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
 	else
-		self.applicationDirectory = [[applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier] stringByDeletingLastPathComponent];
+		self.workingDirectory = [[applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier] stringByDeletingLastPathComponent];
 
-	if (!self.applicationDirectory)
+	if (!self.workingDirectory)
 		return nil;
 
 	// get slices directory
 	if (self.iOS8)
 		self.slicesDirectory = [SLICES_DIRECTORY stringByAppendingPathComponent:displayIdentifier];
 	else
-		self.slicesDirectory = [self.applicationDirectory stringByAppendingPathComponent:@"Slices"];
+		self.slicesDirectory = [self.workingDirectory stringByAppendingPathComponent:@"Slices"];
 
 	return self;
 }
 
-- (NSArray *)slices
+- (NSDictionary *)appGroupContainers
 {
-	NSMutableArray *slices = [[NSMutableArray alloc] init];
+	Class LSApplicationProxyClass = objc_getClass("LSApplicationProxy");
 
-	// get all directories in slices directory
-	NSFileManager *manager = [NSFileManager defaultManager];
-	NSArray *files = [manager contentsOfDirectoryAtPath:self.slicesDirectory error:NULL];
-	for (NSString *file in files)
-	{
-		NSString *fullPath = [self.slicesDirectory stringByAppendingPathComponent:file];
-		NSDictionary *attributes = [manager attributesOfItemAtPath:fullPath error:NULL];
-		BOOL isDirectory = [attributes[NSFileType] isEqualToString:NSFileTypeDirectory];
-
-		if (isDirectory)
-			[slices addObject:file];
-	}
-
-	return slices;
+	if (LSApplicationProxyClass)
+		return [LSApplicationProxyClass applicationProxyForIdentifier:self.displayIdentifier].groupContainers;
+	else
+		return @{ };
 }
 
 - (NSString *)defaultSlice
@@ -103,18 +90,6 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 {
 	SliceSetting *defaultSliceSetting = [[SliceSetting alloc] initWithPrefix:@"def_"];
 	[defaultSliceSetting setValueInDirectory:self.slicesDirectory value:defaultSlice];
-}
-
-- (NSString *)currentSlice
-{
-	SliceSetting *currentSliceSetting = [[SliceSetting alloc] initWithPrefix:@"cur_"];
-	return [currentSliceSetting getValueInDirectory:self.slicesDirectory];
-}
-
-- (void)setCurrentSlice:(NSString *)sliceName
-{
-	SliceSetting *currentSliceSetting = [[SliceSetting alloc] initWithPrefix:@"cur_"];
-	[currentSliceSetting setValueInDirectory:self.slicesDirectory value:sliceName];	
 }
 
 - (void)setAskOnTouch:(BOOL)askOnTouch
@@ -162,107 +137,35 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	[NSThread sleepForTimeInterval:0.1];
 }
 
-- (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath
-{
-	NSString *currentSlice = self.currentSlice;
-
-	// get current slice path (if current slice exists)
-	NSString *currentSlicePath;
-	if (currentSlice.length > 0)
-		currentSlicePath = [self.slicesDirectory stringByAppendingPathComponent:currentSlice];
-	else
-		currentSlicePath = nil;
-
-	// migrate/delete current app data to current slice path
-	FolderMigrator *migrator = [[FolderMigrator alloc] initWithSourcePath:self.applicationDirectory destinationPath:currentSlicePath];
-	migrator.ignoreSuffixes = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
-	return [migrator executeMigration];
-}
-
-- (BOOL)onlyOneComponent:(NSString *)name
-{
-	NSArray *pathComponents = [name pathComponents];
-	return [pathComponents count] == 1;
-}
-
 - (BOOL)switchToSlice:(NSString *)targetSliceName
 {
-	// make sure they give us a target slice
-	if (targetSliceName.length < 1)
-		return NO;
+	if (targetSliceName.length > 0 && ![self.currentSlice isEqualToString:targetSliceName])
+		[self killApplication];
 
-	// see if we're already on the slice
-	NSString *currentSlice = self.currentSlice;
-	if ([currentSlice isEqualToString:targetSliceName])
-		return YES;
-
-	[self killApplication];
-
-	// cleanup current slice
-	if (currentSlice.length > 0)
-	{
-		NSString *currentSlicePath = [self.slicesDirectory stringByAppendingPathComponent:currentSlice];
-		[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
-	}
-	
-	// migrate new slice data into app directory
-	NSString *targetSlicePath = [self.slicesDirectory stringByAppendingPathComponent:targetSliceName];
-	FolderMigrator *migrator = [[FolderMigrator alloc] initWithSourcePath:targetSlicePath destinationPath:self.applicationDirectory];
-	BOOL success = [migrator executeMigration];
-
-	// update current slice (if successful)
-	if (success)
-		self.currentSlice = targetSliceName;
-
-	return NO;
+	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
+	return [super switchToSlice:targetSliceName ignoreSuffixes:IGNORE_SUFFIXES];
 }
 
 - (BOOL)createSlice:(NSString *)newSliceName
 {
-	// check for invalid name
-	if (![self onlyOneComponent:newSliceName])
+	if (self.currentSlice.length > 0)
+		[self killApplication];
+
+	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
+	BOOL success = [super createSlice:newSliceName ignoreSuffixes:IGNORE_SUFFIXES];
+	if (!success)
 		return NO;
 
 	NSFileManager *manager = [NSFileManager defaultManager];
-
-	// make sure it doesn't already exist
-	NSString *newSlicePath = [self.slicesDirectory stringByAppendingPathComponent:newSliceName];
-	if ([manager fileExistsAtPath:newSlicePath])
-		return NO;
-
-	// create directory
-	[manager createDirectoryAtPath:newSlicePath withIntermediateDirectories:YES attributes:nil error:NULL];
-	
 	NSArray *DIRECTORIES = @[ @"tmp", @"Documents", @"StoreKit", @"Library" ];
-	NSString *currentSlice = self.currentSlice;
-	if (currentSlice.length < 1)
-	{
-		for (NSString *directory in DIRECTORIES)
-			[manager createDirectoryAtPath:[self.applicationDirectory stringByAppendingPathComponent:directory] withIntermediateDirectories:YES attributes:nil error:NULL];
-
-		self.currentSlice = newSliceName;
-		self.defaultSlice = newSliceName;
-
-		return YES;
-	}
-
-	[self killApplication];
-	
-	// cleanup current slice
-	NSString *currentSlicePath = [self.slicesDirectory stringByAppendingPathComponent:currentSlice];
-	[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
-	
-	// create app data directories
-	BOOL success = YES;
 	for (NSString *directory in DIRECTORIES)
 	{
-		NSString *currentDirectoryFullPath = [self.applicationDirectory stringByAppendingPathComponent:directory];
+		NSString *currentDirectoryFullPath = [self.workingDirectory stringByAppendingPathComponent:directory];
 		if (![manager createDirectoryAtPath:currentDirectoryFullPath withIntermediateDirectories:YES attributes:nil error:NULL])
 			success = NO;
 	}
 
-	// update current/default slice
-	self.currentSlice = newSliceName;
+	// update default slice
 	if (self.defaultSlice.length < 1)
 		self.defaultSlice = newSliceName;
 
@@ -271,23 +174,14 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (BOOL)deleteSlice:(NSString *)sliceName
 {
-	// check for invalid name
-	if (![self onlyOneComponent:sliceName])
+	if ([sliceName isEqualToString:self.currentSlice])
+		[self killApplication];
+
+	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
+	BOOL success = [super deleteSlice:sliceName ignoreSuffixes:IGNORE_SUFFIXES];
+	if (!success)
 		return NO;
 
-	// if current slice, cleanup app directory
-	NSString *currentSlice = self.currentSlice;
-	if ([sliceName isEqualToString:currentSlice])
-	{
-		[self killApplication];
-		[self cleanupMainDirectoryWithTargetSlicePath:nil];
-	}
-	
-	// remove slice directory
-	NSString *slicePath = [self.slicesDirectory stringByAppendingPathComponent:sliceName];
-	if (![[NSFileManager defaultManager] removeItemAtPath:slicePath error:NULL])
-		return NO;
-	
 	NSArray *slices = self.slices;
 	NSString *defaultSlice = self.defaultSlice;
 	
@@ -307,7 +201,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	}
 
 	// update current slice
-	if ([currentSlice isEqualToString:sliceName])
+	if ([self.currentSlice isEqualToString:sliceName])
 	{
 		self.currentSlice = nil;
 		self.ignoreNextKill = YES;
@@ -324,24 +218,13 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (BOOL)renameSlice:(NSString *)originaSliceName toName:(NSString *)targetSliceName
 {
-	if (![self onlyOneComponent:originaSliceName] || ![self onlyOneComponent:targetSliceName])
+	BOOL success = [super renameSlice:originaSliceName toName:targetSliceName];
+	if (!success)
 		return NO;
 
-	// get original/target slice path
-	NSString *originalSlicePath = [self.slicesDirectory stringByAppendingPathComponent:originaSliceName];
-	NSString *targetSlicePath = [self.slicesDirectory stringByAppendingPathComponent:targetSliceName];
-
-	// move slice data
-	NSFileManager *manager = [NSFileManager defaultManager];
-	if (![manager moveItemAtPath:originalSlicePath toPath:targetSlicePath error:NULL])
-		return NO;
-	
-	// update current/default slice
-	if ([self.currentSlice isEqualToString:originaSliceName])
-		self.currentSlice = targetSliceName;
 	if ([self.defaultSlice isEqualToString:originaSliceName])
 		self.defaultSlice = targetSliceName;
-	
+
 	return YES;
 }
 @end
