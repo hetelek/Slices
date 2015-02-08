@@ -1,270 +1,159 @@
 #import "Slicer.h"
 
 @interface Slicer ()
-{
-	NSString *_applicationPath;
-	NSString *_applicationSlicesPath;
-	NSString *_displayIdentifier;
-	NSString *_defaultSlice;
-	NSArray *_slices;
-	BOOL _askOnTouch;
-	SBApplication *_application;
-	BOOL _ignoreNextKill;
-	BOOL _iOS8;
-}
+@property (readwrite) NSString *displayIdentifier;
+
+@property NSString *applicationDirectory;
+@property NSString *slicesDirectory;
+
+@property (assign) BOOL iOS8;
+@property (assign) BOOL ignoreNextKill;
+
+@property SBApplication *application;
 @end
 
 extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSString *app, int a, int b, NSString *description);
 
-#include <logos/logos.h>
-#include <substrate.h>
-@class FBApplicationProcess; 
-
-static __inline__ __attribute__((always_inline)) Class _logos_static_class_lookup$FBApplicationProcess(void) { static Class _klass; if(!_klass) { _klass = objc_getClass("FBApplicationProcess"); } return _klass; }
-#line 19 "Slicer.xm"
 @implementation Slicer : NSObject
-
-- (instancetype)initWithApplication:(SBApplication *)application {
+- (instancetype)initWithApplication:(SBApplication *)application
+{
 	self = [super init];
 
-	_iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
+	self.iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
 
-	_application = application;
-	_displayIdentifier = application.displayIdentifier;
+	self.application = application;
+	self.displayIdentifier = application.displayIdentifier;
 
+	// get application directory
 	if ([application respondsToSelector:@selector(dataContainerPath)])
-		_applicationPath = [_application dataContainerPath];
+		self.applicationDirectory = [application dataContainerPath];
 	else
 	{
 		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
-		_applicationPath = [[applicationList valueForKey:@"path" forDisplayIdentifier:_displayIdentifier] stringByDeletingLastPathComponent];
+		self.applicationDirectory = [[applicationList valueForKey:@"path" forDisplayIdentifier:self.displayIdentifier] stringByDeletingLastPathComponent];
 	}
 
-	if (_applicationPath == nil)
+	if (!self.applicationDirectory)
 		return nil;
 
-	if (_iOS8)
-		_applicationSlicesPath = [SLICES_DIRECTORY stringByAppendingPathComponent:_displayIdentifier];
+	// get slices directory
+	if (self.iOS8)
+		self.slicesDirectory = [SLICES_DIRECTORY stringByAppendingPathComponent:_displayIdentifier];
 	else
-		_applicationSlicesPath = [_applicationPath stringByAppendingPathComponent:@"Slices"];
+		self.slicesDirectory = [self.applicationDirectory stringByAppendingPathComponent:@"Slices"];
 
 	return self;
 }
 
-
-- (instancetype)initWithDisplayIdentifier:(NSString *)displayIdentifier {
+- (instancetype)initWithDisplayIdentifier:(NSString *)displayIdentifier
+{
 	self = [super init];
 
-	_iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
+	self.iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
 
-	_application = nil;
-	_displayIdentifier = displayIdentifier;
+	self.application = nil;
+	self.displayIdentifier = displayIdentifier;
 
+	// get application directory
 	ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
-
-	if (_iOS8)
-		_applicationPath = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
+	if (self.iOS8)
+		self.applicationDirectory = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
 	else
-		_applicationPath = [[applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier] stringByDeletingLastPathComponent];
+		self.applicationDirectory = [[applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier] stringByDeletingLastPathComponent];
 
-	if (_applicationPath == nil)
+	if (!self.applicationDirectory)
 		return nil;
 
-	if (_iOS8)
-		_applicationSlicesPath = [SLICES_DIRECTORY stringByAppendingPathComponent:_displayIdentifier];
+	// get slices directory
+	if (self.iOS8)
+		self.slicesDirectory = [SLICES_DIRECTORY stringByAppendingPathComponent:displayIdentifier];
 	else
-		_applicationSlicesPath = [_applicationPath stringByAppendingPathComponent:@"Slices"];
+		self.slicesDirectory = [self.applicationDirectory stringByAppendingPathComponent:@"Slices"];
 
 	return self;
 }
 
-
-- (NSArray *)slices {
-	[self reloadData];
-	return _slices;
-}
-
-
-- (NSString *)defaultSlice {
-	[self reloadData];
-
-	if (_defaultSlice == nil && _slices.count > 0)
-	{
-		[self setDefaultSlice:_slices[0]];
-		return _slices[0];
-	}
-
-	return _defaultSlice;
-}
-
-
-- (void)setDefaultSlice:(NSString *)defaultSlice {
-	[self reloadData];
-
-	NSFileManager *manager = [NSFileManager defaultManager];
-	BOOL continueSettingSlice = YES;
-	if (_defaultSlice.length > 0)
-	{
-		NSString *defaultSliceFileName = [@"def_" stringByAppendingString:_defaultSlice];
-		continueSettingSlice = [manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] error:NULL];
-	}
-
-	if (defaultSlice.length > 0 && continueSettingSlice)
-	{
-		NSString *defaultSliceFileName = [@"def_" stringByAppendingString:defaultSlice];
-		if ([manager createFileAtPath:[_applicationSlicesPath stringByAppendingPathComponent:defaultSliceFileName] contents:nil attributes:nil])
-			_defaultSlice = defaultSlice;
-		else
-			_defaultSlice = nil;
-	}
-}
-
-
-- (NSString *)currentSlice {
-	NSString *currentSlice = nil;
-	NSFileManager *manager = [NSFileManager defaultManager];
-	NSArray *files = [manager contentsOfDirectoryAtPath:_applicationSlicesPath error:NULL];
-
-	for (NSString *file in files)
-	{
-		NSString *fullPath = [_applicationSlicesPath stringByAppendingPathComponent:file];
-		NSDictionary *attributes = [manager attributesOfItemAtPath:fullPath error:NULL];
-		
-		BOOL isRegularFile = [attributes[NSFileType] isEqualToString:NSFileTypeRegular];
-		if (isRegularFile && [file hasPrefix:@"cur_"])
-		{
-			currentSlice = [file substringFromIndex:4];
-			if (currentSlice.length < 1)
-				currentSlice = nil;
-			break;
-		}
-	}
-
-	return currentSlice;
-}
-
-
-- (void)setCurrentSlice:(NSString *)newSliceName {
-	NSFileManager *manager = [NSFileManager defaultManager];
-	NSString *currentSlice = self.currentSlice;
-	if (currentSlice)
-	{
-		NSString *currentSliceFileName = [@"cur_" stringByAppendingString:currentSlice];
-		NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceFileName];
-
-		if (![manager removeItemAtPath:currentSlicePath error:NULL])
-			return;
-	}
-
-	if (newSliceName.length > 0)
-	{
-		NSString *newSliceFileName = [@"cur_" stringByAppendingString:newSliceName];
-		NSString *newSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:newSliceFileName];
-		[manager createFileAtPath:newSlicePath contents:nil attributes:nil];
-	}
-}
-
-
-- (void)setAskOnTouch:(BOOL)askOnTouch {
-	[self reloadData];
-
-	NSFileManager *manager = [NSFileManager defaultManager];
-	if (![manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(_askOnTouch ? @"e1" : @"e0")] error:NULL])
-		[manager removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(!_askOnTouch ? @"e1" : @"e0")] error:NULL];
-
-	[manager createDirectoryAtPath:_applicationSlicesPath withIntermediateDirectories:YES attributes:nil error:NULL];
-	if ([manager createFileAtPath:[_applicationSlicesPath stringByAppendingPathComponent:(askOnTouch ? @"e1" : @"e0")] contents:nil attributes:nil])
-		_askOnTouch = askOnTouch;
-}
-
-
-- (BOOL)askOnTouch {
-	[self reloadData];
-
-	return _askOnTouch;
-}
-
-
-- (void)reloadData {
-	_defaultSlice = nil;
-
-	BOOL foundDefault = NO;
-	BOOL foundAskOnTouch = NO;
-
-	NSFileManager *manager = [NSFileManager defaultManager];
-
-	NSArray *files = [manager contentsOfDirectoryAtPath:_applicationSlicesPath error:NULL];
+- (NSArray *)slices
+{
 	NSMutableArray *slices = [[NSMutableArray alloc] init];
+
+	// get all directories in slices directory
+	NSFileManager *manager = [NSFileManager defaultManager];
+	NSArray *files = [manager contentsOfDirectoryAtPath:self.slicesDirectory error:NULL];
 	for (NSString *file in files)
 	{
-		if (!foundDefault || !foundAskOnTouch)
-		{
-			NSString *fullPath = [_applicationSlicesPath stringByAppendingPathComponent:file];
-			NSDictionary *attributes = [manager attributesOfItemAtPath:fullPath error:NULL];
-			
-			BOOL isRegularFile = [attributes[NSFileType] isEqualToString:NSFileTypeRegular];
-			if (isRegularFile)
-			{
-				if ([file hasPrefix:@"def_"])
-				{
-					_defaultSlice = [file substringFromIndex:4];
-					if (_defaultSlice.length > 0)
-					{
-						NSString *defaultSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:_defaultSlice];
-						if (![manager fileExistsAtPath:defaultSlicePath])
-						{
-							_defaultSlice = nil;
-							[manager removeItemAtPath:fullPath error:NULL];
-						}
-						else
-							foundDefault = YES;
-					}
-				}
-				else if ([file hasPrefix:@"e"] && file.length == 2)
-				{
-					foundAskOnTouch = YES;
+		NSString *fullPath = [self.slicesDirectory stringByAppendingPathComponent:file];
+		NSDictionary *attributes = [manager attributesOfItemAtPath:fullPath error:NULL];
+		BOOL isDirectory = [attributes[NSFileType] isEqualToString:NSFileTypeDirectory];
 
-					if ([file isEqualToString:@"e0"])
-						_askOnTouch = NO;
-					else if ([file isEqualToString:@"e1"])
-						_askOnTouch = YES;
-					else
-						foundAskOnTouch = NO;
-				}
-
-				continue;
-			}
-		}
-
-		[slices addObject:file];
+		if (isDirectory)
+			[slices addObject:file];
 	}
 
-	if (!foundAskOnTouch)
-		_askOnTouch = NO;
-
-	_slices = [slices copy];
+	return slices;
 }
 
+- (NSString *)defaultSlice
+{
+	SliceSetting *defaultSliceSetting = [[SliceSetting alloc] initWithPrefix:@"def_"];
+	return [defaultSliceSetting getValueInDirectory:self.slicesDirectory];
+}
 
-- (void)killApplication {
-	if (_ignoreNextKill)
+- (void)setDefaultSlice:(NSString *)defaultSlice
+{
+	SliceSetting *defaultSliceSetting = [[SliceSetting alloc] initWithPrefix:@"def_"];
+	[defaultSliceSetting setValueInDirectory:self.slicesDirectory value:defaultSlice];
+}
+
+- (NSString *)currentSlice
+{
+	SliceSetting *currentSliceSetting = [[SliceSetting alloc] initWithPrefix:@"cur_"];
+	return [currentSliceSetting getValueInDirectory:self.slicesDirectory];
+}
+
+- (void)setCurrentSlice:(NSString *)newSliceName
+{
+	SliceSetting *currentSliceSetting = [[SliceSetting alloc] initWithPrefix:@"cur_"];
+	[currentSliceSetting setValueInDirectory:self.slicesDirectory value:newSliceName];
+}
+
+- (void)setAskOnTouch:(BOOL)askOnTouch
+{
+	SliceSetting *askOnTouchSliceSetting = [[SliceSetting alloc] initWithPrefix:@"e"];
+
+	NSString *stringValue = (askOnTouch) ? @"1" : @"0";
+	[askOnTouchSliceSetting setValueInDirectory:self.slicesDirectory value:stringValue];
+}
+
+- (BOOL)askOnTouch
+{
+	SliceSetting *askOnTouchSliceSetting = [[SliceSetting alloc] initWithPrefix:@"e"];
+	return [[askOnTouchSliceSetting getValueInDirectory:self.slicesDirectory] isEqualToString:@"1"];
+}
+
+- (void)killApplication
+{
+	if (self.ignoreNextKill)
 	{
-		_ignoreNextKill = NO;
+		self.ignoreNextKill = NO;
 		return;
 	}
 
-	if ([_logos_static_class_lookup$FBApplicationProcess() instancesRespondToSelector:@selector(stop)])
+	// if FBApplicationProcess has 'stop', use that
+	Class FBApplicationProcessClass = objc_getClass("FBApplicationProcess");
+	if ([FBApplicationProcessClass instancesRespondToSelector:@selector(stop)])
 	{
-		if (_application)
+		if (self.application)
 		{
-			FBApplicationProcess *process = MSHookIvar<FBApplicationProcess *>(_application, "_process");
+			FBApplicationProcess *process = MSHookIvar<FBApplicationProcess *>(self.application, "_process");
 			[process stop];
 		}
 	}
 	else
-		BKSTerminateApplicationForReasonAndReportWithDescription(_displayIdentifier, 5, NO, @"Killed from Slices");
+		BKSTerminateApplicationForReasonAndReportWithDescription(self.displayIdentifier, 5, NO, @"Killed from Slices");
 
-	if (_iOS8)
+	// must kill this in iOS 8
+	if (self.iOS8)
 	{
 		char * const argv[4] = {(char *const)"launchctl", (char *const)"stop", (char *const)"com.apple.cfprefsd.xpc.daemon", NULL};
 		NSLog(@"launchctl call: %i", posix_spawnp(NULL, (char *const)"launchctl", NULL, NULL, argv, NULL));
@@ -273,333 +162,189 @@ static __inline__ __attribute__((always_inline)) Class _logos_static_class_looku
 	[NSThread sleepForTimeInterval:0.1];
 }
 
+- (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath
+{
+	NSString *currentSlice = self.currentSlice;
 
-- (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath {
-	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
+	// get current slice path (if current slice exists)
+	NSString *currentSlicePath;
+	if (currentSlice.length > 0)
+		currentSlicePath = [self.slicesDirectory stringByAppendingPathComponent:currentSlice];
+	else
+		currentSlicePath = nil;
 
-	BOOL errorOccurred = NO;
-	NSError *error;
-	NSFileManager *manager = [NSFileManager defaultManager];
-
-	
-	NSArray *directoriesToDelete = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_applicationPath error:NULL];
-	for (NSString *directory in directoriesToDelete)
-	{
-		
-		BOOL modifyDirectory = YES;
-		for (NSString *suffix in IGNORE_SUFFIXES)
-			if ([directory hasSuffix:suffix])
-			{
-				modifyDirectory = NO;
-				break;
-			}
-
-		
-		if (!modifyDirectory)
-			continue;
-
-		
-		NSString *directoryToModify = [_applicationPath stringByAppendingPathComponent:directory];
-		
-		
-		if (cleanupSlicePath.length > 0)
-		{
-			if (![manager moveItemAtPath:directoryToModify toPath:[cleanupSlicePath stringByAppendingPathComponent:directory] error:&error])
-			{
-				errorOccurred = YES;
-				NSLog(@"move item error: %@", error);
-
-				UIAlertView *alert = [[UIAlertView alloc]
-					initWithTitle:Localize(@"Error Preserving")
-					message:[NSString stringWithFormat:Localize(@"Sorry, but I had trouble preserving '%@'."), directory]
-					delegate:nil
-					cancelButtonTitle:Localize(@"OK")
-					otherButtonTitles:nil];
-				[alert show];
-			}
-		}
-		else if (![manager removeItemAtPath:directoryToModify error:&error])
-		{
-			errorOccurred = YES;
-			NSLog(@"remove item error: %@", error);
-
-			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:Localize(@"Error Removing")
-				message:[NSString stringWithFormat:Localize(@"Sorry, but I had trouble removing '%@'."), directory]
-				delegate:nil
-				cancelButtonTitle:Localize(@"OK")
-				otherButtonTitles:nil];
-			[alert show];
-		}
-	}
-
-	return !errorOccurred;
+	// migrate/delete current app data to current slice path
+	FolderMigrator *migrator = [[FolderMigrator alloc] initWithSourcePath:self.applicationDirectory destinationPath:currentSlicePath];
+	migrator.ignoreSuffixes = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
+	return [migrator executeMigration];
 }
 
-
-- (BOOL)checkIfOnlyOneComponent:(NSString *)fileName {
-	NSArray *pathComponents = [fileName pathComponents];
-	if ([pathComponents count] != 1)
-	{
-		UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:Localize(@"Invalid Name")
-			message:[NSString stringWithFormat:Localize(@"The name '%@' is invalid. Make sure it contains no slashes."), fileName]
-			delegate:nil
-			cancelButtonTitle:Localize(@"OK")
-			otherButtonTitles:nil];
-		[alert show];
-
-		return NO;
-	}
-
-	return YES;
+- (BOOL)onlyOneComponent:(NSString *)name
+{
+	NSArray *pathComponents = [name pathComponents];
+	return [pathComponents count] == 1;
 }
 
-
-- (BOOL)switchToSlice:(NSString *)sliceName {
-	if (!sliceName)
+- (BOOL)switchToSlice:(NSString *)targetSliceName
+{
+	// make sure they give us a target slice
+	if (targetSliceName.length < 1)
 		return NO;
 
-	NSString *currentSliceAttempt = self.currentSlice;
-	if ([currentSliceAttempt isEqualToString:sliceName])
+	// see if we're already on the slice
+	NSString *currentSlice = self.currentSlice;
+	if ([currentSlice isEqualToString:targetSliceName])
 		return YES;
 
 	[self killApplication];
 
-	BOOL errorOccurred = NO;
-	NSError *error;
-	NSFileManager *manager = [NSFileManager defaultManager];
-
-	
-	NSString *targetSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:sliceName];
-	if (currentSliceAttempt.length > 0)
+	// cleanup current slice
+	if (currentSlice.length > 0)
 	{
-		
-		NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt];
+		NSString *currentSlicePath = [self.slicesDirectory stringByAppendingPathComponent:currentSlice];
 		[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
 	}
 	
-	
-	NSArray *directoriesToLink = [manager contentsOfDirectoryAtPath:targetSlicePath error:NULL];
-	for (NSString *directory in directoriesToLink)
-	{
-		
-		NSString *currentPath = [targetSlicePath stringByAppendingPathComponent:directory];
-		NSString *newPath = [_applicationPath stringByAppendingPathComponent:directory];
+	// migrate new slice data into app directory
+	NSString *targetSlicePath = [self.slicesDirectory stringByAppendingPathComponent:targetSliceName];
+	FolderMigrator *migrator = [[FolderMigrator alloc] initWithSourcePath:targetSlicePath destinationPath:self.applicationDirectory];
+	BOOL success = [migrator executeMigration];
 
-		NSLog(@"moving %@ to %@", currentPath, newPath);
-		if (![manager moveItemAtPath:currentPath toPath:newPath error:&error])
-		{
-			errorOccurred = YES;
-			NSLog(@"link path error: %@", error);
+	// update current slice (if successful)
+	if (success)
+		self.currentSlice = targetSliceName;
 
-			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:Localize(@"Linking Error")
-				message:[NSString stringWithFormat:Localize(@"Failed to move '%@' directory."), directory]
-				delegate:nil
-				cancelButtonTitle:Localize(@"OK")
-				otherButtonTitles:nil];
-			[alert show];
-		}
-	}
-
-	if (!errorOccurred)
-		self.currentSlice = sliceName;
-
-	return !errorOccurred;
+	return NO;
 }
 
-
-- (BOOL)createSlice:(NSString *)sliceName {
-	if (![self checkIfOnlyOneComponent:sliceName])
+- (BOOL)createSlice:(NSString *)newSliceName
+{
+	// check for invalid name
+	if (![self onlyOneComponent:newSliceName])
 		return NO;
 
-	BOOL errorOccurred = NO;
-	NSError *error;
 	NSFileManager *manager = [NSFileManager defaultManager];
 
-	NSString *targetSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:sliceName];
-	if ([manager fileExistsAtPath:targetSlicePath])
+	// make sure it doesn't already exist
+	NSString *newSlicePath = [self.slicesDirectory stringByAppendingPathComponent:newSliceName];
+	if ([manager fileExistsAtPath:newSlicePath])
+		return NO;
+
+	// create directory
+	[manager createDirectoryAtPath:newSlicePath withIntermediateDirectories:YES attributes:nil error:NULL];
+	
+	NSArray *DIRECTORIES = @[ @"tmp", @"Documents", @"StoreKit", @"Library" ];
+	NSString *currentSlice = self.currentSlice;
+	if (currentSlice.length < 1)
 	{
-		
+		for (NSString *directory in DIRECTORIES)
+			[manager createDirectoryAtPath:[self.applicationDirectory stringByAppendingPathComponent:directory] withIntermediateDirectories:YES attributes:nil error:NULL];
 
-		errorOccurred = YES;
-		UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:Localize(@"Already Exists")
-			message:[NSString stringWithFormat:Localize(@"There is already a slice named '%@'."), sliceName]
-			delegate:nil
-			cancelButtonTitle:Localize(@"OK")
-			otherButtonTitles:nil];
-		[alert show];
-	}
-	else
-	{
-		[self reloadData];
-		
-		
-		[manager createDirectoryAtPath:targetSlicePath withIntermediateDirectories:YES attributes:nil error:NULL];
+		self.currentSlice = newSliceName;
+		self.defaultSlice = newSliceName;
 
-    	
-		NSArray *CREATE_AND_LINK_DIRECTORIES = @[ @"tmp", @"Documents", @"StoreKit", @"Library" ];
-
-		
-		NSString *currentSliceAttempt = self.currentSlice;
-		if (currentSliceAttempt.length < 1)
-		{
-			for (NSString *directory in CREATE_AND_LINK_DIRECTORIES)
-				[manager createDirectoryAtPath:[_applicationPath stringByAppendingPathComponent:directory] withIntermediateDirectories:YES attributes:nil error:&error];
-
-			self.currentSlice = sliceName;
-			if (_defaultSlice.length < 1)
-				self.defaultSlice = sliceName;
-
-			return YES;
-		}
-
-		[self killApplication];
-
-		
-		NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt];
-		[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
-		
-		
-		for (NSString *directory in CREATE_AND_LINK_DIRECTORIES)
-		{
-			
-			NSString *currentDirectoryFullPath = [_applicationPath stringByAppendingPathComponent:directory];
-
-			
-			if (![manager createDirectoryAtPath:currentDirectoryFullPath withIntermediateDirectories:YES attributes:nil error:&error])
-			{
-				
-				NSLog(@"directory creation error: %@", error);
-
-				errorOccurred = YES;
-				UIAlertView *alert = [[UIAlertView alloc]
-					initWithTitle:Localize(@"Creation Error")
-					message:[NSString stringWithFormat:Localize(@"Failed to create '%@' directory."), directory]
-					delegate:nil
-					cancelButtonTitle:Localize(@"OK")
-					otherButtonTitles:nil];
-				[alert show];
-			}
-		}
-
-		self.currentSlice = sliceName;
-		if (_defaultSlice.length < 1)
-			self.defaultSlice = sliceName;
+		return YES;
 	}
 
-	return !errorOccurred;
+	[self killApplication];
+	
+	// cleanup current slice
+	NSString *currentSlicePath = [self.slicesDirectory stringByAppendingPathComponent:currentSlice];
+	[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
+	
+	// create app data directories
+	BOOL success = YES;
+	for (NSString *directory in DIRECTORIES)
+	{
+		NSString *currentDirectoryFullPath = [self.applicationDirectory stringByAppendingPathComponent:directory];
+		if (![manager createDirectoryAtPath:currentDirectoryFullPath withIntermediateDirectories:YES attributes:nil error:NULL])
+			success = NO;
+	}
+
+	// update current/default slice
+	self.currentSlice = newSliceName;
+	if (self.defaultSlice.length < 1)
+		self.defaultSlice = newSliceName;
+
+	return success;
 }
 
-
-- (BOOL)deleteSlice:(NSString *)sliceName {
-	if (![self checkIfOnlyOneComponent:sliceName])
+- (BOOL)deleteSlice:(NSString *)sliceName
+{
+	// check for invalid name
+	if (![self onlyOneComponent:sliceName])
 		return NO;
 
 	[self killApplication];
-
 	
+	// if current slice, cleanup app directory
 	NSString *currentSlice = self.currentSlice;
 	if ([sliceName isEqualToString:currentSlice])
 		[self cleanupMainDirectoryWithTargetSlicePath:nil];
-
 	
-	NSError *error;
-	if (![[NSFileManager defaultManager] removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:sliceName] error:&error])
-	{
-		NSLog(@"delete slice error: %@", error);
-		
-		UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle:Localize(@"Deletion Failed")
-			message:[NSString stringWithFormat:Localize(@"Failed to delete '%@' slice.\n\n%@"), sliceName, error]
-			delegate:nil
-			cancelButtonTitle:Localize(@"OK")
-			otherButtonTitles:nil];
-		[alert show];
-
+	// remove slice directory
+	NSString *slicePath = [self.slicesDirectory stringByAppendingPathComponent:sliceName];
+	if (![[NSFileManager defaultManager] removeItemAtPath:slicePath error:NULL])
 		return NO;
-	}
 	
 	NSArray *slices = self.slices;
 	NSString *defaultSlice = self.defaultSlice;
 	
+	// update default slice
 	if ([defaultSlice isEqualToString:sliceName])
 	{
-		if (slices.count < 1)
-			self.defaultSlice = nil;
-		else
+		if (slices.count > 0)
+		{
 			self.defaultSlice = slices[0];
+			defaultSlice = slices[0];
+		}
+		else
+		{
+			self.defaultSlice = nil;
+			defaultSlice = nil;
+		}
 	}
 
+	// update current slice
 	if ([currentSlice isEqualToString:sliceName])
 	{
-		if (slices.count < 1)
-			self.currentSlice = nil;
-		else if (defaultSlice.length > 0)
+		if (slices.count > 0)
 		{
-			NSLog(@"switching current slice to default slice: %@", defaultSlice);
-			_ignoreNextKill = YES;
-			[self switchToSlice:defaultSlice];
+			self.ignoreNextKill = YES;
+
+			if (defaultSlice.length > 0)
+				[self switchToSlice:defaultSlice];
+			else
+				[self switchToSlice:slices[0]];
 		}
 		else
-		{
-			NSLog(@"switching current slice to first slice: %@", slices[0]);
-			_ignoreNextKill = YES;
-			[self switchToSlice:slices[0]];
-		}
+			self.currentSlice = nil;
 	}
 
-	_ignoreNextKill = NO;
-
+	self.ignoreNextKill = NO;
 	return YES;
 }
 
-
-- (BOOL)renameSlice:(NSString *)originaSliceName toName:(NSString *)targetSliceName {
-	if (![self checkIfOnlyOneComponent:originaSliceName] || ![self checkIfOnlyOneComponent:targetSliceName])
+- (BOOL)renameSlice:(NSString *)originaSliceName toName:(NSString *)targetSliceName
+{
+	if (![self onlyOneComponent:originaSliceName] || ![self onlyOneComponent:targetSliceName])
 		return NO;
 
+	// get original/target slice path
+	NSString *originalSlicePath = [self.slicesDirectory stringByAppendingPathComponent:originaSliceName];
+	NSString *targetSlicePath = [self.slicesDirectory stringByAppendingPathComponent:targetSliceName];
+
+	// move slice data
 	NSFileManager *manager = [NSFileManager defaultManager];
-
-	NSString *originalSliceDirectoryFullPath = [_applicationSlicesPath stringByAppendingPathComponent:originaSliceName];
-	NSString *targetSliceDirectoryFullPath = [_applicationSlicesPath stringByAppendingPathComponent:targetSliceName];
-
-	NSError *error;
-	if (![manager moveItemAtPath:originalSliceDirectoryFullPath toPath:targetSliceDirectoryFullPath error:&error])
-	{
-		if (error.code == NSFileWriteFileExistsError)
-		{
-			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:Localize(@"Already Exists")
-				message:[NSString stringWithFormat:Localize(@"There is already a slice named '%@'."), targetSliceName]
-				delegate:nil
-				cancelButtonTitle:Localize(@"OK")
-				otherButtonTitles:nil];
-			[alert show];
-		}
-		else
-		{
-			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:Localize(@"Renaming Error")
-				message:[NSString stringWithFormat:Localize(@"An error occurred when renaming '%@'.\n\n%@"), originaSliceName, error]
-				delegate:nil
-				cancelButtonTitle:Localize(@"OK")
-				otherButtonTitles:nil];
-			[alert show];
-		}
-
+	if (![manager moveItemAtPath:originalSlicePath toPath:targetSlicePath error:NULL])
 		return NO;
-	}
 	
-	NSString *currentSlice = self.currentSlice;
-	if ([currentSlice isEqualToString:originaSliceName])
+	// update current/default slice
+	if ([self.currentSlice isEqualToString:originaSliceName])
 		self.currentSlice = targetSliceName;
-	if ([currentSlice isEqualToString:originaSliceName])
+	if ([self.defaultSlice isEqualToString:originaSliceName])
 		self.defaultSlice = targetSliceName;
 	
 	return YES;
 }
 @end
-#line 599 "Slicer.xm"
