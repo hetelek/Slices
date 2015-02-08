@@ -5,8 +5,8 @@
 
 #import <spawn.h>
 
-#import "LocalizationKeys.h"
-#import "SpringBoardHeaders.h"
+#import "../Headers/LocalizationKeys.h"
+#import "../Headers/SpringBoardHeaders.h"
 #import "FolderMigrator.h"
 #import "SliceSetting.h"
 

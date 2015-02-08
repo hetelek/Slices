@@ -1,6 +1,6 @@
 #import <substrate.h>
-#import "Expetelek/Expetelek.h"
-#import "Slicer.h"
+#import "Model/Expetelek/Expetelek.h"
+#import "Model/Slicer.h"
 
 #define PREFERENCE_IDENTIFIER CFSTR("com.expetelek.slicespreferences")
 #define ENABLED_KEY CFSTR("isEnabled")

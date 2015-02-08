@@ -3,7 +3,7 @@
 #import <Preferences/PSSpecifier.h>
 
 #import <AppList/AppList.h>
-#import "../LocalizationKeys.h"
+#import "../Headers/LocalizationKeys.h"
 
 @interface SlicesPreferencesListController : PSListController
 @end
