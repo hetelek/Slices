@@ -111,10 +111,10 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return [currentSliceSetting getValueInDirectory:self.slicesDirectory];
 }
 
-- (void)setCurrentSlice:(NSString *)newSliceName
+- (void)setCurrentSlice:(NSString *)sliceName
 {
 	SliceSetting *currentSliceSetting = [[SliceSetting alloc] initWithPrefix:@"cur_"];
-	[currentSliceSetting setValueInDirectory:self.slicesDirectory value:newSliceName];
+	[currentSliceSetting setValueInDirectory:self.slicesDirectory value:sliceName];	
 }
 
 - (void)setAskOnTouch:(BOOL)askOnTouch
@@ -275,12 +275,13 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	if (![self onlyOneComponent:sliceName])
 		return NO;
 
-	[self killApplication];
-	
 	// if current slice, cleanup app directory
 	NSString *currentSlice = self.currentSlice;
 	if ([sliceName isEqualToString:currentSlice])
+	{
+		[self killApplication];
 		[self cleanupMainDirectoryWithTargetSlicePath:nil];
+	}
 	
 	// remove slice directory
 	NSString *slicePath = [self.slicesDirectory stringByAppendingPathComponent:sliceName];
@@ -308,17 +309,13 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	// update current slice
 	if ([currentSlice isEqualToString:sliceName])
 	{
-		if (slices.count > 0)
-		{
-			self.ignoreNextKill = YES;
+		self.currentSlice = nil;
+		self.ignoreNextKill = YES;
 
-			if (defaultSlice.length > 0)
-				[self switchToSlice:defaultSlice];
-			else
-				[self switchToSlice:slices[0]];
-		}
+		if (defaultSlice.length > 0)
+			[self switchToSlice:defaultSlice];
 		else
-			self.currentSlice = nil;
+			[self switchToSlice:slices[0]];
 	}
 
 	self.ignoreNextKill = NO;

@@ -25,7 +25,14 @@
 
 - (BOOL)setValueInDirectory:(NSString *)directory value:(NSString *)value
 {
-	NSString *newFullSettingFileName = [self.prefix stringByAppendingString:value];
+	NSString *newFullSettingFileName;
+	
+	// append value if we're given one
+	if (value.length > 0)
+		newFullSettingFileName = [self.prefix stringByAppendingString:value];
+	else
+		newFullSettingFileName = self.prefix;
+
 	NSString *newFullSettingFilePath = [directory stringByAppendingPathComponent:newFullSettingFileName];
 
 	// if the directory doesn't exist, create it
