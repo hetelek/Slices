@@ -16,9 +16,15 @@
 
 extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSString *app, int a, int b, NSString *description);
 
+#include <logos/logos.h>
+#include <substrate.h>
+@class FBApplicationProcess; 
+
+static __inline__ __attribute__((always_inline)) Class _logos_static_class_lookup$FBApplicationProcess(void) { static Class _klass; if(!_klass) { _klass = objc_getClass("FBApplicationProcess"); } return _klass; }
+#line 19 "Slicer.xm"
 @implementation Slicer : NSObject
-- (instancetype)initWithApplication:(SBApplication *)application
-{
+
+- (instancetype)initWithApplication:(SBApplication *)application {
 	self = [super init];
 
 	_iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
@@ -45,8 +51,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return self;
 }
 
-- (instancetype)initWithDisplayIdentifier:(NSString *)displayIdentifier
-{
+
+- (instancetype)initWithDisplayIdentifier:(NSString *)displayIdentifier {
 	self = [super init];
 
 	_iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
@@ -72,14 +78,14 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return self;
 }
 
-- (NSArray *)slices
-{
+
+- (NSArray *)slices {
 	[self reloadData];
 	return _slices;
 }
 
-- (NSString *)defaultSlice
-{
+
+- (NSString *)defaultSlice {
 	[self reloadData];
 
 	if (_defaultSlice == nil && _slices.count > 0)
@@ -91,8 +97,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return _defaultSlice;
 }
 
-- (void)setDefaultSlice:(NSString *)defaultSlice
-{
+
+- (void)setDefaultSlice:(NSString *)defaultSlice {
 	[self reloadData];
 
 	NSFileManager *manager = [NSFileManager defaultManager];
@@ -113,8 +119,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	}
 }
 
-- (NSString *)currentSlice
-{
+
+- (NSString *)currentSlice {
 	NSString *currentSlice = nil;
 	NSFileManager *manager = [NSFileManager defaultManager];
 	NSArray *files = [manager contentsOfDirectoryAtPath:_applicationSlicesPath error:NULL];
@@ -137,8 +143,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return currentSlice;
 }
 
-- (void)setCurrentSlice:(NSString *)newSliceName
-{
+
+- (void)setCurrentSlice:(NSString *)newSliceName {
 	NSFileManager *manager = [NSFileManager defaultManager];
 	NSString *currentSlice = self.currentSlice;
 	if (currentSlice)
@@ -158,8 +164,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	}
 }
 
-- (void)setAskOnTouch:(BOOL)askOnTouch
-{
+
+- (void)setAskOnTouch:(BOOL)askOnTouch {
 	[self reloadData];
 
 	NSFileManager *manager = [NSFileManager defaultManager];
@@ -171,15 +177,15 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		_askOnTouch = askOnTouch;
 }
 
-- (BOOL)askOnTouch
-{
+
+- (BOOL)askOnTouch {
 	[self reloadData];
 
 	return _askOnTouch;
 }
 
-- (void)reloadData
-{
+
+- (void)reloadData {
 	_defaultSlice = nil;
 
 	BOOL foundDefault = NO;
@@ -239,15 +245,15 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	_slices = [slices copy];
 }
 
-- (void)killApplication
-{
+
+- (void)killApplication {
 	if (_ignoreNextKill)
 	{
 		_ignoreNextKill = NO;
 		return;
 	}
 
-	if ([%c(FBApplicationProcess) instancesRespondToSelector:@selector(stop)])
+	if ([_logos_static_class_lookup$FBApplicationProcess() instancesRespondToSelector:@selector(stop)])
 	{
 		if (_application)
 		{
@@ -267,19 +273,19 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	[NSThread sleepForTimeInterval:0.1];
 }
 
-- (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath
-{
+
+- (BOOL)cleanupMainDirectoryWithTargetSlicePath:(NSString *)cleanupSlicePath {
 	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
 
 	BOOL errorOccurred = NO;
 	NSError *error;
 	NSFileManager *manager = [NSFileManager defaultManager];
 
-	// get the directories we want to (potentially) delete
+	
 	NSArray *directoriesToDelete = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_applicationPath error:NULL];
 	for (NSString *directory in directoriesToDelete)
 	{
-		// check if we should delete the directory
+		
 		BOOL modifyDirectory = YES;
 		for (NSString *suffix in IGNORE_SUFFIXES)
 			if ([directory hasSuffix:suffix])
@@ -288,14 +294,14 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 				break;
 			}
 
-		// if not, continue
+		
 		if (!modifyDirectory)
 			continue;
 
-		// get the directory
+		
 		NSString *directoryToModify = [_applicationPath stringByAppendingPathComponent:directory];
 		
-		// move/delete it
+		
 		if (cleanupSlicePath.length > 0)
 		{
 			if (![manager moveItemAtPath:directoryToModify toPath:[cleanupSlicePath stringByAppendingPathComponent:directory] error:&error])
@@ -330,8 +336,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return !errorOccurred;
 }
 
-- (BOOL)checkIfOnlyOneComponent:(NSString *)fileName
-{
+
+- (BOOL)checkIfOnlyOneComponent:(NSString *)fileName {
 	NSArray *pathComponents = [fileName pathComponents];
 	if ([pathComponents count] != 1)
 	{
@@ -349,8 +355,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return YES;
 }
 
-- (BOOL)switchToSlice:(NSString *)sliceName
-{
+
+- (BOOL)switchToSlice:(NSString *)sliceName {
 	if (!sliceName)
 		return NO;
 
@@ -364,20 +370,20 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	NSError *error;
 	NSFileManager *manager = [NSFileManager defaultManager];
 
-	// get slice paths
+	
 	NSString *targetSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:sliceName];
 	if (currentSliceAttempt.length > 0)
 	{
-		// cleanup the directory
+		
 		NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt];
 		[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
 	}
 	
-	// get all the directories in the slice
+	
 	NSArray *directoriesToLink = [manager contentsOfDirectoryAtPath:targetSlicePath error:NULL];
 	for (NSString *directory in directoriesToLink)
 	{
-		// move the directory to the application directory
+		
 		NSString *currentPath = [targetSlicePath stringByAppendingPathComponent:directory];
 		NSString *newPath = [_applicationPath stringByAppendingPathComponent:directory];
 
@@ -403,8 +409,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return !errorOccurred;
 }
 
-- (BOOL)createSlice:(NSString *)sliceName
-{
+
+- (BOOL)createSlice:(NSString *)sliceName {
 	if (![self checkIfOnlyOneComponent:sliceName])
 		return NO;
 
@@ -415,7 +421,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	NSString *targetSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:sliceName];
 	if ([manager fileExistsAtPath:targetSlicePath])
 	{
-		// already exists, tell them
+		
 
 		errorOccurred = YES;
 		UIAlertView *alert = [[UIAlertView alloc]
@@ -430,13 +436,13 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	{
 		[self reloadData];
 		
-		// prematurely create the slice directory
+		
 		[manager createDirectoryAtPath:targetSlicePath withIntermediateDirectories:YES attributes:nil error:NULL];
 
-    	// constants
+    	
 		NSArray *CREATE_AND_LINK_DIRECTORIES = @[ @"tmp", @"Documents", @"StoreKit", @"Library" ];
 
-		// cleanup
+		
 		NSString *currentSliceAttempt = self.currentSlice;
 		if (currentSliceAttempt.length < 1)
 		{
@@ -452,20 +458,20 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 		[self killApplication];
 
-		// cleanup the directory
+		
 		NSString *currentSlicePath = [_applicationSlicesPath stringByAppendingPathComponent:currentSliceAttempt];
 		[self cleanupMainDirectoryWithTargetSlicePath:currentSlicePath];
 		
-		// create a directory for everything reasonable, and link it
+		
 		for (NSString *directory in CREATE_AND_LINK_DIRECTORIES)
 		{
-			// get the directory path to create
+			
 			NSString *currentDirectoryFullPath = [_applicationPath stringByAppendingPathComponent:directory];
 
-			// attempt to create the directory
+			
 			if (![manager createDirectoryAtPath:currentDirectoryFullPath withIntermediateDirectories:YES attributes:nil error:&error])
 			{
-				// directory creation failed, tell them
+				
 				NSLog(@"directory creation error: %@", error);
 
 				errorOccurred = YES;
@@ -487,19 +493,19 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return !errorOccurred;
 }
 
-- (BOOL)deleteSlice:(NSString *)sliceName
-{
+
+- (BOOL)deleteSlice:(NSString *)sliceName {
 	if (![self checkIfOnlyOneComponent:sliceName])
 		return NO;
 
 	[self killApplication];
 
-	// cleanup
+	
 	NSString *currentSlice = self.currentSlice;
 	if ([sliceName isEqualToString:currentSlice])
 		[self cleanupMainDirectoryWithTargetSlicePath:nil];
 
-	// try and remove the direcotry
+	
 	NSError *error;
 	if (![[NSFileManager defaultManager] removeItemAtPath:[_applicationSlicesPath stringByAppendingPathComponent:sliceName] error:&error])
 	{
@@ -550,8 +556,8 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return YES;
 }
 
-- (BOOL)renameSlice:(NSString *)originaSliceName toName:(NSString *)targetSliceName
-{
+
+- (BOOL)renameSlice:(NSString *)originaSliceName toName:(NSString *)targetSliceName {
 	if (![self checkIfOnlyOneComponent:originaSliceName] || ![self checkIfOnlyOneComponent:targetSliceName])
 		return NO;
 
@@ -596,3 +602,4 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	return YES;
 }
 @end
+#line 599 "Slicer.xm"

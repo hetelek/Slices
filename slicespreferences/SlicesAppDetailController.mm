@@ -1,8 +1,5 @@
 #import "SlicesAppDetailController.h"
 
-static NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
-#define Localize(key) LocalizeString(key, bundle)
-
 extern NSString* PSDeletionActionKey;
 
 @interface UIPreferencesTable

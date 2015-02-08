@@ -7,6 +7,8 @@
 
 #import "LocalizationKeys.h"
 #import "SpringBoardHeaders.h"
+#import "FolderMigrator.h"
+#import "SliceSetting.h"
 
 #define SLICES_DIRECTORY @"/private/var/mobile/Library/Preferences/Slices/"
 
@@ -19,13 +21,16 @@
 @end
 
 @interface Slicer : NSObject
-@property (readonly) NSArray *slices;
+@property (readonly) NSString *displayIdentifier;
+
+@property (nonatomic, readonly) NSArray *slices;
 @property (nonatomic) NSString *defaultSlice;
 @property (nonatomic) BOOL askOnTouch;
 @property (nonatomic) NSString *currentSlice;
 
 - (instancetype)initWithDisplayIdentifier:(NSString *)displayIdentifier;
 - (instancetype)initWithApplication:(SBApplication *)application;
+
 - (BOOL)switchToSlice:(NSString *)sliceName;
 - (BOOL)createSlice:(NSString *)sliceName;
 - (BOOL)deleteSlice:(NSString *)sliceName;

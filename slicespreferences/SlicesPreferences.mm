@@ -5,9 +5,6 @@
 #import <AppList/AppList.h>
 #import "../LocalizationKeys.h"
 
-static NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
-#define Localize(key) LocalizeString(key, bundle)
-
 @interface SlicesPreferencesListController : PSListController
 @end
 
