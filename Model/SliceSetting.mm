@@ -37,7 +37,12 @@
 	if (fullSettingFileName.length > 0)
 	{
 		NSString *fullSettingFilePath = [directory stringByAppendingPathComponent:fullSettingFileName];
-		return [manager moveItemAtPath:fullSettingFilePath toPath:newFullSettingFilePath error:NULL];
+
+		// remove the setting if we don't have a value
+		if (value.length > 0)
+			return [manager moveItemAtPath:fullSettingFilePath toPath:newFullSettingFilePath error:NULL];
+		else
+			return [manager removeItemAtPath:fullSettingFilePath error:NULL];
 	}
 	
 	return [manager createFileAtPath:newFullSettingFilePath contents:nil attributes:nil];
