@@ -72,6 +72,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 
 - (NSArray *)appGroupSlicers
 {
+	if (!self.appSharing)
+		return @[ ];
+
 	Class LSApplicationProxyClass = objc_getClass("LSApplicationProxy");
 	if (LSApplicationProxyClass && [LSApplicationProxyClass instancesRespondToSelector:@selector(groupContainers)])
 	{
@@ -118,6 +121,22 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 {
 	SliceSetting *askOnTouchSliceSetting = [[SliceSetting alloc] initWithPrefix:@"e"];
 	return [[askOnTouchSliceSetting getValueInDirectory:self.slicesDirectory] isEqualToString:@"1"];
+}
+
+- (void)setAppSharing:(BOOL)appSharing
+{
+	SliceSetting *appSharingSliceSetting = [[SliceSetting alloc] initWithPrefix:@"s_"];
+
+	NSString *stringValue = (appSharing) ? @"1" : @"0";
+	[appSharingSliceSetting setValueInDirectory:self.slicesDirectory value:stringValue];
+}
+
+- (BOOL)appSharing
+{
+	SliceSetting *appSharingSliceSetting = [[SliceSetting alloc] initWithPrefix:@"s_"];
+
+	NSString *stringValue = [appSharingSliceSetting getValueInDirectory:self.slicesDirectory];
+	return stringValue == nil || [stringValue isEqualToString:@"1"];
 }
 
 - (void)killApplication

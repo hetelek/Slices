@@ -80,6 +80,17 @@ extern NSString* PSDeletionActionKey;
 	createSliceSpecifier->action = @selector(createSlice:);
 	[specifiers addObject:createSliceSpecifier];
 
+	if (([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending))
+	{
+		// advanced group specifier
+		PSSpecifier *advancedGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Advanced" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
+		[advancedGroupSpecifier.properties setValue:@"Disabling will leave data shared with other applications untouched." forKey:@"footerText"];
+		[specifiers addObject:advancedGroupSpecifier];
+
+		// app-sharing switch specifier
+		PSSpecifier *appSharingSwitchSpecifier = [PSSpecifier preferenceSpecifierNamed:@"App Sharing" target:self set:@selector(setAppSharing:forSpecifier:) get:@selector(getAppSharing:) detail:nil cell:PSSwitchCell edit:nil];
+		[specifiers addObject:appSharingSwitchSpecifier];
+	}
 
 	// localize all the strings
 	NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
@@ -188,6 +199,16 @@ extern NSString* PSDeletionActionKey;
 - (NSNumber *)getAppSpecificAsk:(PSSpecifier *)specifier
 {
 	return [NSNumber numberWithBool:_slicer.askOnTouch];
+}
+
+- (void)setAppSharing:(NSNumber *)shareNumber forSpecifier:(PSSpecifier*)specifier
+{
+	_slicer.appSharing = [shareNumber boolValue];
+}
+
+- (NSNumber *)getAppSharing:(PSSpecifier *)specifier
+{
+	return [NSNumber numberWithBool:_slicer.appSharing];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)canEditRowAtIndexPath
