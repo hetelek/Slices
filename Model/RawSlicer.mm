@@ -93,7 +93,7 @@
 	if (success)
 		self.currentSlice = targetSliceName;
 
-	return NO;
+	return success;
 }
 
 - (BOOL)createSlice:(NSString *)newSliceName ignoreSuffixes:(NSArray *)ignoreSuffixes

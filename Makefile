@@ -10,7 +10,7 @@ ADDITIONAL_OBJCFLAGS = -fobjc-arc
 include theos/makefiles/common.mk
 
 TWEAK_NAME = Slices
-Slices_FILES = Model/Expetelek/Expetelek.mm Tweak.xm Model/RawSlicer.mm Model/Slicer.mm Model/FolderMigrator.mm Model/SliceSetting.mm
+Slices_FILES = Model/AppGroupSlicer.mm Model/Expetelek/Expetelek.mm Tweak.xm Model/RawSlicer.mm Model/Slicer.mm Model/FolderMigrator.mm Model/SliceSetting.mm
 Slices_FRAMEWORKS = UIKit
 Slices_PRIVATE_FRAMEWORKS = BackBoardServices
 Slices_LIBRARIES = MobileGestalt applist

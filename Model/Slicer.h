@@ -6,6 +6,7 @@
 #import "../Headers/SpringBoardHeaders.h"
 
 #import "RawSlicer.h"
+#import "AppGroupSlicer.h"
 
 #define SLICES_DIRECTORY @"/private/var/mobile/Library/Preferences/Slices/"
 
