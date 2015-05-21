@@ -4,6 +4,122 @@
 		"selected_items":
 		[
 			[
+				"appGrou",
+				"appGroupSlicer"
+			],
+			[
+				"ignore",
+				"ignoreSuffixes"
+			],
+			[
+				"target",
+				"targetSliceName"
+			],
+			[
+				"SBAppl",
+				"SBApplicationControllerClass"
+			],
+			[
+				"appGr",
+				"appGroup"
+			],
+			[
+				"group",
+				"groupURL"
+			],
+			[
+				"newF",
+				"newFullSettingFilePath"
+			],
+			[
+				"des",
+				"destinationPath"
+			],
+			[
+				"initW",
+				"initWithSourcePath"
+			],
+			[
+				"currentSlice",
+				"currentSlicePath"
+			],
+			[
+				"Applca",
+				"applicationDirectory"
+			],
+			[
+				"FBApp",
+				"FBApplicationProcess"
+			],
+			[
+				"appl",
+				"_application"
+			],
+			[
+				"applca",
+				"applicationDirectory"
+			],
+			[
+				"FBAppl",
+				"FBApplicationProcessClass"
+			],
+			[
+				"slice",
+				"slicesDirectory"
+			],
+			[
+				"slices",
+				"slicesDirectory"
+			],
+			[
+				"targe",
+				"targetSliceDirectoryFullPath"
+			],
+			[
+				"origin",
+				"originalSliceDirectoryFullPath"
+			],
+			[
+				"targetS",
+				"targetSliceName"
+			],
+			[
+				"application",
+				"applicationDirectory"
+			],
+			[
+				"clean",
+				"cleanupMainDirectoryWithTargetSlicePath"
+			],
+			[
+				"stringBy",
+				"stringByAppendingPathComponent"
+			],
+			[
+				"pos",
+				"possibleFile"
+			],
+			[
+				"dest",
+				"destinationFolderPath"
+			],
+			[
+				"source",
+				"sourceFolderPath"
+			],
+			[
+				"sourc",
+				"sourcePath"
+			],
+			[
+				"desitn",
+				"destinationFolderPath"
+			],
+			[
+				"_app",
+				"_appInfo"
+			],
+			[
 				"stringB",
 				"stringByAppendingPathComponent"
 			],
@@ -20,10 +136,6 @@
 				"displayIdentifiers"
 			],
 			[
-				"slices",
-				"slicesPath"
-			],
-			[
 				"_Appl",
 				"_applicationPath"
 			],
@@ -38,10 +150,6 @@
 			[
 				"default",
 				"defaultSlice"
-			],
-			[
-				"appl",
-				"_applicationPath"
 			],
 			[
 				"_applicatio",
@@ -62,10 +170,6 @@
 			[
 				"bun",
 				"bundleIdentifier"
-			],
-			[
-				"_app",
-				"_applicationPath"
 			],
 			[
 				"accou",
@@ -98,10 +202,6 @@
 			[
 				"is",
 				"isEnabled"
-			],
-			[
-				"slice",
-				"sliceName"
 			],
 			[
 				"def",
@@ -162,10 +262,6 @@
 			[
 				"get",
 				"attemptToGetCurrentSlice"
-			],
-			[
-				"currentSlice",
-				"currentSliceAttempt"
 			],
 			[
 				"error",
@@ -342,22 +438,50 @@
 	"expanded_folders":
 	[
 		"/Users/hetelek/Developer/Tweaks/slices",
-		"/Users/hetelek/Developer/Tweaks/slices/layout",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/de.lproj",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/en.lproj",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/es.lproj",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/fr.lproj",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/pt.lproj",
+		"/Users/hetelek/Developer/Tweaks/slices/Model",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences"
 	],
 	"file_history":
 	[
-		"/Users/hetelek/Developer/Tweaks/slices/LocalizationKeys.h",
+		"/Users/hetelek/Desktop/itrace/main.c",
+		"/Users/hetelek/Developer/Tweaks/slices/control",
+		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.mm",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.xm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.h",
+		"/Users/hetelek/Developer/Tweaks/slices/.git/COMMIT_EDITMSG",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.h",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/593EC9F4-649F-4980-84B2-157E87858FDE/pw.dat",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/SliceSetting.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Headers/SpringBoardHeaders.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer",
+		"/Users/hetelek/Developer/Tweaks/slices/Slicer.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Slicer.mm",
+		"/Users/hetelek/Desktop/Slicer.xm",
+		"/Users/hetelek/Desktop/Slicer.mm",
+		"/Users/hetelek/Desktop/slices/SliceSetting.mm",
+		"/Users/hetelek/Desktop/slices/Slicer.mm",
 		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
+		"/Users/hetelek/Desktop/slices/FolderMigrator.h",
+		"/Users/hetelek/Desktop/slices/FolderMigrator.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferences.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.h",
+		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/SpringBoardHeaders.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Slicer.xm",
+		"/Users/hetelek/Developer/Tweaks/slices/FolderMigrator.h",
+		"/Users/hetelek/Developer/Tweaks/slices/FolderMigrator.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting.h",
+		"/Users/hetelek/Developer/Tweaks/slices/LocalizationKeys.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/entry.plist",
+		"/Users/hetelek/Developer/Tweaks/slices/Slicer2.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Slicer2.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1609A144-ED1A-4642-A765-06AD40024705/index.php",
 		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/de.lproj/Slices2.strings",
 		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/fr.lproj/Slices2.strings",
@@ -381,14 +505,10 @@
 		"/Users/hetelek/Desktop/a/index.php",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/016B716C-2EA5-4754-A909-4A751D355641/error_log",
 		"/Users/hetelek/Desktop/a/index.html",
-		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.h",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/A5EEC9D2-E195-4CAE-B724-EB200EBF25E3/yolo",
 		"/Users/hetelek/Developer/Tweaks/simplerespring/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/slices/SpringBoardHeaders.h",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/33F1C193-B25F-4C5D-A170-C5A71FB31F8F/com.reddit.alienblue.plist.orQBbDv",
 		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Makefile",
 		"/Users/hetelek/.ssh/known_hosts",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/5603CDB2-AA30-4AA9-944E-FF614DF5428B/884836383450837500r.jpg",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1F401D43-A35A-48AB-BD8C-1C2BAF81D22C/error_log",
@@ -421,7 +541,6 @@
 		"/Users/hetelek/Desktop/Headers/MediaPlayer/_MPStorePlayWhileDownloadAVURLAsset.h",
 		"/Users/hetelek/Developer/Tweaks/colorize/Colorize.plist",
 		"/Users/hetelek/Developer/Tweaks/waves/Waves.plist",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.mm",
 		"/Users/hetelek/Downloads/bfgminer-4.8.0/libblkmaker/blkmaker.c",
 		"/Users/hetelek/Developer/Tweaks/slices/Slices.plist",
 		"/Users/hetelek/Desktop/util.c",
@@ -438,7 +557,6 @@
 		"/Users/hetelek/Desktop/com.andywiik.scrubradio_6.0_iphoneos-arm/Library/MobileSubstrate/DynamicLibraries/spotifyscrub.plist",
 		"/Users/hetelek/Desktop/asdf.txt",
 		"/Users/hetelek/Developer/Tweaks/blocks/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/slices/control",
 		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
 		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/MobileSubstrate/DynamicLibraries/smarttap.plist",
 		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/PreferenceLoader/Preferences/SmartTapSettings.plist",
@@ -446,42 +564,13 @@
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/F9E7F40C-220F-4DC1-8D12-7C95D69B7C3E/check.php",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources/SlicesPreferences.plist",
 		"/opt/theos/include/Preferences/PSSpecifier.h",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.h",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferences.mm",
 		"/Users/hetelek/Developer/Tweaks/controlunlocker/controlunlockerprefs/NESControlSequenceController.mm",
 		"/Users/hetelek/Developer/Tweaks/controlunlocker/controlunlockerprefs/Resources/ControlUnlockerPrefs.plist",
 		"/Users/hetelek/Desktop/bak.xm",
 		"/Users/hetelek/Desktop/fake.txt",
 		"/Users/hetelek/Developer/Tweaks/vinedownloader/Headers.h",
 		"/Users/hetelek/Developer/Tweaks/playcountnotrating/Makefile",
-		"/Users/hetelek/Developer/Tweaks/playcountnotrating/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/colorize/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/colorize/Makefile",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/742F2DCE-973F-43D1-969A-17617CEA7F71/error_log",
-		"/Users/hetelek/Developer/photolock/Tweak.xm",
-		"/Users/hetelek/Developer/photolock/Makefile",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/7922D500-47BB-43EF-AC77-6321216CB722/Info.plist",
-		"/opt/theos/include/Preferences/PSListController.h",
-		"/opt/theos/include/Preferences/Preferences.h",
-		"/Users/hetelek/Developer/Tweaks/padclock/Makefile",
-		"/Users/hetelek/Developer/Tweaks/padclock/padclockprefs/Makefile",
-		"/Users/hetelek/Developer/Tweaks/timepasscodepro/Makefile",
-		"/Users/hetelek/Developer/Tweaks/timepasscodepro/timepasscodepreferences/Makefile",
-		"/Users/hetelek/Developer/Tweaks/timepasscode/Makefile",
-		"/opt/theos/CydiaSubstrate.framework/Headers/CydiaSubstrate.h",
-		"/opt/theos/include/DHCommon.h",
-		"/Users/hetelek/Desktop/TypeStatus/Makefile",
-		"/Users/hetelek/Developer/Tweaks/aaukipreferences/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/aaukipreferences/aukipreferences/Resources/AukiPreferences.plist",
-		"/Users/hetelek/Developer/Tweaks/aaukipreferences/Makefile",
-		"/Users/hetelek/Developer/Tweaks/timepasscodepro/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/aaukipreferences/aukipreferences/Makefile",
-		"/Users/hetelek/Developer/Tweaks/configureslices",
-		"/Users/hetelek/Developer/Tweaks/timepasscodepro/timepasscodepreferences/TimePasscodePreferences.mm",
-		"/Users/hetelek/Developer/Tweaks/aaukipreferences/aukipreferences/AukiPreferences.mm",
-		"/Users/hetelek/Developer/Tweaks/aaukipreferences/AaukiPreferences.mm",
-		"/Users/hetelek/Developer/information.txt",
-		"/Users/hetelek/Developer/Tweaks/fake.cy"
+		"/Users/hetelek/Developer/Tweaks/playcountnotrating/Tweak.xm"
 	],
 	"find":
 	{
@@ -500,6 +589,47 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"instancesRespondToSelector",
+			"killApp",
+			"proxy",
+			"ApplicationPro",
+			"LSApp",
+			"manager",
+			"applicationDirectory",
+			"workingDirectory",
+			"cleanupMainDirectoryWithTargetSlicePath",
+			"application",
+			"controller",
+			"performDeletionActionForSpecifier",
+			"switchToSlice",
+			"killApplication",
+			"switch\nswitch\nswitch",
+			"switch\nswitch",
+			"BKSTerminateApplicationForReasonAndReportWithDescription",
+			"killA",
+			"fullSettingFileName",
+			"fullSettingFileNameInDirec",
+			"fullSett",
+			"execute",
+			"deleteSlice:",
+			"sliceSetting",
+			"iOS8",
+			"Slicer2",
+			"checkIfOnlyOneComponent",
+			"cur_",
+			"cur",
+			"cur_",
+			"cur",
+			"reloadData",
+			"[_application",
+			"_application ",
+			"_application",
+			"cleanupMainDirectoryWithTargetSlicePath",
+			"initWithDisplay",
+			"initWith",
+			"initWithDisplayIdentifier",
+			"create",
+			"switchToSlice",
 			"group.snapchat.picaboo",
 			"share",
 			"\\\\n",
@@ -586,55 +716,15 @@
 			"switch",
 			"switcgh",
 			"kill",
-			"killApplication",
-			"switchToSlice",
-			"killApplication",
-			"killApplication\nkillApplication",
-			"killApplication",
-			"yo:",
-			"containerPath",
-			"1.6",
-			".6",
-			".12",
-			"renderPNGAudioPictogramLogForAsset",
-			"AVURLASset",
-			"192.168.1.6",
-			" ",
-			"parse_diff",
-			"hash",
-			"initiate_stratum",
-			"subscribe",
-			"worker",
-			"add_pool",
-			"adjust_quota_gcd",
-			"setup_url",
-			"detect_stratum",
-			"stratum",
-			"gen_stratum_work",
-			"020000000413cf7d02794eb094cd66404e46aa816679e12f6fdf9ee11f0e97337702b6e00b1edc1ccf82d3214423fc68234f4946119e39df2cc2137e31ebc186191d54229b8f1753dbdf441b",
-			"020000000413cf7d02794eb094cd66404e46aa816679e12f6fdf9ee11f0e97337702b6e00b1edc1ccf82d3214423fc68234f4946119e39df2cc2137e31ebc186191d54229b8f1753dbdf441b000000000",
-			" ",
-			"838",
-			" ",
-			"\\n",
-			"<01000000 062d16d6 40fba061 f26fdf4e 90c4dbfb c67f1416 2054eb65 3c0ac7db 2a722aa8 76010000 008b4830 4502207a b1d375a8 1ba18e88 07d8d3cf ff1adad9 e7518ab2 1f79ed2e 9b4a93e0 a94d4202 2100fc7f e3dcb5d7 000706cf 4f432557 0693cad9 65dd3cd9 6b189e76 41e004f8 65320141 04e21d2f 1378d9c9 c469881c b44fb5c7 54321f57 55be121f 435508d9 2c8a85e9 c7915eec cd3084d9 294830a9 a9ef6162 61d94242 6e9658a1 6a8b8ffd 1c1d0495 fdffffff ff42d93f 847b35e5 1038ee34 b789c34b cff8e4c5 90e52f3f 0b6e8d6f e180deee 07010000 008a4730 4402204b 0a5efd5d a652bd16 36afcfcb e8fc0d7a ed4bd51d 8b766553 270647fd 6766ae02 207cfb87 6d45aac9 89c67450 01cd5e6c 24b1914b 6855ae70 a3d9579b 85c255ae 94014104 b013a968 505bdc85 782cd84b ec1ed491 dd10a3ba 6c34144a cce3e9c6 1ecf5a79 9ee19558 d0bd9dcb 80ea737b 7f9e283c e10c76b1 9a5d3ef1 a40b00a3 e358e374 ffffffff cccdb0a5 51ce5449 105c1821 7fb74add c8bd785d a9c4c1c5 84c23056 66580301 00000000 8c493046 022100bd 84bc5474 9d3be731 3f79d37d 072d4f0b 9e23da7a 19a4f496 932ea8ba b4479802 2100e4a0 532c18b2 159720e7 19c82d70 5cf1ab0f adc6e439 302a1804 d513cede 340b0141 04fd03e8 d622e52d 5299a824 a9854f5e 41caf188 8301fabb c277d0e9 9f60174a ccc2c5f0 b8552ae3 258a3077 c3a68977 50820edb 62b1cd69 2e40fc16 98c4e0ab 27ffffff ffbabcbe 0a13bd2a 1c5c8dbc 4eb26def f9662721 20e21eca 2c60580a 67675ee8 23000000 008a4730 44022018 44792fc8 1e584b66 4ad87c2c 6c5c3681 963cbaf4 d84a6383 34f5ad9d 9203cb02 2004b79b 739444d5 710dd43e 46735e74 a57e27c8 0f0c718b 8bc50b0b 3b18cbab 94014104 64604294 fdccd300 3033d4f3 6f847a6d ae26fcd8 3d132aae dca6f7c6 ef22bad9 1a0a7a21 5a53491b f01fb5ba 565fd90b 75ab3b03 effbe07b 4e54201e cb946c45 ffffffff 08a7e5bb 52de0c4c cdef28f5 b0bf5e08 8b57975a e1594666 d0dd7c8e 47c8a585 01000000 8b483045 022100bb 8fa50411 cab0c0de b4e89b67 36e5d91a 0a8310fa 98123bdf de1315b5 a39f7002 206ffdc6 679decdd a2393cb8 4023ffb9 6184178b d7cb2e11 3b1d737f 61102094 62014104 8313befc 25acbc7e 912e1d96 dc04039b cf6cdb59 59f6e337 1b4dc78d 76634b62 12dfa89c 01bf3dd0 f7cc593f c126a40a d99d3ba1 5d0cc61a 6d32b26c fe9f7ef4 ffffffff 610472e5 6d3a392c ab79385a 233f4e06 3a567a98 48ff668b ecf19aa2 a9fa5587 00000000 8b483045 022100e3 5f7e9c1c 3d11065f dcc75d77 e9b55077 bdfcf114 bf7479f2 19989269 cac18602 2047a24f 19226b46 a1b68b49 a847d675 46335c1c 25cc1550 7b11edf8 eaf01541 c6014104 13704d54 180f4984 39e70a85 64a0b3c2 ad55158e d49a11dd e7bf1359 48aea309 85bec3aa 60f4eaa6 94af125e 7de37c1d 83ed0a2f cbbd450d 75f7b99d 7bff3b20 ffffffff 026c2116 00000000 001976a9 14098bd1 625a4eb1 b06ff43c d637bd18 0458b0e5 b188ac30 d3970000 00000019 76a914e8 28ce88ac b2df5179 a509f049 c3e0245f b502e888 ac000000 00>",
-			"d616",
-			"062d16d6",
-			"65",
-			"<01000000 01000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00ffffff ff4d04ff ff001d01 04455468 65205469 6d657320 30332f4a 616e2f32 30303920 4368616e 63656c6c 6f72206f 6e206272 696e6b20 6f662073 65636f6e 64206261 696c6f75 7420666f 72206261 6e6b73ff ffffff01 00f2052a 01000000 43410467 8afdb0fe 55482719 67f1a671 30b7105c d6a828e0 3909a679 62e0ea1f 61deb649 f6bc3f4c ef38c4f3 5504e51e c112de5c 384df7ba 0b8d578a 4c702b6b f11d5fac 00000000>",
-			"43410467 8afdb0fe 55482719 67f1a671 30b7105c d6a828e0 3909a679 62e0ea1f 61deb649 f6bc3f4c ef38c4f3 5504e51e c112de5c 384df7ba 0b8d578a 4c702b6b f11d5fac 0a000000>",
-			"a6",
-			"a",
-			"(?<=\\\\G...)",
-			" ",
-			"192.168.1.6"
+			"killApplication"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
+			"workingDirectory",
 			"\\n",
 			"",
 			"(?<=\\\\G...)",
