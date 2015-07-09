@@ -4,8 +4,8 @@
         {
         	"name": "All",
             "path": ".",
-            "folder_exclude_patterns": ["*theos", "Resources"],
-            "file_include_patterns": ["*.mm", "*.h", "*.xm", "*.plist", "Makefile", "control", "*.strings"]
+            "folder_exclude_patterns": ["*theos"],
+            "file_include_patterns": ["*.mm", "*.h", "*.xm", "*.plist", "Makefile", "control", "*.strings", "slicespreferences/Resources"]
         }
     ]
 }

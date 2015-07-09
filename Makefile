@@ -3,7 +3,7 @@ THEOS_DEVICE_IP = 192.168.1.17 #iphone6+
 #THEOS_DEVICE_IP = 192.168.1.6 #ipad
 #THEOS_DEVICE_IP = 192.168.1.11 #ipod
 
-TARGET := iphone:8.1:2.0
+TARGET := iphone:8.4:2.0
 ARCHS := armv7 arm64
 ADDITIONAL_OBJCFLAGS = -fobjc-arc
 

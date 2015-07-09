@@ -38,6 +38,28 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>Advanced</string>
+			<key>footerText</key>
+			<string>Disabling will hide the New Slice option when Ask on Touch is enabled.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true />
+			<key>defaults</key>
+			<string>com.expetelek.slicespreferences</string>
+			<key>key</key>
+			<string>showNewSliceOption</string>
+			<key>label</key>
+			<string>Show New Slice Option</string>
+			<key>PostNotification</key>
+			<string>com.expetelek.slicespreferences/settingsChanged</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>Links</string>
 			<key>footerText</key>
 			<string>If you have any questions or experience any problems, contact hetelek using Twitter or email (through Cydia).</string>

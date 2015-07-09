@@ -4,12 +4,13 @@
 
 #define PREFERENCE_IDENTIFIER CFSTR("com.expetelek.slicespreferences")
 #define ENABLED_KEY CFSTR("isEnabled")
+#define SHOW_NEW_SLICE_OPTION_KEY CFSTR("showNewSliceOption")
 #define WELCOME_MESSAGE_KEY CFSTR("hasSeenWelcomeMessage")
 #define VERSION_KEY CFSTR("version")
 
 #define CURRENT_SETTINGS_VERSION 1
 
-static BOOL isEnabled, hasSeenWelcomeMessage;
+static BOOL isEnabled, hasSeenWelcomeMessage, showNewSliceOption;
 static NSInteger version;
 
 %hook SpringBoard
@@ -143,9 +144,12 @@ static NSInteger version;
 				for (NSString *slice in slices)
 					[actionSheet addButtonWithTitle:slice];
 
-				// new slice button (red)
-				[actionSheet addButtonWithTitle:Localize(@"New Slice")];
-				actionSheet.destructiveButtonIndex = actionSheet.numberOfButtons - 1;
+				if (showNewSliceOption)
+				{
+					// new slice button (red)
+					[actionSheet addButtonWithTitle:Localize(@"New Slice")];
+					actionSheet.destructiveButtonIndex = actionSheet.numberOfButtons - 1;
+				}
 
 				// cancel button
 				[actionSheet addButtonWithTitle:Localize(@"Cancel")];
@@ -236,6 +240,9 @@ static void loadSettings()
 	Boolean keyExists;
 	isEnabled = CFPreferencesGetAppBooleanValue(ENABLED_KEY, PREFERENCE_IDENTIFIER, &keyExists);
 	isEnabled = (isEnabled || !keyExists);
+
+	showNewSliceOption = CFPreferencesGetAppBooleanValue(SHOW_NEW_SLICE_OPTION_KEY, PREFERENCE_IDENTIFIER, &keyExists);
+	showNewSliceOption = (showNewSliceOption || !keyExists);
 
 	hasSeenWelcomeMessage = CFPreferencesGetAppBooleanValue(WELCOME_MESSAGE_KEY, PREFERENCE_IDENTIFIER, &keyExists);
 
