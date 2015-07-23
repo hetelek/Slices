@@ -408,10 +408,31 @@
 	"buffers":
 	[
 	],
-	"build_system": "Packages/User/Theos Make.sublime-build",
+	"build_system": "Packages/Makefile/Make.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Packages/Makefile/Make.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
 	"command_palette":
 	{
 		"height": 392.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -438,14 +459,43 @@
 	"expanded_folders":
 	[
 		"/Users/hetelek/Developer/Tweaks/slices",
-		"/Users/hetelek/Developer/Tweaks/slices/Model",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences"
+		"/Users/hetelek/Developer/Tweaks/slices/Model"
 	],
 	"file_history":
 	[
-		"/Users/hetelek/Desktop/itrace/main.c",
+		"/Users/hetelek/Desktop/OSExperience/Makefile",
+		"/Users/hetelek/Desktop/OSExperience/Hooks.xm",
+		"/Users/hetelek/Desktop/OSExperience/Installer.xm",
+		"/opt/theos.bak/CydiaSubstrate.framework/Headers/CydiaSubstrate.h",
+		"/opt/theos/include/substrate.h",
+		"/Users/hetelek/Downloads/theos-master/documentation/Makefile",
+		"/Users/hetelek/Downloads/OSExperience-master/OSAppPane.h",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/RootViewController.h",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/RootViewController.mm",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/Resources/Info.plist",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/Makefile",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/truepasscodeappApplication.mm",
+		"/Users/hetelek/Developer/Tweaks/truepasscode/main.mm",
+		"/Users/hetelek/Downloads/application.nic/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources/SlicesPreferences.plist",
 		"/Users/hetelek/Developer/Tweaks/slices/control",
+		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/main.m",
+		"/Users/hetelek/Developer/Tweaks/padclock/padclockprefs/Resources/PadClockPrefs.plist",
+		"/Users/hetelek/Music/iTunes/iTunes Music Library.xml",
+		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
+		"/Users/hetelek/Developer/Tweaks/slices/Slices.plist",
+		"/Applications/iTunes.app/Contents/Info.plist",
 		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
+		"/Users/hetelek/Desktop/outdir/GKUnauthenticatedPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKLocalPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKFriendPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKFamiliarPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKInternalRepresentation.h",
+		"/Users/hetelek/Desktop/a.txt",
+		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/User/Theos Make.sublime-build",
+		"/Users/hetelek/Desktop/itrace/main.c",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.mm",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.mm",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.mm",
@@ -466,7 +516,6 @@
 		"/Users/hetelek/Desktop/Slicer.mm",
 		"/Users/hetelek/Desktop/slices/SliceSetting.mm",
 		"/Users/hetelek/Desktop/slices/Slicer.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
 		"/Users/hetelek/Desktop/slices/FolderMigrator.h",
 		"/Users/hetelek/Desktop/slices/FolderMigrator.mm",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferences.mm",
@@ -508,7 +557,6 @@
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/A5EEC9D2-E195-4CAE-B724-EB200EBF25E3/yolo",
 		"/Users/hetelek/Developer/Tweaks/simplerespring/Tweak.xm",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/33F1C193-B25F-4C5D-A170-C5A71FB31F8F/com.reddit.alienblue.plist.orQBbDv",
-		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
 		"/Users/hetelek/.ssh/known_hosts",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/5603CDB2-AA30-4AA9-944E-FF614DF5428B/884836383450837500r.jpg",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1F401D43-A35A-48AB-BD8C-1C2BAF81D22C/error_log",
@@ -542,35 +590,7 @@
 		"/Users/hetelek/Developer/Tweaks/colorize/Colorize.plist",
 		"/Users/hetelek/Developer/Tweaks/waves/Waves.plist",
 		"/Users/hetelek/Downloads/bfgminer-4.8.0/libblkmaker/blkmaker.c",
-		"/Users/hetelek/Developer/Tweaks/slices/Slices.plist",
-		"/Users/hetelek/Desktop/util.c",
-		"/Users/hetelek/Desktop/cgminer.c",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/007ADDE1-455D-4D0F-ACD5-BEEBC56C885C/index.php",
-		"/Users/hetelek/Developer/Tweaks/Expetelek/Expetelek.mm",
-		"/Users/hetelek/Developer/Tweaks/powerfoolinpowerschool/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/powerfoolinpowerschool/Makefile",
-		"/Users/hetelek/Developer/Tweaks/powerfoolinpowerschool/control",
-		"/Users/hetelek/Downloads/N1DkQLAJlk7k81XRSihxy-rgFIEADj5gAJu-oi343RY/113471/readme.txt",
-		"/Users/hetelek/Developer/Tweaks/slices/SlicesApplicationSettings.h",
-		"/Users/hetelek/Developer/Tweaks/slices/SlicesApplicationSettings.mm",
-		"/Users/hetelek/Developer/Tweaks/simplerespring/Makefile",
-		"/Users/hetelek/Desktop/com.andywiik.scrubradio_6.0_iphoneos-arm/Library/MobileSubstrate/DynamicLibraries/spotifyscrub.plist",
-		"/Users/hetelek/Desktop/asdf.txt",
-		"/Users/hetelek/Developer/Tweaks/blocks/Tweak.xm",
-		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
-		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/MobileSubstrate/DynamicLibraries/smarttap.plist",
-		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/PreferenceLoader/Preferences/SmartTapSettings.plist",
-		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/PreferenceBundles/SmartTapSettings.bundle/Info.plist",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/F9E7F40C-220F-4DC1-8D12-7C95D69B7C3E/check.php",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources/SlicesPreferences.plist",
-		"/opt/theos/include/Preferences/PSSpecifier.h",
-		"/Users/hetelek/Developer/Tweaks/controlunlocker/controlunlockerprefs/NESControlSequenceController.mm",
-		"/Users/hetelek/Developer/Tweaks/controlunlocker/controlunlockerprefs/Resources/ControlUnlockerPrefs.plist",
-		"/Users/hetelek/Desktop/bak.xm",
-		"/Users/hetelek/Desktop/fake.txt",
-		"/Users/hetelek/Developer/Tweaks/vinedownloader/Headers.h",
-		"/Users/hetelek/Developer/Tweaks/playcountnotrating/Makefile",
-		"/Users/hetelek/Developer/Tweaks/playcountnotrating/Tweak.xm"
+		"/Users/hetelek/Desktop/util.c"
 	],
 	"find":
 	{
@@ -589,6 +609,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ACTIVATION_BACKUP_SERVER",
+			"-f",
+			"objc_setAssociatedObject",
+			"switcherGestureInProgress",
+			"kill",
+			"switch",
+			"1016",
+			"showNewSliceOption",
+			"isEnabled",
+			"new slice",
+			"Music",
+			"music",
+			"MGCopyAnswer",
 			"instancesRespondToSelector",
 			"killApp",
 			"proxy",
@@ -703,20 +736,7 @@
 			"_applicationPath",
 			"killAp",
 			"Slicer *",
-			"Slicer",
-			"Slices *",
-			"Slicer *",
-			"Slicer",
-			"killApplication",
-			"switch",
-			"dyl",
-			"dyls",
-			"_displayIdentifier",
-			"killApplication",
-			"switch",
-			"switcgh",
-			"kill",
-			"killApplication"
+			"Slicer"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -786,6 +806,7 @@
 	{
 		"height": 0.0
 	},
+	"pinned_build_system": "Packages/User/Theos Make.sublime-build",
 	"project": "slices.sublime-project",
 	"replace":
 	{
@@ -795,6 +816,7 @@
 	"select_file":
 	{
 		"height": 0.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -803,6 +825,7 @@
 	"select_project":
 	{
 		"height": 0.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -811,6 +834,7 @@
 	"select_symbol":
 	{
 		"height": 0.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
