@@ -38,6 +38,22 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>Game Center</string>
+			<key>footerText</key>
+			<string>Manage your Game Center accounts.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>detail</key>
+			<string>GameCenterController</string>
+			<key>label</key>
+			<string>Accounts</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>Advanced</string>
 			<key>footerText</key>
 			<string>Disabling will hide the New Slice option when Ask on Touch is enabled.</string>

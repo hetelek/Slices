@@ -3,6 +3,8 @@
 #import <Preferences/PSSpecifier.h>
 
 #import <AppList/AppList.h>
+
+#import "../Model/GameCenterAccountManager.h"
 #import "../Headers/LocalizationKeys.h"
 
 @interface SlicesPreferencesListController : PSListController
