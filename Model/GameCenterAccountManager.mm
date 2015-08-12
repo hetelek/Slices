@@ -29,45 +29,32 @@
 
 - (BOOL)addAccount:(NSString *)username password:(NSString *)password
 {
+	// add the account to the keychain
 	return [SSKeychain setPassword:password forService:GAME_CENTER_ACCOUNT_SERVICE account:username];
 }
 
 - (BOOL)deleteAccount:(NSString *)username
 {
+	// remove account from keychain
 	return [SSKeychain deletePasswordForService:GAME_CENTER_ACCOUNT_SERVICE account:username];
 }
 
 - (void)switchToAccount:(NSString *)username
 {
+	// get account proxy
 	Class GKDaemonProxyClass = objc_getClass("GKDaemonProxy");
 	id<GKAccountServicePrivate> accountServicePrivateProxy = [GKDaemonProxyClass accountServicePrivateProxy];
 
+	// get corresponding password
 	NSString *password = [SSKeychain passwordForService:GAME_CENTER_ACCOUNT_SERVICE account:username];
 
+	// sign out current player, then try and sign in
 	[accountServicePrivateProxy signOutPlayerWithHandler:^(NSError *error) {
-		if (error)
-		{
-			NSLog(@"error while signing out: %@", error);
-		}
-
 		[accountServicePrivateProxy authenticatePlayerWithUsername:username password:password usingFastPath:true handler:^(GKAuthenticateResponse *response, NSError *error) {
-				if (error != nil)
+				if (error == nil && [GKLocalPlayer localPlayer].isAuthenticated)
 				{
-					NSLog(@"error while switching game center accounts: %@", error);
-				}
-				else
-				{
-					NSLog(@"name: %@", response.accountName);
-					NSLog(@"login disabled: %i", response.loginDisabled);
-
-					if ([GKLocalPlayer localPlayer].isAuthenticated)
-					{
-						NSLog(@"authenticated player!");
-					}
-					else
-					{
-						NSLog(@"hmmmm... failed to authenticate player");
-					}
+					// TODO: add completion handler as parameter
+					// authenticated player
 				}
 			}];
 	}];

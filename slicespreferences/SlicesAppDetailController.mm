@@ -164,7 +164,6 @@ extern NSString* PSDeletionActionKey;
 	else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:Localize(@"Rename Slice")])
 	{
 		// they want to rename a slice
-
 		NSString *originalSliceName = _specifierToRename.name;
 
 		UITextField *textField = [alertView textFieldAtIndex:0];
