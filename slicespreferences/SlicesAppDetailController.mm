@@ -24,6 +24,13 @@ extern NSString* PSDeletionActionKey;
 	return _specifiers;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+
+	[self refreshView:YES];
+}
+
 - (void)reloadSpecifiers
 {
 	// create a slicer
@@ -60,9 +67,10 @@ extern NSString* PSDeletionActionKey;
 	NSArray *slices = _slicer.slices;
 	for (NSString *slice in slices)
 	{
-		PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:slice target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];
-		specifier->action = @selector(renameSlice:);
+		PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:slice target:self set:nil get:nil detail:[SliceDetailController class] cell:PSLinkListCell edit:nil];
+		//specifier->action = @selector(renameSlice:);
 		[specifier setProperty:NSStringFromSelector(@selector(removedSpecifier:)) forKey:PSDeletionActionKey];
+		[specifier.properties setValue:_slicer forKey:@"slicer"];
 		[specifiers addObject:specifier];
 	}
 
@@ -210,11 +218,16 @@ extern NSString* PSDeletionActionKey;
 	return [NSNumber numberWithBool:_slicer.appSharing];
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return UITableViewCellEditingStyleDelete;
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)canEditRowAtIndexPath
 {
 	int index = [self indexForIndexPath:canEditRowAtIndexPath];
 	PSSpecifier *specifier = _specifiers[index];
-	return specifier->cellType == PSListItemCell;
+	return specifier.detailControllerClass == [SliceDetailController class];
 }
 
 - (void)removedSpecifier:(PSSpecifier *)specifier

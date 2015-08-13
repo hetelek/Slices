@@ -19,7 +19,7 @@
 
 		// account group specifier
 		PSSpecifier *accountGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Accounts" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
-		//[accountGroupSpecifier.properties setValue:@"If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.\n\nIf it's disabled, the application will start with the specified Default Slice." forKey:@"footerText"];
+		//[accountGroupSpecifier.properties setValue:@"" forKey:@"footerText"];
 		[_specifiers addObject:accountGroupSpecifier];
 
 		// create the specifiers
@@ -87,13 +87,9 @@
 			// "Done" key for password field, "Next" key for Apple ID field
 			NSString *identifier = editableCell.specifier.identifier;
 			if ([identifier isEqualToString:PASSWORD_SPECIFIER_IDENTIFIER])
-			{
 				[editableCell.textField setReturnKeyType:UIReturnKeyDone];
-			}
 			else if ([identifier isEqualToString:APPLE_ID_SPECIFIER_IDENTIFIER])
-			{
 				[editableCell.textField setReturnKeyType:UIReturnKeyNext];
-			}
 		}
 	}
 

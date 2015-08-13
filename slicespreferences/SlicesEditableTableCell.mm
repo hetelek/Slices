@@ -15,7 +15,7 @@
 #pragma clang diagnostic pop
 	}
 
-	// if it's the password field, close the keyboard
-	return [self.specifier.identifier isEqualToString:PASSWORD_SPECIFIER_IDENTIFIER];
+	// if there's a done button, close it
+	return textField.returnKeyType == UIReturnKeyDone;
 }
 @end
