@@ -27,7 +27,6 @@
 		for (NSString *account in accounts)
 		{
 			PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:account target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];
-			//specifier->action = @selector(renameSlice:);
 			[specifier setProperty:NSStringFromSelector(@selector(removedSpecifier:)) forKey:PSDeletionActionKey];
 			[_specifiers addObject:specifier];
 		}
@@ -204,7 +203,7 @@
 				{
 					UIAlertView *alert = [[UIAlertView alloc]
 						initWithTitle:@"Failed"
-						message:[NSString stringWithFormat:@"Failed adding account to keychain!"]
+						message:[NSString stringWithFormat:@"Failed while adding account to keychain!"]
 						delegate:nil
 						cancelButtonTitle:@"OK"
 						otherButtonTitles:nil];
