@@ -157,11 +157,42 @@
 		self.view.userInteractionEnabled = YES;
 
 		// if there was an error, tell them
-		if (error != nil)
+		if (error)
 		{
+			NSString *message;
+			NSString *title;
+
+			if ([error.domain isEqualToString:GKErrorDomain])
+			{
+				// connected to server
+				if (error.code != GKErrorInvalidCredentials)
+				{
+					if (error.code != GKErrorNotAuthenticated)
+					{
+						title = @"Unable to Connect";
+						message = @"Unable to connect to server for unknown reasons.";
+					}
+					else
+					{
+						title = @"Sign In Failed";
+						message = @"Sign in failed for unknown reason. Possible password change?";
+					}
+				}
+				else
+				{
+					title = @"Invalid credentials";
+					message = @"Sign in failed: invalid credentials.";
+				}
+			}
+			else
+			{
+				title = @"Unable to Connect";
+				message = @"Unable to connect to server.";
+			}
+
 			UIAlertView *alert = [[UIAlertView alloc]
-				initWithTitle:@"Failed"
-				message:[NSString stringWithFormat:@"Failed to authenticate: %@", error]
+				initWithTitle:title
+				message:message
 				delegate:nil
 				cancelButtonTitle:@"OK"
 				otherButtonTitles:nil];
@@ -194,8 +225,8 @@
 			else
 			{
 				UIAlertView *alert = [[UIAlertView alloc]
-					initWithTitle:@"Invalid"
-					message:[NSString stringWithFormat:@"Invalid credentials."]
+					initWithTitle:@"Unkown Error"
+					message:@"Unkown error occurred: use not authenticated."
 					delegate:nil
 					cancelButtonTitle:@"OK"
 					otherButtonTitles:nil];
