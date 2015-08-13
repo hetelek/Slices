@@ -8,14 +8,68 @@
 - (PSTextFieldSpecifier *)passwordSpecifier;
 - (PSSpecifier *)addAccountButtonSpecifier;
 - (BOOL)shouldAllowAddAccount;
-- (void)refreshView;
 @end
 
 @implementation GameCenterController
-- (id)specifiers
+- (NSArray *)specifiers
 {
-	if(_specifiers == nil)
-		[self reloadSpecifiers];
+	if (!_specifiers)
+	{
+		_specifiers = [[NSMutableArray alloc] init];
+
+		// account group specifier
+		PSSpecifier *accountGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Accounts" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
+		//[accountGroupSpecifier.properties setValue:@"If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.\n\nIf it's disabled, the application will start with the specified Default Slice." forKey:@"footerText"];
+		[_specifiers addObject:accountGroupSpecifier];
+
+		// create the specifiers
+		NSArray *accounts = [GameCenterAccountManager sharedInstance].accounts;
+		for (NSString *account in accounts)
+		{
+			PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:account target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];
+			//specifier->action = @selector(renameSlice:);
+			[specifier setProperty:NSStringFromSelector(@selector(removedSpecifier:)) forKey:PSDeletionActionKey];
+			[_specifiers addObject:specifier];
+		}
+
+		// if there aren't any slices, tell them
+		if (accounts.count < 1)
+		{
+			[_specifiers addObject:[PSSpecifier preferenceSpecifierNamed:@"No Accounts" target:self set:nil get:nil detail:nil cell:PSStaticTextCell edit:nil]];
+			[self setEditingButtonHidden:YES animated:NO];
+		}
+		else
+			[self setEditingButtonHidden:NO animated:YES];
+
+		// create "New Account" group
+		PSSpecifier *addAccountGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"New Account" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
+		[_specifiers addObject:addAccountGroupSpecifier];
+
+		// add login fields
+		[_specifiers addObject:[self appleIDSpecifier]];
+		[_specifiers addObject:[self passwordSpecifier]];
+
+		// add spacer and footer text
+		PSSpecifier *emptyGroup = [PSSpecifier emptyGroupSpecifier];
+		[emptyGroup.properties setValue:@"Sign in to a Game Center account." forKey:@"footerText"];
+		[_specifiers addObject:emptyGroup];
+
+		// add "Add Account" button
+		[_specifiers addObject:[self addAccountButtonSpecifier]];
+
+		// localize all the strings
+		NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
+		for (PSSpecifier *specifier in _specifiers)
+		{
+			NSString *footerTextValue = [specifier propertyForKey:@"footerText"];
+			if (footerTextValue)
+				[specifier setProperty:Localize(footerTextValue) forKey:@"footerText"];
+
+			NSString *name = specifier.name; // "label" key in plist
+			if (name)
+				specifier.name = Localize(name);
+		}
+	}
 
 	return _specifiers;
 }
@@ -46,68 +100,6 @@
 	return cell;
 }
 
-- (void)reloadSpecifiers
-{
-	// create a temporary specifiers array (mutable)
-	NSMutableArray *specifiers = [[NSMutableArray alloc] init];
-
-	// account group specifier
-	PSSpecifier *accountGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Accounts" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
-	//[accountGroupSpecifier.properties setValue:@"If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.\n\nIf it's disabled, the application will start with the specified Default Slice." forKey:@"footerText"];
-	[specifiers addObject:accountGroupSpecifier];
-
-	// create the specifiers
-	NSArray *accounts = [GameCenterAccountManager sharedInstance].accounts;
-	for (NSString *account in accounts)
-	{
-		PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:account target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];
-		//specifier->action = @selector(renameSlice:);
-		[specifier setProperty:NSStringFromSelector(@selector(removedSpecifier:)) forKey:PSDeletionActionKey];
-		[specifiers addObject:specifier];
-	}
-
-	// if there aren't any slices, tell them
-	if (accounts.count < 1)
-	{
-		[specifiers addObject:[PSSpecifier preferenceSpecifierNamed:@"No Accounts" target:self set:nil get:nil detail:nil cell:PSStaticTextCell edit:nil]];
-		[self setEditingButtonHidden:YES animated:NO];
-	}
-	else
-		[self setEditingButtonHidden:NO animated:YES];
-
-	// create "New Account" group
-	PSSpecifier *addAccountGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"New Account" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
-	[specifiers addObject:addAccountGroupSpecifier];
-
-	// add login fields
-	[specifiers addObject:[self appleIDSpecifier]];
-	[specifiers addObject:[self passwordSpecifier]];
-
-	// add spacer and footer text
-	PSSpecifier *emptyGroup = [PSSpecifier emptyGroupSpecifier];
-	[emptyGroup.properties setValue:@"Sign in to a Game Center account." forKey:@"footerText"];
-	[specifiers addObject:emptyGroup];
-
-	// add "Add Account" button
-	[specifiers addObject:[self addAccountButtonSpecifier]];
-
-	// localize all the strings
-	NSBundle *bundle = [NSBundle bundleWithPath:@"/Library/Application Support/Slices/Slices.bundle"];
-	for (PSSpecifier *specifier in specifiers)
-	{
-		NSString *footerTextValue = [specifier propertyForKey:@"footerText"];
-		if (footerTextValue)
-			[specifier setProperty:Localize(footerTextValue) forKey:@"footerText"];
-
-		NSString *name = specifier.name; // "label" key in plist
-		if (name)
-			specifier.name = Localize(name);
-	}
-
-	// update the specifier ivar (immutable)
-	_specifiers = [specifiers copy];
-}
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)canEditRowAtIndexPath
 {
 	int index = [self indexForIndexPath:canEditRowAtIndexPath];
@@ -120,20 +112,13 @@
 	// delete the account
 	[[GameCenterAccountManager sharedInstance] deleteAccount:specifier.name];
 
-	// refresh the view completely if there are 0 accounts (else it's just removed)
+	// reload specifiers the view completely if there are 0 accounts (else it's just removed)
 	if ([GameCenterAccountManager sharedInstance].accounts.count < 1)
-		[self refreshView];
-}
-
-- (void)refreshView
-{
-	[self reloadSpecifiers];
-	[self reload];
-}
-
-- (BOOL)canBeShownFromSuspendedState
-{
-	return NO;
+	{
+		PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:@"No Accounts" target:self set:nil get:nil detail:nil cell:PSStaticTextCell edit:nil];
+		[self insertSpecifier:specifier atIndex:1 animated:YES];
+		[self setEditingButtonHidden:YES animated:YES];
+	}
 }
 
 - (void)setPassword:(NSString *)password withSpecifier:(PSSpecifier *)specifier
@@ -203,8 +188,8 @@
 				self.appleID = @"";
 				self.password = @"";
 
-				// refresh view
-				[self refreshView];				
+				// reload specifiers
+				[self reloadSpecifiers];				
 			}
 			else
 			{
