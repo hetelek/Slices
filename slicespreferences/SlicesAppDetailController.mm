@@ -55,7 +55,7 @@ extern NSString* PSDeletionActionKey;
 	// default list specifier
 	_defaultSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Default Slice" target:self set:@selector(setDefaultSlice:forSpecifier:) get:@selector(getDefaultSlice:) detail:[PSListItemsController class] cell:PSLinkListCell edit:nil];
 	[_defaultSpecifier.properties setValue:@"valuesSource:" forKey:@"valuesDataSource"];
-	[_defaultSpecifier.properties setValue:@"titlesSource:" forKey:@"titlesDataSource"];
+	[_defaultSpecifier.properties setValue:@"valuesSource:" forKey:@"titlesDataSource"];
 	[specifiers addObject:_defaultSpecifier];
 
 	// slices group specifier
@@ -234,14 +234,6 @@ extern NSString* PSDeletionActionKey;
 {
 	[_slicer deleteSlice:specifier.name];
 	[self refreshView:NO];
-}
-
-- (NSArray *)titlesSource:(id)target
-{
-	NSArray *slices = _slicer.slices;
-	if (slices.count < 1)
-		return @[ Localize(@"Default") ];
-	return slices;
 }
 
 - (NSArray *)valuesSource:(id)target

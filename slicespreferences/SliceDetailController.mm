@@ -29,24 +29,44 @@
 			// game center account group specifier
 			PSSpecifier *gameCenterAccountGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Game Center Account" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
 			[gameCenterAccountGroupSpecifier.properties setValue:@"Select which Game Center account to use with this Slice." forKey:@"footerText"];
+
 			[gameCenterAccountGroupSpecifier setProperty:[NSNumber numberWithBool:YES] forKey:PSIsRadioGroupKey];
 			[_specifiers addObject:gameCenterAccountGroupSpecifier];
 
-			// default account (whichever is logged in at time of launch)
-			PSSpecifier *defaultAccountSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Default Account" target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];
-			[_specifiers addObject:defaultAccountSpecifier];
-
-			// create the account specifiers
-			NSArray *accounts = [GameCenterAccountManager sharedInstance].accounts;
-			for (NSString *account in accounts)
-			{
-				PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:account target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];
-				[_specifiers addObject:specifier];
-			}
+			// default list specifier
+			PSSpecifier *gameCenterAccountSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Account" target:self set:@selector(setGameCenterAccount:forSpecifier:) get:@selector(getGameCenterAccount:) detail:[PSListItemsController class] cell:PSLinkListCell edit:nil];
+			[gameCenterAccountSpecifier.properties setValue:@"valuesSource:" forKey:@"valuesDataSource"];
+			[gameCenterAccountSpecifier.properties setValue:@"valuesSource:" forKey:@"titlesDataSource"];
+			[_specifiers addObject:gameCenterAccountSpecifier];
 		}
 	}
 
 	return _specifiers;
+}
+
+- (void)setGameCenterAccount:(NSString *)gameCenterAccount forSpecifier:(PSSpecifier*)specifier
+{
+	[self.slicer setGameCenterAccount:gameCenterAccount forSlice:self.sliceName];
+}
+
+- (NSString *)getGameCenterAccount:(PSSpecifier *)specifier
+{
+	NSString *gameCenterAccount = [self.slicer gameCenterAccountForSlice:self.sliceName];
+	if (gameCenterAccount)
+		return gameCenterAccount;
+
+	return Localize(@"None");
+}
+
+- (NSArray *)valuesSource:(id)target
+{
+	NSMutableArray *accountsFinal = [[NSMutableArray alloc] init];
+	[accountsFinal addObject:Localize(@"None")];
+
+	NSArray *accounts = [GameCenterAccountManager sharedInstance].accounts;
+	[accountsFinal addObjectsFromArray:accounts];
+
+	return accountsFinal;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -98,5 +118,10 @@
 	[specifier setProperty:[SlicesEditableTableCell class] forKey:PSCellClassKey];
 
 	return specifier;
+}
+
+- (BOOL)canBeShownFromSuspendedState
+{
+	return NO;
 }
 @end
