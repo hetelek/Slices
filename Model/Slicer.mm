@@ -109,6 +109,24 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	[defaultSliceSetting setValueInDirectory:self.slicesDirectory value:defaultSlice];
 }
 
+- (NSString *)gameCenterAccountForSlice:(NSString *)sliceName
+{
+	// yes, slice's slice directory (the slice directory that Slices uses to store the slice)
+	NSString *slicesSliceDirectory = [self.slicesDirectory stringByAppendingPathComponent:sliceName];
+
+	SliceSetting *gameCenterAccountSetting = [[SliceSetting alloc] initWithPrefix:@"gc_"];
+	return [gameCenterAccountSetting getValueInDirectory:slicesSliceDirectory];
+}
+
+- (void)setGameCenterAccount:(NSString *)gameCenterAccount forSlice:(NSString *)sliceName
+{
+	// yes, slice's slice directory (the slice directory that Slices uses to store the slice)
+	NSString *slicesSliceDirectory = [self.slicesDirectory stringByAppendingPathComponent:sliceName];
+
+	SliceSetting *gameCenterAccountSetting = [[SliceSetting alloc] initWithPrefix:@"gc_"];
+	[gameCenterAccountSetting setValueInDirectory:slicesSliceDirectory value:gameCenterAccount];
+}
+
 - (void)setAskOnTouch:(BOOL)askOnTouch
 {
 	SliceSetting *askOnTouchSliceSetting = [[SliceSetting alloc] initWithPrefix:@"e"];
@@ -170,7 +188,7 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	[NSThread sleepForTimeInterval:0.1];
 }
 
-- (BOOL)switchToSlice:(NSString *)targetSliceName
+- (void)switchToSlice:(NSString *)targetSliceName completionHandler:(void (^)(BOOL))completionHandler
 {
 	if (targetSliceName.length > 0 && ![self.currentSlice isEqualToString:targetSliceName])
 		[self killApplication];
@@ -178,14 +196,23 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 	NSArray *IGNORE_SUFFIXES = @[ @".app", @"iTunesMetadata.plist", @"iTunesArtwork", @"Slices", @".com.apple.mobile_container_manager.metadata.plist" ];
 	BOOL success = [super switchToSlice:targetSliceName ignoreSuffixes:IGNORE_SUFFIXES];
 	if (!success)
-		return NO;
+	{
+		if (completionHandler)
+			completionHandler(NO);
+		return;
+	}
 
 	NSArray *appGroupSlicers = [self appGroupSlicers];
 	for (AppGroupSlicer *appGroupSlicer in appGroupSlicers)
 		if (![appGroupSlicer switchToSlice:targetSliceName])
 			success = NO;
 
-	return success;
+	NSString *gameCenterAccount = [self gameCenterAccountForSlice:targetSliceName];
+	GameCenterAccountManager *gameCenterAccountManager = [GameCenterAccountManager sharedInstance];
+	[gameCenterAccountManager switchToAccount:gameCenterAccount completionHandler:^(BOOL gameCenterSuccess) {
+		if (completionHandler)
+			completionHandler(success && gameCenterSuccess);
+	}];
 }
 
 - (BOOL)createSlice:(NSString *)newSliceName
@@ -259,9 +286,9 @@ extern "C" void BKSTerminateApplicationForReasonAndReportWithDescription(NSStrin
 		self.ignoreNextKill = YES;
 
 		if (defaultSlice.length > 0)
-			[self switchToSlice:defaultSlice];
+			[self switchToSlice:defaultSlice completionHandler:nil];
 		else
-			[self switchToSlice:slices[0]];
+			[self switchToSlice:slices[0] completionHandler:nil];
 	}
 
 	self.ignoreNextKill = NO;

@@ -39,7 +39,7 @@
 	return [SSKeychain deletePasswordForService:GAME_CENTER_ACCOUNT_SERVICE account:username];
 }
 
-- (void)switchToAccount:(NSString *)username
+- (void)switchToAccount:(NSString *)username completionHandler:(void (^)(BOOL))completionHandler
 {
 	// get account proxy
 	Class GKDaemonProxyClass = objc_getClass("GKDaemonProxy");
@@ -53,9 +53,12 @@
 		[accountServicePrivateProxy authenticatePlayerWithUsername:username password:password usingFastPath:true handler:^(GKAuthenticateResponse *response, NSError *error) {
 				if (error == nil && [GKLocalPlayer localPlayer].isAuthenticated)
 				{
-					// TODO: add completion handler as parameter
 					// authenticated player
+					if (completionHandler)
+						completionHandler(YES);
 				}
+				else if (completionHandler)
+					completionHandler(NO);
 			}];
 	}];
 }

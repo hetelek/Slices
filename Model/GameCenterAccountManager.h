@@ -13,6 +13,6 @@
 + (GameCenterAccountManager *)sharedInstance;
 
 - (BOOL)addAccount:(NSString *)username password:(NSString *)password;
-- (void)switchToAccount:(NSString *)username;
+- (void)switchToAccount:(NSString *)username completionHandler:(void (^)(BOOL))completionHandler;
 - (BOOL)deleteAccount:(NSString *)username;
 @end

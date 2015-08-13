@@ -161,8 +161,9 @@ static NSInteger version;
 			}
 			else
 			{
-				[slicer switchToSlice:slicer.defaultSlice];
-				%orig;
+				[slicer switchToSlice:slicer.defaultSlice completionHandler:^(BOOL success) {
+					%orig;
+				}];
 			}
 		}
 		else
@@ -200,11 +201,11 @@ static NSInteger version;
 	{
 		// switch slice
 	    Slicer *slicer = [[Slicer alloc] initWithApplication:[self application]];
-	    [slicer switchToSlice:[actionSheet buttonTitleAtIndex:buttonIndex]];
-
-		// emulate the tap (launch the app)
-		id<SBIconViewDelegate> delegate = MSHookIvar< id<SBIconViewDelegate> >(self, "_delegate");
-		[delegate iconTapped:self];
+	    [slicer switchToSlice:[actionSheet buttonTitleAtIndex:buttonIndex] completionHandler:^(BOOL success) {
+	    	// emulate the tap (launch the app)
+			id<SBIconViewDelegate> delegate = MSHookIvar< id<SBIconViewDelegate> >(self, "_delegate");
+			[delegate iconTapped:self];
+	    }];
 	}
 }
 
