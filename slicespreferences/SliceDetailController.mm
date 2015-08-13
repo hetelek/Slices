@@ -28,7 +28,7 @@
 
 			// game center account group specifier
 			PSSpecifier *gameCenterAccountGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Game Center Account" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];
-			[gameCenterAccountGroupSpecifier.properties setValue:@"Select which Game Center account to use with this Slice." forKey:@"footerText"];
+			[gameCenterAccountGroupSpecifier.properties setValue:@"Select which Game Center account to use with this slice." forKey:@"footerText"];
 
 			[gameCenterAccountGroupSpecifier setProperty:[NSNumber numberWithBool:YES] forKey:PSIsRadioGroupKey];
 			[_specifiers addObject:gameCenterAccountGroupSpecifier];
