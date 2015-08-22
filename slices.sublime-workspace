@@ -4,6 +4,66 @@
 		"selected_items":
 		[
 			[
+				"acc",
+				"accountsFinal"
+			],
+			[
+				"com",
+				"completionHandler"
+			],
+			[
+				"reload",
+				"reloadSpecifiers"
+			],
+			[
+				"an",
+				"animated"
+			],
+			[
+				"speci",
+				"specifiers"
+			],
+			[
+				"spec",
+				"specifier"
+			],
+			[
+				"add",
+				"addAccountButtonSpecifier"
+			],
+			[
+				"addACc",
+				"addAccountSpecifier"
+			],
+			[
+				"addAc",
+				"addAccountButton"
+			],
+			[
+				"update",
+				"updateAddAccountButton"
+			],
+			[
+				"addAcc",
+				"addAccountButtonSpecifier"
+			],
+			[
+				"ad",
+				"addObject"
+			],
+			[
+				"specif",
+				"specifier"
+			],
+			[
+				"edi",
+				"editableCell"
+			],
+			[
+				"UItable",
+				"UITableViewCell"
+			],
+			[
 				"passwo",
 				"passwordSpecifier"
 			],
@@ -427,25 +487,6 @@
 	},
 	"buffers":
 	[
-		{
-			"contents": "#import <Preferences/PSSpecifier.h>\n#import <Preferences/PSEditableListController.h>\n#import <Preferences/PSTextFieldSpecifier.h>\n\n#import \"../Model/GameCenterAccountManager.h\"\n#import \"../Headers/LocalizationKeys.h\"\n\nextern NSString* PSDeletionActionKey;\n\n@interface GameCenterController : PSEditableListController\n@end\n\n@implementation GameCenterController\n- (id)specifiers\n{\n	if(_specifiers == nil)\n		[self reloadSpecifiers];\n\n	return _specifiers;\n}\n\n- (void)reloadSpecifiers\n{\n	// create a temporary specifiers array (mutable)\n	NSMutableArray *specifiers = [[NSMutableArray alloc] init];\n\n	// account group specifier\n	PSSpecifier *accountGroupSpecifier = [PSSpecifier preferenceSpecifierNamed:@\"Accounts\" target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil];\n	//[accountGroupSpecifier.properties setValue:@\"If the Ask on Touch switch is enabled, you will be asked which slice to use when tapping the application's icon on the homescreen.\\n\\nIf it's disabled, the application will start with the specified Default Slice.\" forKey:@\"footerText\"];\n	[specifiers addObject:accountGroupSpecifier];\n\n	// create the specifiers\n	NSArray *accounts = [GameCenterAccountManager sharedInstance].accounts;\n	for (NSString *account in accounts)\n	{\n		PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:account target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];\n		//specifier->action = @selector(renameSlice:);\n		[specifier setProperty:NSStringFromSelector(@selector(removedSpecifier:)) forKey:PSDeletionActionKey];\n		[specifiers addObject:specifier];\n	}\n\n	// if there aren't any slices, tell them\n	if (accounts.count < 1)\n	{\n		[specifiers addObject:[PSSpecifier preferenceSpecifierNamed:@\"No Accounts\" target:self set:nil get:nil detail:nil cell:PSStaticTextCell edit:nil]];\n		[self setEditingButtonHidden:YES animated:NO];\n	}\n	else\n		[self setEditingButtonHidden:NO animated:YES];\n\n	[specifiers addObject:[self passwordSpecifier]];\n\n	// localize all the strings\n	NSBundle *bundle = [NSBundle bundleWithPath:@\"/Library/Application Support/Slices/Slices.bundle\"];\n	for (PSSpecifier *specifier in specifiers)\n	{\n		NSString *footerTextValue = [specifier propertyForKey:@\"footerText\"];\n		if (footerTextValue)\n			[specifier setProperty:Localize(footerTextValue) forKey:@\"footerText\"];\n\n		NSString *name = specifier.name; // \"label\" key in plist\n		if (name)\n			specifier.name = Localize(name);\n	}\n\n	// update the specifier ivar (immutable)\n	_specifiers = [specifiers copy];\n}\n\n- (PSSpecifier *)passwordSpecifier\n{\n	+(id)preferenceSpecifierNamed:\"Password\" target:nil set:nil get:nil detail:nil cell: edit:(Class)arg7 ;\n	PSTextFieldSpecifier *passwordSpecifier = [PSTextFieldSpecifier textFieldSpecifierWithName:@\"Password\" property:@\"password\" target:self];\n\n	[passwordSpecifier setPlaceholder:@\"Required\"];\n\n	return passwordSpecifier;\n}\n\n- (void)renameSlice:(PSSpecifier *)specifier\n{\n}\n\n- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex\n{\n}\n\n- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)canEditRowAtIndexPath\n{\n	int index = [self indexForIndexPath:canEditRowAtIndexPath];\n	PSSpecifier *specifier = _specifiers[index];\n	return specifier->cellType == PSListItemCell;\n}\n\n- (void)removedSpecifier:(PSSpecifier *)specifier\n{\n	[[GameCenterAccountManager sharedInstance] deleteAccount:specifier.name];\n\n	if ([GameCenterAccountManager sharedInstance].accounts.count < 1)\n		[self reloadSpecifiers];\n}\n\n- (void)refreshView:(BOOL)forceHardReload\n{\n	if (forceHardReload)\n		[self reloadSpecifiers];\n\n	[[self table] reloadData];\n	[self reload];\n}\n\n- (BOOL)canBeShownFromSuspendedState\n{\n	return NO;\n}\n@end\n\n/// --------------------",
-			"file": "slicespreferences/GameCenterController.mm",
-			"file_size": 3610,
-			"file_write_time": 130832093280000000,
-			"settings":
-			{
-				"buffer_size": 3715,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Model/GameCenterAccountManager.mm",
-			"settings":
-			{
-				"buffer_size": 2367,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Packages/Makefile/Make.sublime-build",
 	"build_system_choices":
@@ -470,10 +511,50 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 267.0,
-		"last_filter": "diff",
+		"height": 167.0,
+		"last_filter": "git comm",
 		"selected_items":
 		[
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"git diff ",
+				"Git: Diff All Files"
+			],
+			[
+				"git diff",
+				"Git: Diff All Files"
+			],
+			[
+				"subli",
+				"Sublimerge: Compare to Revision..."
+			],
+			[
+				"git: diff",
+				"Git: Diff All Files"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"commit",
+				"Git: Commit"
+			],
+			[
+				"remote",
+				"Sublimerge: Compare Revision to Revision..."
+			],
 			[
 				"diff",
 				"Git: Diff All Files"
@@ -493,10 +574,6 @@
 			[
 				"install p",
 				"Package Control: Install Package"
-			],
-			[
-				"git diff",
-				"Git: Diff Current File"
 			],
 			[
 				"git status",
@@ -543,54 +620,97 @@
 	[
 		"/Users/hetelek/Developer/Tweaks/slices",
 		"/Users/hetelek/Developer/Tweaks/slices/Model",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/SSKeychain",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources"
 	],
 	"file_history":
 	[
+		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferencesListController.mm",
+		"/Users/hetelek/Desktop/index.html",
+		"/Users/hetelek/Desktop/slices/index.php",
+		"/Users/hetelek/Downloads/hetelek-key-pair.pem.txt",
+		"/Users/hetelek/Downloads/credentials.csv.txt",
+		"/Users/hetelek/.ssh/known_hosts",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/VeloxPrefsListController.mm",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/VeloxStratosListController.mm",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/VeloxDevCell.mm",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/images/credits.h",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/images/conman.h",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/Resources/Info.plist",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/Resources/VeloxPrefs.plist",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/Resources/stratos.plist",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Velox.plist",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/GameCenterController.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SliceDetailController.mm",
+		"/Users/hetelek/Developer/Tweaks/OSExperience/theos/include/Availability2.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SliceDetailController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSSpecifier.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/FolderMigrator.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/FolderMigrator.h",
+		"/opt/theos/include/Preferences/PSSpecifier.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/GameCenterAccountManager.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/GameCenterAccountManager.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
+		"/Users/hetelek/Developer/Tweaks/slices/.git/MERGE_MSG",
+		"/Users/hetelek/Developer/Tweaks/slices/.git/COMMIT_EDITMSG",
+		"/opt/theos/include/Preferences/PSEditableListController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSEditableListController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSListController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSViewController.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesEditableTableCell.mm",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSTextFieldSpecifier.h",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/255F3BC0-BF33-42FC-A341-F1721F1CF5A5/readme.html",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.h",
+		"/opt/theos/include/UIKit/UIPreferencesTable.h",
+		"/Users/hetelek/Developer/Tweaks/OSExperience/theos/include/Preferences/PSTableCellType.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSTextView.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSTextViewTableCell.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/GameCenterController.h",
+		"/System/Library/Frameworks/GameKit.framework/Versions/A/Headers/GKError.h",
+		"/opt/theos/include/Preferences/PSListController.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppController.mm",
+		"/Users/hetelek/.gitconfig",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesEditableTableCell.h",
+		"/opt/theos/include/Preferences/UIPreferencesTable.h",
+		"/opt/theos/include/Preferences/UITable.h",
+		"/opt/theos/include/Preferences/PSController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSEditableTableCell.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSTableCell.h",
+		"/Users/hetelek/Downloads/Slices/slicespreferences/SlicesAppDetailController.mm",
+		"/opt/theos/include/Preferences/PSEditableTableCell.h",
+		"/opt/theos/include/Preferences/PSTableCell.h",
+		"/Users/hetelek/Downloads/iOS-Runtime-Headers-master/protocols/UITextInputTraits.h",
 		"/Users/hetelek/Downloads/deploymentTemplate.json",
 		"/Users/hetelek/Desktop/script.sh",
 		"/Users/hetelek/Desktop/OSExperience/theos/include/Preferences/PSTextFieldSpecifier.h",
 		"/opt/theos/include/Preferences/PSTextFieldSpecifier.h",
 		"/Users/hetelek/Desktop/script 2.sh",
 		"/Users/hetelek/sshservers",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/GameCenterAccountManager.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/GameCenterController.mm",
 		"/Users/hetelek/Desktop/OSExperience/theos/include/Preferences/PSEditableListController.h",
-		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSListController.h",
 		"/Users/hetelek/Downloads/iOS-Runtime-Headers-master/protocols/UITableViewDataSource.h",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Makefile",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources/SlicesPreferences.plist",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/GameCenterAccountManager.h",
 		"/Users/hetelek/Desktop/OSExperience/theos/include/Preferences/PSTableCellType.h",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferencesListController.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.mm",
 		"/Users/hetelek/Desktop/OSExperience/theos/include/Preferences/PSSpecifier.h",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppController.mm",
-		"/Users/hetelek/.ssh/known_hosts",
-		"/Users/hetelek/.gitconfig",
 		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/Git/Git.sublime-settings",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/entry.plist",
 		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
 		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
 		"/opt/theos/include/Preferences/PSViewControllerOffsetProtocol.h",
-		"/opt/theos/include/Preferences/PSListController.h",
 		"/opt/theos/include/Preferences/PSListItemsController.h",
-		"/opt/theos/include/Preferences/PSSpecifier.h",
 		"/Users/hetelek/Desktop/Slices-0.2.1/Makefile",
-		"/opt/theos/include/Preferences/PSEditableListController.h",
-		"/opt/theos/include/Preferences/PSController.h",
 		"/opt/theos/include/Preferences/PSSpecifierObserver.h",
 		"/opt/theos/include/Preferences/PSViewController.h",
 		"/Users/hetelek/Desktop/Slices-0.2.1/Tweak.xm",
 		"/opt/theos/include/Preferences/Preferences-Structs.h",
 		"/opt/theos/include/Preferences/PSStateRestoration.h",
-		"/opt/theos/include/Preferences/PSEditableTableCell.h",
 		"/opt/theos/include/Preferences/Preferences.h",
 		"/opt/theos/include/Preferences/PSTableCellType.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
 		"/Users/hetelek/Developer/Tweaks/slices/Headers/GameCenterHeaders.h",
 		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/GameCenterFoundation/GKAccountServicePrivate-Protocol.h",
 		"/private/var/folders/cv/5_34_x9j6vdgqgf_h16by97h0000gn/T/com.microsoft.Outlook/Outlook Temp/SpringBoard_2015-07-21-151452_Hani-iphone.syslog",
@@ -626,57 +746,13 @@
 		"/Users/hetelek/Desktop/a.txt",
 		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/User/Theos Make.sublime-build",
 		"/Users/hetelek/Desktop/itrace/main.c",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.mm",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.h",
-		"/Users/hetelek/Developer/Tweaks/slices/.git/COMMIT_EDITMSG",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.h",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.h",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/593EC9F4-649F-4980-84B2-157E87858FDE/pw.dat",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/SliceSetting.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Headers/SpringBoardHeaders.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.mm",
-		"/Users/hetelek/Desktop/Slicer.xm",
-		"/Users/hetelek/Desktop/Slicer.mm",
-		"/Users/hetelek/Desktop/slices/SliceSetting.mm",
-		"/Users/hetelek/Desktop/slices/Slicer.mm",
-		"/Users/hetelek/Desktop/slices/FolderMigrator.h",
-		"/Users/hetelek/Desktop/slices/FolderMigrator.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferences.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.h",
-		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/SpringBoardHeaders.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.xm",
-		"/Users/hetelek/Developer/Tweaks/slices/FolderMigrator.h",
-		"/Users/hetelek/Developer/Tweaks/slices/FolderMigrator.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting.h",
-		"/Users/hetelek/Developer/Tweaks/slices/LocalizationKeys.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer2.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer2.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1609A144-ED1A-4642-A765-06AD40024705/index.php",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/de.lproj/Slices2.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/fr.lproj/Slices2.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/pt.lproj/Slices2.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/es.lproj/Slices2.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/es.lproj/Slices.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/en.lproj/Slices.strings",
-		"/Users/hetelek/Developer/Tweaks/spotifyplus/Makefile",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/4DAE4C7C-45DA-4066-8E5C-40E0CA021A26/index.php",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1525A30B-AE62-44F0-99D1-665F8592F04E/error_log",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/B775ADF3-3889-499C-8D3B-EB0A8FC0CE73/Slices (10:31:19 pm).strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/997AE06E-F6E6-43D5-B955-3D15546BAE2E/Slices (10:30:30 pm).strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/7CECE4BD-0A12-4D72-BEDE-71E12D9B028D/Slices (10:27:39 pm).strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/98962FE5-6308-4864-A340-4F1EF3630B45/Slices (10:23:23 pm).strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/81B2F730-B5E8-492A-9809-927085A7DBA0/error_log",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/DF52A6F9-F8F3-49E2-8F28-F1160A65A0FB/error_log",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/zh-Hant.lproj/Slices.strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1981DE1B-8B25-4B4B-A536-5BBED176D95A/test.xml",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/27B35DF2-6A91-4379-8747-66784569D29C/index.php"
+		"/Users/hetelek/Developer/Tweaks/slices/Headers/SpringBoardHeaders.h"
 	],
 	"find":
 	{
@@ -692,9 +768,112 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"pem",
+			"hetelek",
+			"tweetSweetNothings",
+			"heart",
+			"UIBarButtonItem",
+			"addAcc",
+			"slice",
+			"Slice",
+			"gc",
+			"valuesSource",
+			"setDefaultSlice",
+			"valuesSource",
+			"titles",
+			"valuesSource",
+			"setDefaultSlice",
+			"gameCenterAccountGroupSpecifier",
+			"value",
+			"PSValueChangedNotificationKey",
+			"gameCenterAccountForSlice:",
+			"switchToSlice",
+			"switchTo",
+			"switch",
+			"switchToSl",
+			"editing",
+			"editingStyl",
+			"commitEdit",
+			"delete",
+			"_defaultSpecifier",
+			"refreshView",
+			"should",
+			"reload",
+			"currentSlice",
+			"sliceName",
+			"rename",
+			"slicer",
+			"Done",
+			"SlicesEditableTableCell",
+			"rename",
+			"isRadioGroup",
+			"specifier",
+			"specifierID",
+			"specifier",
+			"addObject:[s",
+			"init",
+			"apple id",
+			"text",
+			"GKErrorDomain",
+			"refresh",
+			"regresh",
+			"specifiers",
+			"group",
+			"reload",
+			"refreshVie",
+			"refreshView",
+			"specifiers",
+			"];\n",
+			"tableView",
+			"table;",
+			"tabe;",
+			"refresh",
+			"setter",
+			"refreshView",
+			"refreshView:",
+			"remove",
+			"delete",
+			"reload",
+			"specifier",
+			"focus",
+			"focus/",
+			"focus",
+			"withId:",
+			"specifierByID",
+			"specifierWithID",
+			"addAccountButtonTapped",
+			"firstResponder",
+			"table",
+			"GAME_CENTER_ACCOUNT_SERVICE",
+			"table",
+			"signInButtonSpecifier",
+			"SlicesEditableTableCell",
+			"shouldAl",
+			"NSNumber",
+			"signinButtonTapped",
+			"specifierForID",
+			"withId",
+			"id",
+			"specifier",
+			"appleIDSpecifier",
+			"signInButtonSpecifier",
+			"placehol",
+			"placeholder",
+			"buttonAction",
+			"buttonACtion",
+			"target",
+			"specifier",
+			"tableView",
+			"autoCorrection",
+			"alertView",
+			"renameSlice",
+			"preferenceSpecifierNamed",
+			"autoCorrection",
+			"something",
+			"preferenceSpecifierNamed",
 			"remove",
 			"commitEditingStyle",
 			"removedSpecifier",
@@ -719,110 +898,7 @@
 			"-f",
 			"objc_setAssociatedObject",
 			"switcherGestureInProgress",
-			"kill",
-			"switch",
-			"1016",
-			"showNewSliceOption",
-			"isEnabled",
-			"new slice",
-			"Music",
-			"music",
-			"MGCopyAnswer",
-			"instancesRespondToSelector",
-			"killApp",
-			"proxy",
-			"ApplicationPro",
-			"LSApp",
-			"manager",
-			"applicationDirectory",
-			"workingDirectory",
-			"cleanupMainDirectoryWithTargetSlicePath",
-			"application",
-			"controller",
-			"performDeletionActionForSpecifier",
-			"switchToSlice",
-			"killApplication",
-			"switch\nswitch\nswitch",
-			"switch\nswitch",
-			"BKSTerminateApplicationForReasonAndReportWithDescription",
-			"killA",
-			"fullSettingFileName",
-			"fullSettingFileNameInDirec",
-			"fullSett",
-			"execute",
-			"deleteSlice:",
-			"sliceSetting",
-			"iOS8",
-			"Slicer2",
-			"checkIfOnlyOneComponent",
-			"cur_",
-			"cur",
-			"cur_",
-			"cur",
-			"reloadData",
-			"[_application",
-			"_application ",
-			"_application",
-			"cleanupMainDirectoryWithTargetSlicePath",
-			"initWithDisplay",
-			"initWith",
-			"initWithDisplayIdentifier",
-			"create",
-			"switchToSlice",
-			"group.snapchat.picaboo",
-			"share",
-			"\\\\n",
-			" {\\n\\t",
-			" {\\\\n\\\\t",
-			" {\\n\\t",
-			"#\\\"<.*",
-			"#\"<.*",
-			"*>",
-			"*\\>",
-			".*(3)>",
-			".*>",
-			"com.",
-			"com\\..*\\..*\\.",
-			"\\.",
-			"\\,",
-			".*\\.",
-			".*\\..*\\..*",
-			".*\\..*\\.",
-			".*\\.",
-			"com\\.",
-			".*\\..*\\.",
-			".*\\..*",
-			".*\\.",
-			"*.*.*",
-			"Localize",
-			"defaultSlice",
-			"defaultSlice_",
-			"form",
-			"Ok",
-			"OK",
-			"Failed to create '%@' directory",
-			"incalid name",
-			"IGNORE",
-			"moveITem",
-			"pathOfPreferences",
-			"hasSeenWelcomeMessage",
-			"killApplication",
-			"kill",
-			"switchToSlice",
-			"_applicationPath",
-			"createSlice",
-			"defaultSlice = nil",
-			"defaultSlice",
-			"default",
-			"delete",
-			"defaultSlice = nil",
-			"defaultSlice",
-			"switchToSlice",
-			"switch",
-			"kill",
-			"killApplication",
-			"killAppl",
-			"Library"
+			"kill"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -848,67 +924,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "slicespreferences/GameCenterController.mm",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3715,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								453,
-								453
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Objective-C/Objective-C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Model/GameCenterAccountManager.mm",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2367,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								764,
-								764
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Objective-C/Objective-C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 10.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		}
 	],
