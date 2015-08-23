@@ -5,7 +5,7 @@ ADDITIONAL_OBJCFLAGS = -fobjc-arc
 include theos/makefiles/common.mk
 
 APPLICATION_NAME = SlicesApp
-SlicesApp_FILES = main.m SlicesAppApplication.mm RootViewController.mm
+SlicesApp_FILES = main.m AppDelegate.m ViewController.m
 SlicesApp_FRAMEWORKS = UIKit CoreGraphics
 
 include $(THEOS_MAKE_PATH)/application.mk
