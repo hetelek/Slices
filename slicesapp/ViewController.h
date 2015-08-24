@@ -1,4 +1,9 @@
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+#import <Braintree/Braintree.h>
+
+@interface ViewController : UIViewController <BTDropInViewControllerDelegate>
+
+@property (nonatomic, strong) Braintree *braintree;
+
 @end

@@ -34,6 +34,20 @@
                ReferencedContainer = "container:slicesapp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F372751F1B894A9100FBA443"
+               BuildableName = "BraintreeTests.xctest"
+               BlueprintName = "BraintreeTests"
+               ReferencedContainer = "container:slicesapp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -49,6 +63,16 @@
                BlueprintIdentifier = "F317C7871B892A50001F9A9D"
                BuildableName = "slicesappTests.xctest"
                BlueprintName = "slicesappTests"
+               ReferencedContainer = "container:slicesapp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F372751F1B894A9100FBA443"
+               BuildableName = "BraintreeTests.xctest"
+               BlueprintName = "BraintreeTests"
                ReferencedContainer = "container:slicesapp.xcodeproj">
             </BuildableReference>
          </TestableReference>

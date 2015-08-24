@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Braintree.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>slicesapp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +23,36 @@
 			<true/>
 		</dict>
 		<key>F317C7871B892A50001F9A9D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F33B4A101B8ADD2D0074EB24</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F33B4A1A1B8ADD2E0074EB24</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F37275151B894A9100FBA443</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F372751F1B894A9100FBA443</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F372753C1B894BA700FBA443</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F37275461B894BA800FBA443</key>
 		<dict>
 			<key>primary</key>
 			<true/>

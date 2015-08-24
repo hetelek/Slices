@@ -10,18 +10,22 @@
 		F317C7AC1B8930C1001F9A9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F317C7A91B8930C1001F9A9D /* AppDelegate.m */; };
 		F317C7AD1B8930C1001F9A9D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F317C7AB1B8930C1001F9A9D /* ViewController.m */; };
 		F317C7AF1B8930DE001F9A9D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F317C7AE1B8930DE001F9A9D /* main.m */; };
-		F37275021B893EF700FBA443 /* LaunchImage-700-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37274F81B893EF700FBA443 /* LaunchImage-700-568h@2x.png */; };
-		F37275031B893EF700FBA443 /* LaunchImage-700-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F37274F91B893EF700FBA443 /* LaunchImage-700-Landscape@2x~ipad.png */; };
-		F37275041B893EF700FBA443 /* LaunchImage-700-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F37274FA1B893EF700FBA443 /* LaunchImage-700-Landscape~ipad.png */; };
-		F37275051B893EF700FBA443 /* LaunchImage-700-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F37274FB1B893EF700FBA443 /* LaunchImage-700-Portrait@2x~ipad.png */; };
-		F37275061B893EF700FBA443 /* LaunchImage-700-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F37274FC1B893EF700FBA443 /* LaunchImage-700-Portrait~ipad.png */; };
-		F37275071B893EF700FBA443 /* LaunchImage-800-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37274FD1B893EF700FBA443 /* LaunchImage-800-667h@2x.png */; };
-		F37275081B893EF700FBA443 /* LaunchImage-800-Landscape-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37274FE1B893EF700FBA443 /* LaunchImage-800-Landscape-736h@3x.png */; };
-		F37275091B893EF700FBA443 /* LaunchImage-800-Portrait-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37274FF1B893EF700FBA443 /* LaunchImage-800-Portrait-736h@3x.png */; };
-		F372750A1B893EF700FBA443 /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = F37275001B893EF700FBA443 /* LaunchImage.png */; };
-		F372750B1B893EF700FBA443 /* LaunchImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37275011B893EF700FBA443 /* LaunchImage@2x.png */; };
-		F37275101B8940C900FBA443 /* Main.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = F372750E1B8940C900FBA443 /* Main.storyboardc */; };
+		F34333A21B8AE55B00ADDBB6 /* Main.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = F372750E1B8940C900FBA443 /* Main.storyboardc */; };
+		F34333A41B8AE84A00ADDBB6 /* Braintree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F34333A31B8AE84A00ADDBB6 /* Braintree.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F37275321B894A9100FBA443 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F317C76F1B892A50001F9A9D /* slicesapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = slicesapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,16 +35,18 @@
 		F317C7AA1B8930C1001F9A9D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = SOURCE_ROOT; };
 		F317C7AB1B8930C1001F9A9D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = SOURCE_ROOT; };
 		F317C7AE1B8930DE001F9A9D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = SOURCE_ROOT; };
-		F37274F81B893EF700FBA443 /* LaunchImage-700-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage-700-568h@2x.png"; path = "Resources/LaunchImage-700-568h@2x.png"; sourceTree = SOURCE_ROOT; };
-		F37274F91B893EF700FBA443 /* LaunchImage-700-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage-700-Landscape@2x~ipad.png"; path = "Resources/LaunchImage-700-Landscape@2x~ipad.png"; sourceTree = SOURCE_ROOT; };
-		F37274FA1B893EF700FBA443 /* LaunchImage-700-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage-700-Landscape~ipad.png"; path = "Resources/LaunchImage-700-Landscape~ipad.png"; sourceTree = SOURCE_ROOT; };
-		F37274FB1B893EF700FBA443 /* LaunchImage-700-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage-700-Portrait@2x~ipad.png"; path = "Resources/LaunchImage-700-Portrait@2x~ipad.png"; sourceTree = SOURCE_ROOT; };
-		F37274FC1B893EF700FBA443 /* LaunchImage-700-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage-700-Portrait~ipad.png"; path = "Resources/LaunchImage-700-Portrait~ipad.png"; sourceTree = SOURCE_ROOT; };
-		F37274FD1B893EF700FBA443 /* LaunchImage-800-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage-800-667h@2x.png"; path = "Resources/LaunchImage-800-667h@2x.png"; sourceTree = SOURCE_ROOT; };
-		F37274FE1B893EF700FBA443 /* LaunchImage-800-Landscape-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage-800-Landscape-736h@3x.png"; path = "Resources/LaunchImage-800-Landscape-736h@3x.png"; sourceTree = SOURCE_ROOT; };
-		F37274FF1B893EF700FBA443 /* LaunchImage-800-Portrait-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage-800-Portrait-736h@3x.png"; path = "Resources/LaunchImage-800-Portrait-736h@3x.png"; sourceTree = SOURCE_ROOT; };
-		F37275001B893EF700FBA443 /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LaunchImage.png; path = Resources/LaunchImage.png; sourceTree = SOURCE_ROOT; };
-		F37275011B893EF700FBA443 /* LaunchImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage@2x.png"; path = "Resources/LaunchImage@2x.png"; sourceTree = SOURCE_ROOT; };
+		F343338C1B8ADEA300ADDBB6 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		F343338E1B8ADEAA00ADDBB6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		F34333901B8ADEB000ADDBB6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F34333921B8ADEB400ADDBB6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		F34333941B8ADEB900ADDBB6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		F34333961B8ADEBE00ADDBB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F34333981B8ADEC300ADDBB6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		F343339A1B8ADEC800ADDBB6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		F343339C1B8ADECD00ADDBB6 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
+		F343339E1B8ADED300ADDBB6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F34333A01B8ADED900ADDBB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F34333A31B8AE84A00ADDBB6 /* Braintree.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Braintree.framework; path = ../layout/System/Library/Frameworks/Braintree.framework; sourceTree = "<group>"; };
 		F372750F1B8940C900FBA443 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.storyboardc; name = Base; path = Resources/Base.lproj/Main.storyboardc; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -49,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F34333A41B8AE84A00ADDBB6 /* Braintree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +65,7 @@
 		F317C7661B892A50001F9A9D = {
 			isa = PBXGroup;
 			children = (
+				F3F49CF31B8AE8EA0026E2C8 /* Frameworks */,
 				F317C7711B892A50001F9A9D /* slicesapp */,
 				F317C7701B892A50001F9A9D /* Products */,
 			);
@@ -97,18 +105,27 @@
 		F37274F71B893EEB00FBA443 /* Launch Images */ = {
 			isa = PBXGroup;
 			children = (
-				F37274F81B893EF700FBA443 /* LaunchImage-700-568h@2x.png */,
-				F37274F91B893EF700FBA443 /* LaunchImage-700-Landscape@2x~ipad.png */,
-				F37274FA1B893EF700FBA443 /* LaunchImage-700-Landscape~ipad.png */,
-				F37274FB1B893EF700FBA443 /* LaunchImage-700-Portrait@2x~ipad.png */,
-				F37274FC1B893EF700FBA443 /* LaunchImage-700-Portrait~ipad.png */,
-				F37274FD1B893EF700FBA443 /* LaunchImage-800-667h@2x.png */,
-				F37274FE1B893EF700FBA443 /* LaunchImage-800-Landscape-736h@3x.png */,
-				F37274FF1B893EF700FBA443 /* LaunchImage-800-Portrait-736h@3x.png */,
-				F37275001B893EF700FBA443 /* LaunchImage.png */,
-				F37275011B893EF700FBA443 /* LaunchImage@2x.png */,
 			);
 			name = "Launch Images";
+			sourceTree = "<group>";
+		};
+		F3F49CF31B8AE8EA0026E2C8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F34333A31B8AE84A00ADDBB6 /* Braintree.framework */,
+				F34333A01B8ADED900ADDBB6 /* UIKit.framework */,
+				F343339E1B8ADED300ADDBB6 /* SystemConfiguration.framework */,
+				F343339C1B8ADECD00ADDBB6 /* PassKit.framework */,
+				F343339A1B8ADEC800ADDBB6 /* MobileCoreServices.framework */,
+				F34333981B8ADEC300ADDBB6 /* MessageUI.framework */,
+				F34333961B8ADEBE00ADDBB6 /* Foundation.framework */,
+				F34333941B8ADEB900ADDBB6 /* CoreMedia.framework */,
+				F34333921B8ADEB400ADDBB6 /* CoreLocation.framework */,
+				F34333901B8ADEB000ADDBB6 /* AVFoundation.framework */,
+				F343338E1B8ADEAA00ADDBB6 /* AudioToolbox.framework */,
+				F343338C1B8ADEA300ADDBB6 /* Accelerate.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -121,6 +138,7 @@
 				F317C76B1B892A50001F9A9D /* Sources */,
 				F317C76C1B892A50001F9A9D /* Frameworks */,
 				F317C76D1B892A50001F9A9D /* Resources */,
+				F37275321B894A9100FBA443 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -152,6 +170,26 @@
 			knownRegions = (
 				en,
 				Base,
+				da,
+				de,
+				en_AU,
+				en_CA,
+				en_GB,
+				es,
+				es_ES,
+				fr,
+				fr_CA,
+				fr_FR,
+				he,
+				it,
+				nb,
+				nl,
+				pl,
+				pt,
+				ru,
+				sv,
+				tr,
+				"zh-Hans",
 			);
 			mainGroup = F317C7661B892A50001F9A9D;
 			productRefGroup = F317C7701B892A50001F9A9D /* Products */;
@@ -168,17 +206,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F37275031B893EF700FBA443 /* LaunchImage-700-Landscape@2x~ipad.png in Resources */,
-				F372750B1B893EF700FBA443 /* LaunchImage@2x.png in Resources */,
-				F37275061B893EF700FBA443 /* LaunchImage-700-Portrait~ipad.png in Resources */,
-				F37275081B893EF700FBA443 /* LaunchImage-800-Landscape-736h@3x.png in Resources */,
-				F37275051B893EF700FBA443 /* LaunchImage-700-Portrait@2x~ipad.png in Resources */,
-				F37275071B893EF700FBA443 /* LaunchImage-800-667h@2x.png in Resources */,
-				F37275041B893EF700FBA443 /* LaunchImage-700-Landscape~ipad.png in Resources */,
-				F37275091B893EF700FBA443 /* LaunchImage-800-Portrait-736h@3x.png in Resources */,
-				F37275021B893EF700FBA443 /* LaunchImage-700-568h@2x.png in Resources */,
-				F372750A1B893EF700FBA443 /* LaunchImage.png in Resources */,
-				F37275101B8940C900FBA443 /* Main.storyboardc in Resources */,
+				F34333A21B8AE55B00ADDBB6 /* Main.storyboardc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +322,21 @@
 		F317C7931B892A50001F9A9D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/hetelek/Developer/Tweaks/slices/layout/System/Library/Frameworks,
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"BT_ENABLE_APPLE_PAY=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/hetelek/Developer/Tweaks/slices/layout/System/Library/Frameworks/Braintree.framework/Headers/,
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -303,6 +346,17 @@
 		F317C7941B892A50001F9A9D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/hetelek/Developer/Tweaks/slices/layout/System/Library/Frameworks,
+				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "BT_ENABLE_APPLE_PAY=1";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/hetelek/Developer/Tweaks/slices/layout/System/Library/Frameworks/Braintree.framework/Headers/,
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
