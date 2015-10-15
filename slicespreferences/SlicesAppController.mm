@@ -15,15 +15,19 @@ static NSInteger DictionaryTextComparator(id a, id b, void *context)
 {
 	if(_specifiers == nil)
 	{
+		// create "User Applications" group
 		NSMutableArray *specifiers = [[NSMutableArray alloc] init];
 		[specifiers addObject:[PSSpecifier preferenceSpecifierNamed:Localize(@"User Applications") target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil]];
 
+		// get all applications
 		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
 		NSDictionary *applications = [applicationList applicationsFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"isSystemApplication = FALSE"]];
 		NSMutableArray *displayIdentifiers = [[applications allKeys] mutableCopy];
 
+		// sort them alphabetically
 		[displayIdentifiers sortUsingFunction:DictionaryTextComparator context:(__bridge void *)applications];
 
+		// add each app to the list
 		for (NSString *displayIdentifier in displayIdentifiers)
 		{
 			PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:applications[displayIdentifier] target:nil set:nil get:nil detail:[SlicesAppDetailController class] cell:PSLinkListCell edit:nil];

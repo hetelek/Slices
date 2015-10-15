@@ -87,6 +87,7 @@
 	// migrate new slice data into app directory
 	NSString *targetSlicePath = [self.slicesDirectory stringByAppendingPathComponent:targetSliceName];
 	FolderMigrator *migrator = [[FolderMigrator alloc] initWithSourcePath:targetSlicePath destinationPath:self.workingDirectory];
+	migrator.ignorePrefixes = @[ @"gc_" ];
 	BOOL success = [migrator executeMigration];
 
 	// update current slice (if successful)

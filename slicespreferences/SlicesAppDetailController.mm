@@ -24,6 +24,13 @@ extern NSString* PSDeletionActionKey;
 	return _specifiers;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+
+	[self refreshView:YES];
+}
+
 - (void)reloadSpecifiers
 {
 	// create a slicer
@@ -48,7 +55,7 @@ extern NSString* PSDeletionActionKey;
 	// default list specifier
 	_defaultSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Default Slice" target:self set:@selector(setDefaultSlice:forSpecifier:) get:@selector(getDefaultSlice:) detail:[PSListItemsController class] cell:PSLinkListCell edit:nil];
 	[_defaultSpecifier.properties setValue:@"valuesSource:" forKey:@"valuesDataSource"];
-	[_defaultSpecifier.properties setValue:@"titlesSource:" forKey:@"titlesDataSource"];
+	[_defaultSpecifier.properties setValue:@"valuesSource:" forKey:@"titlesDataSource"];
 	[specifiers addObject:_defaultSpecifier];
 
 	// slices group specifier
@@ -60,9 +67,10 @@ extern NSString* PSDeletionActionKey;
 	NSArray *slices = _slicer.slices;
 	for (NSString *slice in slices)
 	{
-		PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:slice target:self set:nil get:nil detail:nil cell:PSListItemCell edit:nil];
-		specifier->action = @selector(renameSlice:);
+		PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:slice target:self set:nil get:nil detail:[SliceDetailController class] cell:PSLinkListCell edit:nil];
+		//specifier->action = @selector(renameSlice:);
 		[specifier setProperty:NSStringFromSelector(@selector(removedSpecifier:)) forKey:PSDeletionActionKey];
+		[specifier.properties setValue:_slicer forKey:@"slicer"];
 		[specifiers addObject:specifier];
 	}
 
@@ -164,7 +172,6 @@ extern NSString* PSDeletionActionKey;
 	else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:Localize(@"Rename Slice")])
 	{
 		// they want to rename a slice
-
 		NSString *originalSliceName = _specifierToRename.name;
 
 		UITextField *textField = [alertView textFieldAtIndex:0];
@@ -211,25 +218,22 @@ extern NSString* PSDeletionActionKey;
 	return [NSNumber numberWithBool:_slicer.appSharing];
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return UITableViewCellEditingStyleDelete;
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)canEditRowAtIndexPath
 {
 	int index = [self indexForIndexPath:canEditRowAtIndexPath];
 	PSSpecifier *specifier = _specifiers[index];
-	return specifier->cellType == PSListItemCell;
+	return specifier.detailControllerClass == [SliceDetailController class];
 }
 
 - (void)removedSpecifier:(PSSpecifier *)specifier
 {
 	[_slicer deleteSlice:specifier.name];
 	[self refreshView:NO];
-}
-
-- (NSArray *)titlesSource:(id)target
-{
-	NSArray *slices = _slicer.slices;
-	if (slices.count < 1)
-		return @[ Localize(@"Default") ];
-	return slices;
 }
 
 - (NSArray *)valuesSource:(id)target

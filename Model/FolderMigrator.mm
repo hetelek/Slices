@@ -29,7 +29,7 @@
 		NSString *sourceFolderPath = self.sourceFolderPaths[i];
 		NSString *destinationFolderPath = self.destinationFolderPaths[i % self.destinationFolderPaths.count];
 
-		if (![FolderMigrator migrateDirectory:sourceFolderPath toDirectory:destinationFolderPath ignoreSuffixes:self.ignoreSuffixes])
+		if (![FolderMigrator migrateDirectory:sourceFolderPath toDirectory:destinationFolderPath ignorePrefixes:self.ignorePrefixes ignoreSuffixes:self.ignoreSuffixes])
 			errorOccurred = YES;
 	}
 
@@ -37,6 +37,16 @@
 }
 
 + (BOOL)migrateDirectory:(NSString *)sourceDirectory toDirectory:(NSString *)destinationDirectory ignoreSuffixes:(NSArray *)ignoreSuffixes
+{
+	return [FolderMigrator migrateDirectory:sourceDirectory toDirectory:destinationDirectory ignorePrefixes:nil ignoreSuffixes:ignoreSuffixes];
+}
+
++ (BOOL)migrateDirectory:(NSString *)sourceDirectory toDirectory:(NSString *)destinationDirectory ignorePrefixes:(NSArray *)ignorePrefixes
+{
+	return [FolderMigrator migrateDirectory:sourceDirectory toDirectory:destinationDirectory ignorePrefixes:ignorePrefixes ignoreSuffixes:nil];
+}
+
++ (BOOL)migrateDirectory:(NSString *)sourceDirectory toDirectory:(NSString *)destinationDirectory ignorePrefixes:(NSArray *)ignorePrefixes ignoreSuffixes:(NSArray *)ignoreSuffixes
 {
 	NSFileManager *manager = [NSFileManager defaultManager];
 	NSArray *filesToMigrate = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:sourceDirectory error:NULL];
@@ -56,6 +66,18 @@
 			for (NSString *suffix in ignoreSuffixes)
 			{
 				if ([file hasSuffix:suffix])
+				{
+					skipFile = YES;
+					break;
+				}
+			}
+		}
+
+		if (ignorePrefixes)
+		{
+			for (NSString *prefix in ignorePrefixes)
+			{
+				if ([file hasPrefix:prefix])
 				{
 					skipFile = YES;
 					break;

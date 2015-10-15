@@ -4,6 +4,90 @@
 		"selected_items":
 		[
 			[
+				"acc",
+				"accountsFinal"
+			],
+			[
+				"com",
+				"completionHandler"
+			],
+			[
+				"reload",
+				"reloadSpecifiers"
+			],
+			[
+				"an",
+				"animated"
+			],
+			[
+				"speci",
+				"specifiers"
+			],
+			[
+				"spec",
+				"specifier"
+			],
+			[
+				"add",
+				"addAccountButtonSpecifier"
+			],
+			[
+				"addACc",
+				"addAccountSpecifier"
+			],
+			[
+				"addAc",
+				"addAccountButton"
+			],
+			[
+				"update",
+				"updateAddAccountButton"
+			],
+			[
+				"addAcc",
+				"addAccountButtonSpecifier"
+			],
+			[
+				"ad",
+				"addObject"
+			],
+			[
+				"specif",
+				"specifier"
+			],
+			[
+				"edi",
+				"editableCell"
+			],
+			[
+				"UItable",
+				"UITableViewCell"
+			],
+			[
+				"passwo",
+				"passwordSpecifier"
+			],
+			[
+				"accoun",
+				"accountDictionary"
+			],
+			[
+				"GameCe",
+				"gameCenterAccountsSpecifier"
+			],
+			[
+				"game",
+				"GAME_CENTER_ACCOUNT_SERVICE"
+			],
+			[
+				"account",
+				"accountServicePrivateProxy"
+			],
+			[
+				"accou",
+				"accountServicePrivateProxy"
+			],
+			[
 				"appGrou",
 				"appGroupSlicer"
 			],
@@ -170,10 +254,6 @@
 			[
 				"bun",
 				"bundleIdentifier"
-			],
-			[
-				"accou",
-				"accountAttr"
 			],
 			[
 				"initWith",
@@ -408,14 +488,115 @@
 	"buffers":
 	[
 	],
-	"build_system": "Packages/User/Theos Make.sublime-build",
+	"build_system": "Packages/Makefile/Make.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Packages/Makefile/Make.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 167.0,
+		"last_filter": "git comm",
 		"selected_items":
 		[
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"git diff ",
+				"Git: Diff All Files"
+			],
+			[
+				"git diff",
+				"Git: Diff All Files"
+			],
+			[
+				"subli",
+				"Sublimerge: Compare to Revision..."
+			],
+			[
+				"git: diff",
+				"Git: Diff All Files"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"commit",
+				"Git: Commit"
+			],
+			[
+				"remote",
+				"Sublimerge: Compare Revision to Revision..."
+			],
+			[
+				"diff",
+				"Git: Diff All Files"
+			],
+			[
+				"sub",
+				"Sublimerge"
+			],
+			[
+				"status",
+				"Git: Status"
+			],
+			[
+				"subl",
+				"Sublimerge"
+			],
+			[
+				"install p",
+				"Package Control: Install Package"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"stat",
+				"Git: Status"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"package control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			]
 		],
-		"width": 392.0
+		"width": 584.0
 	},
 	"console":
 	{
@@ -439,138 +620,139 @@
 	[
 		"/Users/hetelek/Developer/Tweaks/slices",
 		"/Users/hetelek/Developer/Tweaks/slices/Model",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences"
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources"
 	],
 	"file_history":
 	[
-		"/Users/hetelek/Desktop/itrace/main.c",
-		"/Users/hetelek/Developer/Tweaks/slices/control",
 		"/Users/hetelek/Developer/Tweaks/slices/Makefile",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.h",
-		"/Users/hetelek/Developer/Tweaks/slices/.git/COMMIT_EDITMSG",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferencesListController.mm",
+		"/Users/hetelek/Desktop/index.html",
+		"/Users/hetelek/Desktop/slices/index.php",
+		"/Users/hetelek/Downloads/hetelek-key-pair.pem.txt",
+		"/Users/hetelek/Downloads/credentials.csv.txt",
+		"/Users/hetelek/.ssh/known_hosts",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/VeloxPrefsListController.mm",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/VeloxStratosListController.mm",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/VeloxDevCell.mm",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/images/credits.h",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/images/conman.h",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/Resources/Info.plist",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/Resources/VeloxPrefs.plist",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Preferences/Resources/stratos.plist",
+		"/Users/hetelek/Developer/Tweaks/Velox2/Velox.plist",
 		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/GameCenterController.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SliceDetailController.mm",
+		"/Users/hetelek/Developer/Tweaks/OSExperience/theos/include/Availability2.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SliceDetailController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSSpecifier.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/FolderMigrator.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/FolderMigrator.h",
+		"/opt/theos/include/Preferences/PSSpecifier.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/Slicer.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/GameCenterAccountManager.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/GameCenterAccountManager.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
+		"/Users/hetelek/Developer/Tweaks/slices/.git/MERGE_MSG",
+		"/Users/hetelek/Developer/Tweaks/slices/.git/COMMIT_EDITMSG",
+		"/opt/theos/include/Preferences/PSEditableListController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSEditableListController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSListController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSViewController.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesEditableTableCell.mm",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSTextFieldSpecifier.h",
+		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/255F3BC0-BF33-42FC-A341-F1721F1CF5A5/readme.html",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.h",
+		"/opt/theos/include/UIKit/UIPreferencesTable.h",
+		"/Users/hetelek/Developer/Tweaks/OSExperience/theos/include/Preferences/PSTableCellType.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSTextView.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSTextViewTableCell.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/GameCenterController.h",
+		"/System/Library/Frameworks/GameKit.framework/Versions/A/Headers/GKError.h",
+		"/opt/theos/include/Preferences/PSListController.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppController.mm",
+		"/Users/hetelek/.gitconfig",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesEditableTableCell.h",
+		"/opt/theos/include/Preferences/UIPreferencesTable.h",
+		"/opt/theos/include/Preferences/UITable.h",
+		"/opt/theos/include/Preferences/PSController.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSEditableTableCell.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/Preferences/PSTableCell.h",
+		"/Users/hetelek/Downloads/Slices/slicespreferences/SlicesAppDetailController.mm",
+		"/opt/theos/include/Preferences/PSEditableTableCell.h",
+		"/opt/theos/include/Preferences/PSTableCell.h",
+		"/Users/hetelek/Downloads/iOS-Runtime-Headers-master/protocols/UITextInputTraits.h",
+		"/Users/hetelek/Downloads/deploymentTemplate.json",
+		"/Users/hetelek/Desktop/script.sh",
+		"/Users/hetelek/Desktop/OSExperience/theos/include/Preferences/PSTextFieldSpecifier.h",
+		"/opt/theos/include/Preferences/PSTextFieldSpecifier.h",
+		"/Users/hetelek/Desktop/script 2.sh",
+		"/Users/hetelek/sshservers",
+		"/Users/hetelek/Desktop/OSExperience/theos/include/Preferences/PSEditableListController.h",
+		"/Users/hetelek/Downloads/iOS-Runtime-Headers-master/protocols/UITableViewDataSource.h",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources/SlicesPreferences.plist",
+		"/Users/hetelek/Desktop/OSExperience/theos/include/Preferences/PSTableCellType.h",
+		"/Users/hetelek/Desktop/OSExperience/theos/include/Preferences/PSSpecifier.h",
+		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/Git/Git.sublime-settings",
+		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/entry.plist",
+		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
+		"/opt/theos/include/Preferences/PSViewControllerOffsetProtocol.h",
+		"/opt/theos/include/Preferences/PSListItemsController.h",
+		"/Users/hetelek/Desktop/Slices-0.2.1/Makefile",
+		"/opt/theos/include/Preferences/PSSpecifierObserver.h",
+		"/opt/theos/include/Preferences/PSViewController.h",
+		"/Users/hetelek/Desktop/Slices-0.2.1/Tweak.xm",
+		"/opt/theos/include/Preferences/Preferences-Structs.h",
+		"/opt/theos/include/Preferences/PSStateRestoration.h",
+		"/opt/theos/include/Preferences/Preferences.h",
+		"/opt/theos/include/Preferences/PSTableCellType.h",
+		"/Users/hetelek/Developer/Tweaks/slices/Headers/GameCenterHeaders.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/GameCenterFoundation/GKAccountServicePrivate-Protocol.h",
+		"/private/var/folders/cv/5_34_x9j6vdgqgf_h16by97h0000gn/T/com.microsoft.Outlook/Outlook Temp/SpringBoard_2015-07-21-151452_Hani-iphone.syslog",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/GameCenterFoundation/GKAuthenticateResponse.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/GameCenterFoundation/GKInternalRepresentation.h",
+		"/Users/hetelek/Downloads/iOS-Headers-master/iOS8.1/PrivateFrameworks/GameCenterFoundation/GKAccountService-Protocol.h",
+		"/Users/hetelek/Desktop/OSExperience/Makefile",
+		"/Users/hetelek/Desktop/OSExperience/Hooks.xm",
+		"/Users/hetelek/Desktop/OSExperience/Installer.xm",
+		"/opt/theos.bak/CydiaSubstrate.framework/Headers/CydiaSubstrate.h",
+		"/opt/theos/include/substrate.h",
+		"/Users/hetelek/Downloads/theos-master/documentation/Makefile",
+		"/Users/hetelek/Downloads/OSExperience-master/OSAppPane.h",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/RootViewController.h",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/RootViewController.mm",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/Resources/Info.plist",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/Makefile",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/truepasscodeappApplication.mm",
+		"/Users/hetelek/Developer/Tweaks/truepasscode/main.mm",
+		"/Users/hetelek/Downloads/application.nic/Makefile",
+		"/Users/hetelek/Developer/Tweaks/slices/control",
+		"/Users/hetelek/Developer/Tweaks/truepasscodeapp/main.m",
+		"/Users/hetelek/Developer/Tweaks/padclock/padclockprefs/Resources/PadClockPrefs.plist",
+		"/Users/hetelek/Music/iTunes/iTunes Music Library.xml",
+		"/Users/hetelek/Developer/Tweaks/slices/Slices.plist",
+		"/Applications/iTunes.app/Contents/Info.plist",
+		"/Users/hetelek/Desktop/outdir/GKUnauthenticatedPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKLocalPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKFriendPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKFamiliarPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKPlayerInternal.h",
+		"/Users/hetelek/Desktop/outdir/GKInternalRepresentation.h",
+		"/Users/hetelek/Desktop/a.txt",
+		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/User/Theos Make.sublime-build",
+		"/Users/hetelek/Desktop/itrace/main.c",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.mm",
+		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer.h",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer.h",
 		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/593EC9F4-649F-4980-84B2-157E87858FDE/pw.dat",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/AppGroupSlicer",
 		"/Users/hetelek/Developer/Tweaks/slices/Model/SliceSetting.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Headers/SpringBoardHeaders.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Model/RawSlicer",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.mm",
-		"/Users/hetelek/Desktop/Slicer.xm",
-		"/Users/hetelek/Desktop/Slicer.mm",
-		"/Users/hetelek/Desktop/slices/SliceSetting.mm",
-		"/Users/hetelek/Desktop/slices/Slicer.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/Tweak.xm",
-		"/Users/hetelek/Desktop/slices/FolderMigrator.h",
-		"/Users/hetelek/Desktop/slices/FolderMigrator.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesPreferences.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppDetailController.h",
-		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/SpringBoardHeaders.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer.xm",
-		"/Users/hetelek/Developer/Tweaks/slices/FolderMigrator.h",
-		"/Users/hetelek/Developer/Tweaks/slices/FolderMigrator.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting.h",
-		"/Users/hetelek/Developer/Tweaks/slices/LocalizationKeys.h",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/entry.plist",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer2.h",
-		"/Users/hetelek/Developer/Tweaks/slices/Slicer2.mm",
-		"/Users/hetelek/Developer/Tweaks/slices/SliceSetting",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1609A144-ED1A-4642-A765-06AD40024705/index.php",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/de.lproj/Slices2.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/fr.lproj/Slices2.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/pt.lproj/Slices2.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/es.lproj/Slices2.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/es.lproj/Slices.strings",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/en.lproj/Slices.strings",
-		"/Users/hetelek/Developer/Tweaks/spotifyplus/Makefile",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/4DAE4C7C-45DA-4066-8E5C-40E0CA021A26/index.php",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1525A30B-AE62-44F0-99D1-665F8592F04E/error_log",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/B775ADF3-3889-499C-8D3B-EB0A8FC0CE73/Slices (10:31:19 pm).strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/997AE06E-F6E6-43D5-B955-3D15546BAE2E/Slices (10:30:30 pm).strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/7CECE4BD-0A12-4D72-BEDE-71E12D9B028D/Slices (10:27:39 pm).strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/98962FE5-6308-4864-A340-4F1EF3630B45/Slices (10:23:23 pm).strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/81B2F730-B5E8-492A-9809-927085A7DBA0/error_log",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/DF52A6F9-F8F3-49E2-8F28-F1160A65A0FB/error_log",
-		"/Users/hetelek/Developer/Tweaks/slices/layout/Library/Application Support/Slices/Slices.bundle/zh-Hant.lproj/Slices.strings",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1981DE1B-8B25-4B4B-A536-5BBED176D95A/test.xml",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/27B35DF2-6A91-4379-8747-66784569D29C/index.php",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/SlicesAppController.mm",
-		"/Users/hetelek/Desktop/a/index.php",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/016B716C-2EA5-4754-A909-4A751D355641/error_log",
-		"/Users/hetelek/Desktop/a/index.html",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/A5EEC9D2-E195-4CAE-B724-EB200EBF25E3/yolo",
-		"/Users/hetelek/Developer/Tweaks/simplerespring/Tweak.xm",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/33F1C193-B25F-4C5D-A170-C5A71FB31F8F/com.reddit.alienblue.plist.orQBbDv",
-		"/Users/hetelek/Developer/Tweaks/slices/slices.sublime-project",
-		"/Users/hetelek/.ssh/known_hosts",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/5603CDB2-AA30-4AA9-944E-FF614DF5428B/884836383450837500r.jpg",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/1F401D43-A35A-48AB-BD8C-1C2BAF81D22C/error_log",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/6916AA83-7434-441D-B6E5-5BECF84188F1/snaphax.php",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/C2729125-1DDD-4892-AE43-8F09D8F24C86/snap.php",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/ACCB3E04-9A56-4A78-97D6-A5EF874F066B/index.php",
-		"/Users/hetelek/Developer/Tweaks/vinedownloader/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/vinedownloader/Makefile",
-		"/Users/hetelek/Developer/Tweaks/vinedownloader/vinedownloaderprefs/VineDownloaderPrefs.mm",
-		"/Users/hetelek/Developer/Tweaks/vinedownloader/vinedownloaderprefs/Makefile",
-		"/opt/theos/include/Preferences/Preferences-Structs.h",
-		"/Users/hetelek/Developer/Headers/SpringBoard/UIActionSheetDelegate.h",
-		"/Users/hetelek/Developer/Headers/SpringBoard/SpringBoard.h",
-		"/Users/hetelek/Desktop/keychain.txt",
-		"/opt/theos/include/UIKit/UISlider2.h",
-		"/Users/hetelek/Desktop/Headers/MediaPlayer/MPQueuePlayer.h",
-		"/Users/hetelek/Desktop/Headers/MusicUI/MusicAVPlayer.h",
-		"/Users/hetelek/Desktop/Headers/MediaPlayer/MPAVController.h",
-		"/Users/hetelek/Desktop/Headers/MusicUI/MusicNowPlayingObserver.h",
-		"/Users/hetelek/Desktop/Headers/MediaPlayer/MPNowPlayingObserver.h",
-		"/Users/hetelek/Developer/Tweaks/waves/Makefile",
-		"/Users/hetelek/Developer/Tweaks/waves/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/waves/FDWaveformView/FDWaveformView.m",
-		"/Users/hetelek/Downloads/FDWaveformView-master/FDWaveformView/FDWaveformView.h",
-		"/Users/hetelek/Desktop/Headers/MediaPlayer/MPDetailSlider.h",
-		"/Users/hetelek/Developer/Tweaks/waves/FDWaveformView/FDWaveformView.h",
-		"/Users/hetelek/Desktop/Headers/MediaPlayer/MPMoviePlayerControllerNew.h",
-		"/Users/hetelek/Desktop/Headers/MediaPlayer/MediaPlayer.h",
-		"/Users/hetelek/Desktop/Headers/MediaPlayer/MPDetailScrubController.h",
-		"/Users/hetelek/Desktop/Headers/MediaPlayer/_MPStorePlayWhileDownloadAVURLAsset.h",
-		"/Users/hetelek/Developer/Tweaks/colorize/Colorize.plist",
-		"/Users/hetelek/Developer/Tweaks/waves/Waves.plist",
-		"/Users/hetelek/Downloads/bfgminer-4.8.0/libblkmaker/blkmaker.c",
-		"/Users/hetelek/Developer/Tweaks/slices/Slices.plist",
-		"/Users/hetelek/Desktop/util.c",
-		"/Users/hetelek/Desktop/cgminer.c",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/007ADDE1-455D-4D0F-ACD5-BEEBC56C885C/index.php",
-		"/Users/hetelek/Developer/Tweaks/Expetelek/Expetelek.mm",
-		"/Users/hetelek/Developer/Tweaks/powerfoolinpowerschool/Tweak.xm",
-		"/Users/hetelek/Developer/Tweaks/powerfoolinpowerschool/Makefile",
-		"/Users/hetelek/Developer/Tweaks/powerfoolinpowerschool/control",
-		"/Users/hetelek/Downloads/N1DkQLAJlk7k81XRSihxy-rgFIEADj5gAJu-oi343RY/113471/readme.txt",
-		"/Users/hetelek/Developer/Tweaks/slices/SlicesApplicationSettings.h",
-		"/Users/hetelek/Developer/Tweaks/slices/SlicesApplicationSettings.mm",
-		"/Users/hetelek/Developer/Tweaks/simplerespring/Makefile",
-		"/Users/hetelek/Desktop/com.andywiik.scrubradio_6.0_iphoneos-arm/Library/MobileSubstrate/DynamicLibraries/spotifyscrub.plist",
-		"/Users/hetelek/Desktop/asdf.txt",
-		"/Users/hetelek/Developer/Tweaks/blocks/Tweak.xm",
-		"/Users/hetelek/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
-		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/MobileSubstrate/DynamicLibraries/smarttap.plist",
-		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/PreferenceLoader/Preferences/SmartTapSettings.plist",
-		"/Users/hetelek/Desktop/net.limneos.smarttap_v0.1-925_iphoneos-arm_julioverne/Library/PreferenceBundles/SmartTapSettings.bundle/Info.plist",
-		"/Users/hetelek/Library/Caches/Cleanup At Startup/Transmit/F9E7F40C-220F-4DC1-8D12-7C95D69B7C3E/check.php",
-		"/Users/hetelek/Developer/Tweaks/slices/slicespreferences/Resources/SlicesPreferences.plist",
-		"/opt/theos/include/Preferences/PSSpecifier.h",
-		"/Users/hetelek/Developer/Tweaks/controlunlocker/controlunlockerprefs/NESControlSequenceController.mm",
-		"/Users/hetelek/Developer/Tweaks/controlunlocker/controlunlockerprefs/Resources/ControlUnlockerPrefs.plist",
-		"/Users/hetelek/Desktop/bak.xm",
-		"/Users/hetelek/Desktop/fake.txt",
-		"/Users/hetelek/Developer/Tweaks/vinedownloader/Headers.h",
-		"/Users/hetelek/Developer/Tweaks/playcountnotrating/Makefile",
-		"/Users/hetelek/Developer/Tweaks/playcountnotrating/Tweak.xm"
+		"/Users/hetelek/Developer/Tweaks/slices/Headers/SpringBoardHeaders.h"
 	],
 	"find":
 	{
@@ -586,137 +768,137 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
-			"instancesRespondToSelector",
-			"killApp",
-			"proxy",
-			"ApplicationPro",
-			"LSApp",
-			"manager",
-			"applicationDirectory",
-			"workingDirectory",
-			"cleanupMainDirectoryWithTargetSlicePath",
-			"application",
-			"controller",
-			"performDeletionActionForSpecifier",
+			"pem",
+			"hetelek",
+			"tweetSweetNothings",
+			"heart",
+			"UIBarButtonItem",
+			"addAcc",
+			"slice",
+			"Slice",
+			"gc",
+			"valuesSource",
+			"setDefaultSlice",
+			"valuesSource",
+			"titles",
+			"valuesSource",
+			"setDefaultSlice",
+			"gameCenterAccountGroupSpecifier",
+			"value",
+			"PSValueChangedNotificationKey",
+			"gameCenterAccountForSlice:",
 			"switchToSlice",
-			"killApplication",
-			"switch\nswitch\nswitch",
-			"switch\nswitch",
-			"BKSTerminateApplicationForReasonAndReportWithDescription",
-			"killA",
-			"fullSettingFileName",
-			"fullSettingFileNameInDirec",
-			"fullSett",
-			"execute",
-			"deleteSlice:",
-			"sliceSetting",
-			"iOS8",
-			"Slicer2",
-			"checkIfOnlyOneComponent",
-			"cur_",
-			"cur",
-			"cur_",
-			"cur",
-			"reloadData",
-			"[_application",
-			"_application ",
-			"_application",
-			"cleanupMainDirectoryWithTargetSlicePath",
-			"initWithDisplay",
-			"initWith",
-			"initWithDisplayIdentifier",
-			"create",
-			"switchToSlice",
-			"group.snapchat.picaboo",
-			"share",
-			"\\\\n",
-			" {\\n\\t",
-			" {\\\\n\\\\t",
-			" {\\n\\t",
-			"#\\\"<.*",
-			"#\"<.*",
-			"*>",
-			"*\\>",
-			".*(3)>",
-			".*>",
-			"com.",
-			"com\\..*\\..*\\.",
-			"\\.",
-			"\\,",
-			".*\\.",
-			".*\\..*\\..*",
-			".*\\..*\\.",
-			".*\\.",
-			"com\\.",
-			".*\\..*\\.",
-			".*\\..*",
-			".*\\.",
-			"*.*.*",
-			"Localize",
-			"defaultSlice",
-			"defaultSlice_",
-			"form",
-			"Ok",
-			"OK",
-			"Failed to create '%@' directory",
-			"incalid name",
-			"IGNORE",
-			"moveITem",
-			"pathOfPreferences",
-			"hasSeenWelcomeMessage",
-			"killApplication",
-			"kill",
-			"switchToSlice",
-			"_applicationPath",
-			"createSlice",
-			"defaultSlice = nil",
-			"defaultSlice",
-			"default",
+			"switchTo",
+			"switch",
+			"switchToSl",
+			"editing",
+			"editingStyl",
+			"commitEdit",
 			"delete",
-			"defaultSlice = nil",
-			"defaultSlice",
-			"switchToSlice",
-			"switch",
-			"kill",
-			"killApplication",
-			"killAppl",
-			"Library",
-			"killApplication",
-			"ignore",
-			"clean",
-			"defaultSlice",
-			"create",
+			"_defaultSpecifier",
+			"refreshView",
+			"should",
 			"reload",
-			"_defaultSlice",
-			"create",
-			"_defaultSlice",
-			"default",
-			"preser",
-			"default",
-			"ask",
-			"setAsk",
-			"askOnTouch",
-			"NSLog",
-			"_applicationPath",
-			"killAp",
-			"Slicer *",
-			"Slicer",
-			"Slices *",
-			"Slicer *",
-			"Slicer",
-			"killApplication",
-			"switch",
-			"dyl",
-			"dyls",
-			"_displayIdentifier",
-			"killApplication",
-			"switch",
-			"switcgh",
-			"kill",
-			"killApplication"
+			"currentSlice",
+			"sliceName",
+			"rename",
+			"slicer",
+			"Done",
+			"SlicesEditableTableCell",
+			"rename",
+			"isRadioGroup",
+			"specifier",
+			"specifierID",
+			"specifier",
+			"addObject:[s",
+			"init",
+			"apple id",
+			"text",
+			"GKErrorDomain",
+			"refresh",
+			"regresh",
+			"specifiers",
+			"group",
+			"reload",
+			"refreshVie",
+			"refreshView",
+			"specifiers",
+			"];\n",
+			"tableView",
+			"table;",
+			"tabe;",
+			"refresh",
+			"setter",
+			"refreshView",
+			"refreshView:",
+			"remove",
+			"delete",
+			"reload",
+			"specifier",
+			"focus",
+			"focus/",
+			"focus",
+			"withId:",
+			"specifierByID",
+			"specifierWithID",
+			"addAccountButtonTapped",
+			"firstResponder",
+			"table",
+			"GAME_CENTER_ACCOUNT_SERVICE",
+			"table",
+			"signInButtonSpecifier",
+			"SlicesEditableTableCell",
+			"shouldAl",
+			"NSNumber",
+			"signinButtonTapped",
+			"specifierForID",
+			"withId",
+			"id",
+			"specifier",
+			"appleIDSpecifier",
+			"signInButtonSpecifier",
+			"placehol",
+			"placeholder",
+			"buttonAction",
+			"buttonACtion",
+			"target",
+			"specifier",
+			"tableView",
+			"autoCorrection",
+			"alertView",
+			"renameSlice",
+			"preferenceSpecifierNamed",
+			"autoCorrection",
+			"something",
+			"preferenceSpecifierNamed",
+			"remove",
+			"commitEditingStyle",
+			"removedSpecifier",
+			"remove",
+			"isEqual",
+			"addObject",
+			"localhost",
+			"action",
+			"properties",
+			"identifier",
+			"indexForIndexPath",
+			"index",
+			"PSListController",
+			"action",
+			"Expetelek",
+			"accountServicePrivateProxy",
+			"authenticatePlayerWithUsername",
+			"Slices",
+			"slices",
+			"appGroup",
+			"ACTIVATION_BACKUP_SERVER",
+			"-f",
+			"objc_setAssociatedObject",
+			"switcherGestureInProgress",
+			"kill"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -786,6 +968,11 @@
 	{
 		"height": 0.0
 	},
+	"output.git":
+	{
+		"height": 137.0
+	},
+	"pinned_build_system": "Packages/User/Theos Make.sublime-build",
 	"project": "slices.sublime-project",
 	"replace":
 	{
@@ -795,6 +982,7 @@
 	"select_file":
 	{
 		"height": 0.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -802,15 +990,17 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"select_symbol":
 	{
 		"height": 0.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
