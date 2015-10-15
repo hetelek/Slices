@@ -19,17 +19,13 @@ static NSInteger DictionaryTextComparator(id a, id b, void *context)
 		[specifiers addObject:[PSSpecifier preferenceSpecifierNamed:Localize(@"User Applications") target:self set:nil get:nil detail:nil cell:PSGroupCell edit:nil]];
 
 		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
-		NSDictionary *applications = applicationList.applications;
+		NSDictionary *applications = [applicationList applicationsFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"isSystemApplication = FALSE"]];
 		NSMutableArray *displayIdentifiers = [[applications allKeys] mutableCopy];
 
 		[displayIdentifiers sortUsingFunction:DictionaryTextComparator context:(__bridge void *)applications];
 
 		for (NSString *displayIdentifier in displayIdentifiers)
 		{
-			NSString *applicationPath = [applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier];
-			if (![applicationPath hasPrefix:@"/private/var/mobile/Applications/"] && ![applicationPath hasPrefix:@"/private/var/mobile/Containers/Bundle/Application/"])
-				continue;
-
 			PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:applications[displayIdentifier] target:nil set:nil get:nil detail:[SlicesAppDetailController class] cell:PSLinkListCell edit:nil];
 			[specifier.properties setValue:displayIdentifier forKey:@"displayIdentifier"];
 
