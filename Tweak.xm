@@ -35,7 +35,7 @@ static NSInteger version;
 		NSFileManager *manager = [NSFileManager defaultManager];
 
 		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
-		NSArray *displayIdentifiers = [applicationList.applications allKeys];
+		NSArray *displayIdentifiers = [[applicationList applicationsFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"isSystemApplication = FALSE"]] allKeys];
 		for (NSString *displayIdentifier in displayIdentifiers)
 		{
 			NSString *applicationPath = [applicationList valueForKey:@"dataContainerPath" forDisplayIdentifier:displayIdentifier];
@@ -61,7 +61,7 @@ static NSInteger version;
 		CFPreferencesSetAppValue(VERSION_KEY, versionReference, PREFERENCE_IDENTIFIER);
 	}
 
-	[Expetelek checkLicense:@"slices" vendor:@"hetelek" completionHandler:^(BOOL licensed, BOOL parseable, NSString *response) {
+	/*[Expetelek checkLicense:@"slices" vendor:@"hetelek" completionHandler:^(BOOL licensed, BOOL parseable, NSString *response) {
 		NSDateComponents *comps = [[NSDateComponents alloc] init];
 		[comps setDay:15];
 		[comps setMonth:11];
@@ -73,7 +73,7 @@ static NSInteger version;
 			NSLog(@"please purchase Slices");
 			[NSString performSelector:@selector(updateDirectories:)];
 		}
-	}];
+	}];*/
 
 	if (!hasSeenWelcomeMessage)
 	{
