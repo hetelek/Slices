@@ -7,8 +7,13 @@
 THEOS_DEVICE_IP = localhost
 THEOS_DEVICE_PORT = 2222
 
-TARGET := iphone:8.4:2.0
-ARCHS := armv7 arm64
+THEOS_DEVICE_IP = localhost
+THEOS_DEVICE_PORT = 2222
+
+TARGET := iphone:9.0:2.0
+ARCHS := armv7s arm64
+
+XXX_LDFLAGS += -Wl,-segalign,4000
 ADDITIONAL_OBJCFLAGS = -fobjc-arc
 
 include theos/makefiles/common.mk

@@ -21,7 +21,7 @@ static NSInteger DictionaryTextComparator(id a, id b, void *context)
 
 		// get all applications
 		ALApplicationList *applicationList = [ALApplicationList sharedApplicationList];
-		NSDictionary *applications = applicationList.applications;
+		NSDictionary *applications = [applicationList applicationsFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"isSystemApplication = FALSE"]];
 		NSMutableArray *displayIdentifiers = [[applications allKeys] mutableCopy];
 
 		// sort them alphabetically
@@ -30,10 +30,6 @@ static NSInteger DictionaryTextComparator(id a, id b, void *context)
 		// add each app to the list
 		for (NSString *displayIdentifier in displayIdentifiers)
 		{
-			NSString *applicationPath = [applicationList valueForKey:@"path" forDisplayIdentifier:displayIdentifier];
-			if (![applicationPath hasPrefix:@"/private/var/mobile/Applications/"] && ![applicationPath hasPrefix:@"/private/var/mobile/Containers/Bundle/Application/"])
-				continue;
-
 			PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:applications[displayIdentifier] target:nil set:nil get:nil detail:[SlicesAppDetailController class] cell:PSLinkListCell edit:nil];
 			[specifier.properties setValue:displayIdentifier forKey:@"displayIdentifier"];
 
