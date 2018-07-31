@@ -18,8 +18,8 @@ static NSInteger version;
 {
 	%orig;
 
-	BOOL iOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
-	if (!iOS8)
+	BOOL iOS11 = ([[[UIDevice currentDevice] systemVersion] compare:@"11.0" options:NSNumericSearch] != NSOrderedAscending);
+	if (!iOS11)
 	{
 		NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.expetelek.slicespreferences.plist"];
 		if (!prefs)
